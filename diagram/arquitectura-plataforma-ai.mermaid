@@ -1,0 +1,110 @@
+graph TB
+    subgraph "Capa de Usuario"
+        U[👤 Usuario]
+    end
+
+    subgraph "Capa de Autenticación y Autorización"
+        AUTH[🔐 Auth & AuthZ<br/>Entra ID / OAuth 2.0<br/>Login with Google]
+    end
+
+    subgraph "Capa de Interface"
+        IC[💬 Interface de Chat<br/>Web/Mobile/Desktop]
+    end
+
+    subgraph "Capa de Backend"
+        direction LR
+        BE[⚙️ Backend API<br/>Node.js / Python / Java<br/>REST/WebSocket]
+        SCH[⏰ Scheduler<br/>Cron Jobs / Celery<br/>Tareas Programadas]
+    end
+    
+    subgraph "Repositorio de Documentos"
+        DMS[📚 Repositorio Documentos<br/>Google Drive / SharePoint<br/>OneDrive]
+    end
+    
+    subgraph "Capa de Lenguaje e IA"
+        LLM[🤖 LLM<br/>Claude Sonnet 4.5 / GPT-4]
+    end
+    
+    subgraph "Capa de Automatización"
+        AUTO[🔄 Automation Platform<br/>Power Automate / n8n<br/>Zapier]
+    end
+    
+    subgraph "Capa MCP"
+        MCP[🔌 Model Context Protocol<br/>Servidor MCP]
+        MCP1[🔧 MCP Tool 1<br/>Database Connector]
+        MCP2[🔧 MCP Tool 2<br/>API Gateway]
+        MCP3[🔧 MCP Tool 3<br/>Documents Connector]
+    end
+    
+    subgraph "Capa de Integraciones"
+        API[🔗 APIs Internas<br/>REST/GraphQL]
+        ERP[💼 ERP/CRM<br/>SAP/Salesforce]
+    end
+    
+    subgraph "Capa de Datos"
+        DB[(🗄️ Bases de Datos<br/>SQL/NoSQL)]
+        FILES[📁 Storage<br/>S3/Local Storage]
+    end
+    
+    subgraph "Capa de Observabilidad"
+        OBS[📊 Monitoreo y Trazabilidad<br/>Langfuse / Grafana<br/>Phoenix / Datadog]
+    end
+    
+    U -->|Envía consultas| IC
+    
+    IC -->|Autentica| AUTH
+    IC -->|Peticiones HTTP/WS| BE
+    
+    BE -->|Valida tokens| AUTH
+    
+    SCH -->|Ejecuta tareas| BE
+    
+    BE -->|Consulta documentos| DMS
+    BE -->|Envía prompts| LLM
+    BE -->|Dispara flujos| AUTO
+    
+    AUTO -->|Invoca| LLM
+    AUTO -->|Usa herramientas| MCP
+    AUTO -->|Notifica eventos| BE
+    
+    LLM -->|Usa herramientas vía| MCP
+    
+    MCP --> MCP1
+    MCP --> MCP2
+    MCP --> MCP3
+    
+    MCP1 -->|Consulta| DB
+    MCP1 -->|Lee/Escribe| FILES
+    
+    MCP2 -->|Integra con| API
+    MCP2 -->|Conecta a| ERP
+    
+    MCP3 -->|Accede a| DMS
+    
+    BE -.->|Métricas y logs| OBS
+    LLM -.->|Trazas y tokens| OBS
+    AUTO -.->|Estado de flujos| OBS
+    MCP -.->|Eventos de herramientas| OBS
+    
+    DMS -.->|Indexa documentos de| FILES
+    DMS -.->|Indexa datos de| DB
+    
+    IC -.->|Respuesta enriquecida| U
+    
+    style U fill:#e1f5ff
+    style AUTH fill:#ffe1f0
+    style IC fill:#fff4e1
+    style BE fill:#ffd6e8
+    style SCH fill:#ffb3d9
+    style DMS fill:#ffe8b3
+    style LLM fill:#f0e1ff
+    style AUTO fill:#e8d4ff
+    style MCP fill:#e1ffe1
+    style MCP1 fill:#c8f7c8
+    style MCP2 fill:#c8f7c8
+    style MCP3 fill:#c8f7c8
+    style DB fill:#ffe1e1
+    style API fill:#ffe1e1
+    style FILES fill:#ffe1e1
+    style ERP fill:#ffe1e1
+    style OBS fill:#d4f1f4
