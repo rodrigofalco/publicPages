@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arquitectura Plataforma AI</title>
+    <title>AI Platform Architecture</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -273,62 +273,62 @@
             </div>
             <div class="brand-tagline">Innovative digital solutions <span class="brand-accent">(AI, IoT, Data & more)</span></div>
         </div>
-        <h1>🏗️ Arquitectura de Plataforma AI</h1>
+        <h1>🏗️ AI Platform Architecture</h1>
         <div class="controls">
             <button class="control-btn" onclick="resetZoom()">Reset Zoom</button>
         </div>
         <div id="diagram-container">
-            <div class="loading" id="loading">Cargando diagrama...</div>
+            <div class="loading" id="loading">Loading diagram...</div>
             <div class="mermaid">
 flowchart TB
-    subgraph Usuario[Capa de Usuario]
-        U[Usuario]
+    subgraph Usuario[User Layer]
+        U[User]
     end
 
-    subgraph Auth[Capa de Autenticación]
+    subgraph Auth[Authentication Layer]
         AUTH[Auth & AuthZ<br/>Entra ID / OAuth 2.0]
     end
 
-    subgraph Interface[Capa de Interface]
-        IC[Interface de Chat<br/>Web/Mobile/Desktop]
+    subgraph Interface[Interface Layer]
+        IC[Chat Interface<br/>Web/Mobile/Desktop]
     end
 
-    subgraph Backend[Capa de Backend]
+    subgraph Backend[Backend Layer]
         BE[Backend API<br/>Node.js/Python/Java]
         SCH[Scheduler<br/>Cron Jobs/Celery]
     end
 
-    subgraph Docs[Repositorio de Documentos]
-        DMS[Repositorio Documentos<br/>Google Drive/SharePoint]
+    subgraph Docs[Document Repository]
+        DMS[Document Repository<br/>Google Drive/SharePoint]
     end
 
-    subgraph IA[Capa de IA]
+    subgraph IA[AI Layer]
         LLM[LLM<br/>Claude Sonnet/GPT-4]
     end
 
-    subgraph Automatizacion[Capa de Automatización]
+    subgraph Automatizacion[Automation Layer]
         AUTO[Automation Platform<br/>Power Automate/n8n]
     end
 
-    subgraph MCP_Layer[Capa MCP]
+    subgraph MCP_Layer[MCP Layer]
         MCP[Model Context Protocol]
         MCP1[MCP Tool 1<br/>Database Connector]
         MCP2[MCP Tool 2<br/>API Gateway]
         MCP3[MCP Tool 3<br/>Documents Connector]
     end
 
-    subgraph Integraciones[Capa de Integraciones]
-        API[APIs Internas<br/>REST/GraphQL]
+    subgraph Integraciones[Integrations Layer]
+        API[Internal APIs<br/>REST/GraphQL]
         ERP[ERP/CRM<br/>SAP/Salesforce]
     end
 
-    subgraph Datos[Capa de Datos]
-        DB[(Bases de Datos<br/>SQL/NoSQL)]
+    subgraph Datos[Data Layer]
+        DB[(Databases<br/>SQL/NoSQL)]
         FILES[Storage<br/>S3/Local Storage]
     end
 
-    subgraph Observabilidad[Capa de Observabilidad]
-        OBS[Monitoreo<br/>Langfuse/Grafana]
+    subgraph Observabilidad[Observability Layer]
+        OBS[Monitoring<br/>Langfuse/Grafana]
     end
 
     U --> IC
