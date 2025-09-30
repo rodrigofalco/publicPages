@@ -9,7 +9,8 @@
       "mcp__chrome-devtools__wait_for",
       "mcp__chrome-devtools__take_screenshot",
       "mcp__chrome-devtools__evaluate_script",
-      "mcp__chrome-devtools__list_pages"
+      "mcp__chrome-devtools__list_pages",
+      "WebFetch(domain:patagonian.com)"
     ],
     "deny": [],
     "ask": []
