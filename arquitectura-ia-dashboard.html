@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura Plataforma AI - Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        #visualization {
+            min-height: 700px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .node:hover {
+            filter: brightness(1.1);
+        }
+
+        .node text {
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        .link {
+            fill: none;
+            stroke: #999;
+            stroke-opacity: 0.6;
+            stroke-width: 2px;
+        }
+
+        .link-label {
+            font-size: 10px;
+            fill: #666;
+            text-anchor: middle;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .legend {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Arquitectura de Plataforma AI</h1>
+            <p>Visualización Interactiva con D3.js</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn active" onclick="showVisualization('force', this)">
+                🌐 Grafo de Fuerzas
+            </button>
+            <button class="btn" onclick="showVisualization('tree', this)">
+                🌳 Árbol Jerárquico
+            </button>
+            <button class="btn" onclick="showVisualization('sankey', this)">
+                📊 Diagrama de Flujo
+            </button>
+        </div>
+
+        <div id="visualization"></div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Datos de la arquitectura
+        const data = {
+            nodes: [
+                { id: 'usuario', label: 'Usuario', layer: 'usuario', color: '#e1f5ff' },
+                { id: 'interface', label: 'Interface de Chat', layer: 'interface', color: '#fff4e1' },
+                { id: 'auth', label: 'Auth & AuthZ\n(Entra ID / OAuth)', layer: 'auth', color: '#ffe1f0' },
+                { id: 'backend', label: 'Backend API', layer: 'backend', color: '#ffd6e8' },
+                { id: 'scheduler', label: 'Scheduler', layer: 'backend', color: '#ffb3d9' },
+                { id: 'docs', label: 'Repositorio Documentos\n(Drive/SharePoint)', layer: 'docs', color: '#ffe8b3' },
+                { id: 'llm', label: 'LLM\n(Claude/GPT-4)', layer: 'ai', color: '#f0e1ff' },
+                { id: 'automation', label: 'Automation\n(Power Automate/n8n)', layer: 'automation', color: '#e8d4ff' },
+                { id: 'mcp', label: 'MCP Server', layer: 'mcp', color: '#e1ffe1' },
+                { id: 'mcp1', label: 'Database Connector', layer: 'mcp', color: '#c8f7c8' },
+                { id: 'mcp2', label: 'API Gateway', layer: 'mcp', color: '#c8f7c8' },
+                { id: 'mcp3', label: 'Documents Connector', layer: 'mcp', color: '#c8f7c8' },
+                { id: 'api', label: 'APIs Internas', layer: 'integraciones', color: '#ffe1e1' },
+                { id: 'erp', label: 'ERP/CRM', layer: 'integraciones', color: '#ffe1e1' },
+                { id: 'db', label: 'Bases de Datos', layer: 'datos', color: '#ffe1e1' },
+                { id: 'storage', label: 'Storage', layer: 'datos', color: '#ffe1e1' },
+                { id: 'observability', label: 'Observabilidad\n(Langfuse/Grafana)', layer: 'observability', color: '#d4f1f4' }
+            ],
+            links: [
+                { source: 'usuario', target: 'interface', label: 'Envía consultas' },
+                { source: 'interface', target: 'auth', label: 'Autentica' },
+                { source: 'interface', target: 'backend', label: 'HTTP/WS' },
+                { source: 'backend', target: 'auth', label: 'Valida tokens' },
+                { source: 'scheduler', target: 'backend', label: 'Ejecuta tareas' },
+                { source: 'backend', target: 'docs', label: 'Consulta docs' },
+                { source: 'backend', target: 'llm', label: 'Envía prompts' },
+                { source: 'backend', target: 'automation', label: 'Dispara flujos' },
+                { source: 'automation', target: 'llm', label: 'Invoca' },
+                { source: 'automation', target: 'mcp', label: 'Usa herramientas' },
+                { source: 'automation', target: 'backend', label: 'Notifica eventos' },
+                { source: 'llm', target: 'mcp', label: 'Usa MCP' },
+                { source: 'mcp', target: 'mcp1', label: '' },
+                { source: 'mcp', target: 'mcp2', label: '' },
+                { source: 'mcp', target: 'mcp3', label: '' },
+                { source: 'mcp1', target: 'db', label: 'Consulta' },
+                { source: 'mcp1', target: 'storage', label: 'Lee/Escribe' },
+                { source: 'mcp2', target: 'api', label: 'Integra' },
+                { source: 'mcp2', target: 'erp', label: 'Conecta' },
+                { source: 'mcp3', target: 'docs', label: 'Accede' },
+                { source: 'backend', target: 'observability', label: 'Métricas', dashed: true },
+                { source: 'llm', target: 'observability', label: 'Trazas', dashed: true },
+                { source: 'automation', target: 'observability', label: 'Estado', dashed: true },
+                { source: 'mcp', target: 'observability', label: 'Eventos', dashed: true }
+            ]
+        };
+
+        let currentViz = 'force';
+        let svg, g, simulation;
+
+        function showVisualization(type, clickedButton) {
+            currentViz = type;
+            
+            // Update button states
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+
+            // Clear previous visualization
+            d3.select('#visualization').html('');
+
+            // Create new visualization
+            if (type === 'force') {
+                createForceGraph();
+            } else if (type === 'tree') {
+                createTreeDiagram();
+            } else if (type === 'sankey') {
+                createSankeyDiagram();
+            }
+        }
+
+        function createForceGraph() {
+            const width = document.getElementById('visualization').clientWidth;
+            const height = 700;
+
+            svg = d3.select('#visualization')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            g = svg.append('g');
+
+            // Add zoom behavior
+            const zoom = d3.zoom()
+                .scaleExtent([0.5, 3])
+                .on('zoom', (event) => {
+                    g.attr('transform', event.transform);
+                });
+            svg.call(zoom);
+
+            // Create deep copies of data to avoid mutation
+            const nodes = JSON.parse(JSON.stringify(data.nodes));
+            const links = JSON.parse(JSON.stringify(data.links));
+
+            // Create force simulation
+            simulation = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(150))
+                .force('charge', d3.forceManyBody().strength(-500))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(60));
+
+            // Create links
+            const link = g.append('g')
+                .selectAll('line')
+                .data(links)
+                .join('line')
+                .attr('class', 'link')
+                .style('stroke-dasharray', d => d.dashed ? '5,5' : 'none');
+
+            // Create nodes
+            const node = g.append('g')
+                .selectAll('g')
+                .data(nodes)
+                .join('g')
+                .attr('class', 'node')
+                .call(drag(simulation));
+
+            node.append('circle')
+                .attr('r', 40)
+                .attr('fill', d => d.color)
+                .attr('stroke', '#333')
+                .attr('stroke-width', 2);
+
+            node.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dy', '.35em')
+                .style('font-size', '11px')
+                .each(function(d) {
+                    const lines = d.label.split('\n');
+                    const text = d3.select(this);
+                    lines.forEach((line, i) => {
+                        text.append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', i === 0 ? -(lines.length - 1) * 6 : 12)
+                            .text(line);
+                    });
+                });
+
+            // Tooltip
+            node.on('mouseover', function(event, d) {
+                const tooltip = d3.select('#tooltip');
+                tooltip.style('opacity', 1)
+                    .html(`<strong>${d.label}</strong><br>Capa: ${d.layer}`)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 10) + 'px');
+            })
+            .on('mouseout', function() {
+                d3.select('#tooltip').style('opacity', 0);
+            });
+
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+
+            addLegend();
+        }
+
+        function createTreeDiagram() {
+            const width = document.getElementById('visualization').clientWidth;
+            const height = 1000; // Aumentar altura para acomodar todo el árbol
+
+            const container = d3.select('#visualization')
+                .style('overflow', 'auto')
+                .style('max-height', '700px');
+
+            svg = container
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            g = svg.append('g')
+                .attr('transform', `translate(${width / 2}, 80)`);
+
+            // Add zoom behavior
+            const zoom = d3.zoom()
+                .scaleExtent([0.5, 2])
+                .on('zoom', (event) => {
+                    g.attr('transform', `translate(${width / 2 + event.transform.x}, ${80 + event.transform.y}) scale(${event.transform.k})`);
+                });
+            svg.call(zoom);
+
+            // Create hierarchy data
+            const hierarchyData = {
+                name: 'Usuario',
+                id: 'usuario',
+                color: '#e1f5ff',
+                children: [
+                    {
+                        name: 'Interface de Chat',
+                        id: 'interface',
+                        color: '#fff4e1',
+                        children: [
+                            {
+                                name: 'Auth & AuthZ',
+                                id: 'auth',
+                                color: '#ffe1f0'
+                            },
+                            {
+                                name: 'Backend API',
+                                id: 'backend',
+                                color: '#ffd6e8',
+                                children: [
+                                    {
+                                        name: 'Scheduler',
+                                        id: 'scheduler',
+                                        color: '#ffb3d9'
+                                    },
+                                    {
+                                        name: 'Repositorio Documentos',
+                                        id: 'docs',
+                                        color: '#ffe8b3'
+                                    },
+                                    {
+                                        name: 'LLM',
+                                        id: 'llm',
+                                        color: '#f0e1ff',
+                                        children: [
+                                            {
+                                                name: 'MCP Server',
+                                                id: 'mcp',
+                                                color: '#e1ffe1',
+                                                children: [
+                                                    { name: 'Database Connector', id: 'mcp1', color: '#c8f7c8',
+                                                      children: [
+                                                          { name: 'Bases de Datos', id: 'db', color: '#ffe1e1' },
+                                                          { name: 'Storage', id: 'storage', color: '#ffe1e1' }
+                                                      ]
+                                                    },
+                                                    { name: 'API Gateway', id: 'mcp2', color: '#c8f7c8',
+                                                      children: [
+                                                          { name: 'APIs Internas', id: 'api', color: '#ffe1e1' },
+                                                          { name: 'ERP/CRM', id: 'erp', color: '#ffe1e1' }
+                                                      ]
+                                                    },
+                                                    { name: 'Documents Connector', id: 'mcp3', color: '#c8f7c8' }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: 'Automation',
+                                        id: 'automation',
+                                        color: '#e8d4ff'
+                                    },
+                                    {
+                                        name: 'Observabilidad',
+                                        id: 'observability',
+                                        color: '#d4f1f4'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            const root = d3.hierarchy(hierarchyData);
+            const treeLayout = d3.tree()
+                .size([width - 300, height - 200])
+                .separation((a, b) => (a.parent == b.parent ? 1 : 1.2));
+            
+            treeLayout(root);
+
+            // Center the tree horizontally
+            const minX = d3.min(root.descendants(), d => d.x);
+            const maxX = d3.max(root.descendants(), d => d.x);
+            const treeWidth = maxX - minX;
+            const offsetX = -treeWidth / 2;
+
+            // Links
+            g.selectAll('.link')
+                .data(root.links())
+                .join('path')
+                .attr('class', 'link')
+                .attr('d', d3.linkVertical()
+                    .x(d => d.x + offsetX)
+                    .y(d => d.y));
+
+            // Nodes
+            const node = g.selectAll('.node')
+                .data(root.descendants())
+                .join('g')
+                .attr('class', 'node')
+                .attr('transform', d => `translate(${d.x + offsetX},${d.y})`);
+
+            node.append('circle')
+                .attr('r', 35)
+                .attr('fill', d => d.data.color)
+                .attr('stroke', '#333')
+                .attr('stroke-width', 2);
+
+            node.append('text')
+                .attr('dy', '.35em')
+                .attr('text-anchor', 'middle')
+                .style('font-size', '10px')
+                .style('font-weight', '600')
+                .each(function(d) {
+                    const name = d.data.name;
+                    const text = d3.select(this);
+                    
+                    // Split long names into multiple lines
+                    if (name.length > 15) {
+                        const words = name.split(' ');
+                        let line = '';
+                        const lines = [];
+                        
+                        words.forEach(word => {
+                            if ((line + word).length > 12) {
+                                if (line) lines.push(line.trim());
+                                line = word + ' ';
+                            } else {
+                                line += word + ' ';
+                            }
+                        });
+                        if (line) lines.push(line.trim());
+                        
+                        lines.forEach((line, i) => {
+                            text.append('tspan')
+                                .attr('x', 0)
+                                .attr('dy', i === 0 ? -(lines.length - 1) * 5 : 10)
+                                .text(line);
+                        });
+                    } else {
+                        text.text(name);
+                    }
+                });
+
+            // Tooltip
+            node.on('mouseover', function(event, d) {
+                const tooltip = d3.select('#tooltip');
+                tooltip.style('opacity', 1)
+                    .html(`<strong>${d.data.name}</strong>`)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 10) + 'px');
+            })
+            .on('mouseout', function() {
+                d3.select('#tooltip').style('opacity', 0);
+            });
+
+            addLegend();
+        }
+
+        function createSankeyDiagram() {
+            const width = document.getElementById('visualization').clientWidth;
+            const height = 700;
+
+            svg = d3.select('#visualization')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            g = svg.append('g')
+                .attr('transform', 'translate(50, 50)');
+
+            // Create deep copies of data
+            const sankeyNodes = JSON.parse(JSON.stringify(data.nodes));
+            
+            // Create a map for quick lookup
+            const nodeMap = new Map();
+            sankeyNodes.forEach((node, i) => {
+                nodeMap.set(node.id, i);
+                node.index = i;
+            });
+            
+            // Create links using the original string IDs
+            const sankeyLinks = [];
+            data.links.forEach(link => {
+                const sourceIndex = nodeMap.get(link.source);
+                const targetIndex = nodeMap.get(link.target);
+                
+                if (sourceIndex !== undefined && targetIndex !== undefined) {
+                    sankeyLinks.push({
+                        source: sourceIndex,
+                        target: targetIndex,
+                        value: 1,
+                        label: link.label,
+                        dashed: link.dashed || false
+                    });
+                }
+            });
+
+            // Manual positioning for better flow visualization
+            const layerY = {
+                'usuario': 0,
+                'interface': 1,
+                'auth': 2,
+                'backend': 3,
+                'docs': 4,
+                'ai': 4,
+                'automation': 4,
+                'mcp': 5,
+                'integraciones': 6,
+                'datos': 6,
+                'observability': 7
+            };
+
+            const nodesByLayer = {};
+            sankeyNodes.forEach(node => {
+                const layer = layerY[node.layer];
+                if (!nodesByLayer[layer]) nodesByLayer[layer] = [];
+                nodesByLayer[layer].push(node);
+            });
+
+            const layerHeight = (height - 100) / 8;
+            const nodeWidth = 120;
+            const nodeHeight = 40;
+
+            Object.keys(nodesByLayer).forEach(layer => {
+                const nodes = nodesByLayer[layer];
+                const spacing = (width - 100) / (nodes.length + 1);
+                nodes.forEach((node, i) => {
+                    node.x = spacing * (i + 1);
+                    node.y = layer * layerHeight;
+                });
+            });
+
+            // Draw links
+            const link = g.selectAll('.link')
+                .data(sankeyLinks)
+                .join('path')
+                .attr('class', 'link')
+                .attr('d', d => {
+                    const source = sankeyNodes[d.source];
+                    const target = sankeyNodes[d.target];
+                    
+                    if (!source || !target) {
+                        return '';
+                    }
+                    
+                    const sx = source.x;
+                    const sy = source.y + nodeHeight;
+                    const tx = target.x;
+                    const ty = target.y;
+                    const midY = (sy + ty) / 2;
+                    return `M ${sx} ${sy} 
+                            C ${sx} ${midY}, ${tx} ${midY}, ${tx} ${ty}`;
+                })
+                .style('stroke-dasharray', d => d.dashed ? '5,5' : 'none');
+
+            // Draw nodes
+            const node = g.selectAll('.node')
+                .data(sankeyNodes)
+                .join('g')
+                .attr('class', 'node')
+                .attr('transform', d => `translate(${d.x - nodeWidth/2}, ${d.y})`);
+
+            node.append('rect')
+                .attr('width', nodeWidth)
+                .attr('height', nodeHeight)
+                .attr('rx', 8)
+                .attr('fill', d => d.color)
+                .attr('stroke', '#333')
+                .attr('stroke-width', 2);
+
+            node.append('text')
+                .attr('x', nodeWidth / 2)
+                .attr('y', nodeHeight / 2)
+                .attr('text-anchor', 'middle')
+                .attr('dy', '.35em')
+                .style('font-size', '10px')
+                .each(function(d) {
+                    const lines = d.label.split('\n');
+                    const text = d3.select(this);
+                    lines.forEach((line, i) => {
+                        text.append('tspan')
+                            .attr('x', nodeWidth / 2)
+                            .attr('dy', i === 0 ? -(lines.length - 1) * 6 : 12)
+                            .text(line.length > 20 ? line.substring(0, 20) + '...' : line);
+                    });
+                });
+
+            // Tooltip
+            node.on('mouseover', function(event, d) {
+                const tooltip = d3.select('#tooltip');
+                tooltip.style('opacity', 1)
+                    .html(`<strong>${d.label}</strong><br>Capa: ${d.layer}`)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 10) + 'px');
+            })
+            .on('mouseout', function() {
+                d3.select('#tooltip').style('opacity', 0);
+            });
+
+            addLegend();
+        }
+
+        function drag(simulation) {
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+
+            return d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended);
+        }
+
+        function addLegend() {
+            const layers = [
+                { name: 'Usuario', color: '#e1f5ff' },
+                { name: 'Interface', color: '#fff4e1' },
+                { name: 'Autenticación', color: '#ffe1f0' },
+                { name: 'Backend', color: '#ffd6e8' },
+                { name: 'Documentos', color: '#ffe8b3' },
+                { name: 'IA/LLM', color: '#f0e1ff' },
+                { name: 'Automatización', color: '#e8d4ff' },
+                { name: 'MCP', color: '#e1ffe1' },
+                { name: 'Integraciones/Datos', color: '#ffe1e1' },
+                { name: 'Observabilidad', color: '#d4f1f4' }
+            ];
+
+            const legend = d3.select('#visualization')
+                .append('div')
+                .attr('class', 'legend');
+
+            legend.append('div')
+                .style('font-weight', 'bold')
+                .style('margin-bottom', '10px')
+                .text('Capas');
+
+            legend.selectAll('.legend-item')
+                .data(layers)
+                .join('div')
+                .attr('class', 'legend-item')
+                .html(d => `
+                    <div class="legend-color" style="background: ${d.color}"></div>
+                    <span>${d.name}</span>
+                `);
+        }
+
+        // Initialize with force graph
+        window.addEventListener('load', function() {
+            if (typeof d3 === 'undefined') {
+                document.getElementById('visualization').innerHTML = 
+                    '<div style="text-align: center; padding: 50px; color: red;">' +
+                    '<h2>Error: D3.js no se pudo cargar</h2>' +
+                    '<p>Por favor, verifica tu conexión a internet e intenta recargar la página.</p>' +
+                    '</div>';
+                return;
+            }
+            createForceGraph();
+        });
+    </script>
+</body>
+</html>
