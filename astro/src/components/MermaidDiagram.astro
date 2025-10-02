@@ -21,19 +21,23 @@ const {
 <style>
     #diagram-container {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         overflow: hidden;
         padding: 20px;
         background: #f8f9fa;
         border-radius: 8px;
         min-height: 600px;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .mermaid {
         text-align: center;
         width: 100%;
         height: 100%;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .mermaid :global(svg) {

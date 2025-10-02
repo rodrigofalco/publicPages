@@ -11,7 +11,8 @@
       "Bash(npm run preview:*)",
       "Bash(curl:*)",
       "Bash(awk:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Read(//var/folders/zv/r6ps0nks0tl4lyhybvr758200000gn/T/TemporaryItems/**)"
     ],
     "deny": [],
     "ask": []

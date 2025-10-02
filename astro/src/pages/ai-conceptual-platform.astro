@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MermaidDiagram from '../components/MermaidDiagram.astro';
+
+const diagram = `
+graph TB
+    %% Nodes
+    U[👤 User]
+    UI[💬 Chat Interface<br/>Conversational UI]
+    AUTH[🔐 Authentication & Authorization<br/>Identity Management]
+    API[⚙️ Application Services<br/>Business Logic & Orchestration]
+
+    subgraph "AI Layer"
+        LLM[🤖 Large Language Model<br/>Natural Language Processing]
+        ML[🎯 Prediction Model<br/>Machine Learning & Analytics]
+    end
+
+    AUTO[🔄 Workflow Automation<br/>Process Orchestration]
+    MCP[🔌 Tool Integration Protocol<br/>Data · Systems · Documents]
+    DOCS[📚 Document Repository<br/>Content Management]
+    DB[(🗄️ Data Store<br/>Structured & Unstructured)]
+    SYSTEMS[💼 Enterprise Systems<br/>Business Applications]
+    OBS[📊 Monitoring & Analytics<br/>Performance & Usage Insights]
+
+    %% User interactions
+    U -->|Interacts| UI
+    UI -->|Authenticates| AUTH
+    UI -->|Requests| API
+
+    %% Application flow
+    API -->|Validates| AUTH
+    API -->|Queries| DOCS
+    API -->|Processes with| LLM
+    API -->|Predicts with| ML
+    API -->|Triggers| AUTO
+
+    %% Automation flow
+    AUTO -->|Uses| LLM
+    AUTO -->|Invokes| MCP
+    AUTO -->|Notifies| API
+
+    %% AI integration
+    LLM -->|Extends via| MCP
+    ML -->|Accesses data via| MCP
+
+    %% Data access
+    MCP -->|Accesses| DB
+    MCP -->|Integrates| SYSTEMS
+    MCP -->|Retrieves| DOCS
+
+    %% Observability
+    API -.->|Metrics| OBS
+    LLM -.->|Usage Data| OBS
+    ML -.->|Predictions & Performance| OBS
+    AUTO -.->|Execution Logs| OBS
+    MCP -.->|Tool Events| OBS
+
+    %% Response flow
+    UI -.->|Delivers Results| U
+
+    %% Styling
+    style U fill:#e1f5ff
+    style UI fill:#fff4e1
+    style AUTH fill:#ffe1f0
+    style API fill:#ffd6e8
+    style LLM fill:#f0e1ff
+    style ML fill:#f0e1ff
+    style AUTO fill:#e8d4ff
+    style MCP fill:#e1ffe1
+    style DOCS fill:#ffe8b3
+    style DB fill:#ffe1e1
+    style SYSTEMS fill:#ffe1e1
+    style OBS fill:#d4f1f4
+`;
+---
+
+<BaseLayout title="AI Conceptual Platform" lang="en" showControls={true}>
+    <Fragment slot="controls">
+        <button class="control-btn" onclick="resetZoom()">Reset Zoom</button>
+    </Fragment>
+
+    <h1>🎨 AI Conceptual Platform</h1>
+    <MermaidDiagram
+        diagram={diagram}
+        loadingText="Loading diagram..."
+        hintText="💡 Use mouse wheel to zoom, drag to pan"
+    />
+</BaseLayout>

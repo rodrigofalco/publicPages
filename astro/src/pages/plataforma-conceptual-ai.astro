@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MermaidDiagram from '../components/MermaidDiagram.astro';
+
+const diagram = `
+graph TB
+    %% Nodes
+    U[👤 Usuario]
+    UI[💬 Interfaz de Chat<br/>UI Conversacional]
+    AUTH[🔐 Autenticación y Autorización<br/>Gestión de Identidad]
+    API[⚙️ Servicios de Aplicación<br/>Lógica de Negocio y Orquestación]
+
+    subgraph "Capa de AI"
+        LLM[🤖 Modelo de Lenguaje Grande<br/>Procesamiento de Lenguaje Natural]
+        ML[🎯 Modelo de Predicción<br/>Machine Learning y Análisis]
+    end
+
+    AUTO[🔄 Automatización de Flujo<br/>Orquestación de Procesos]
+    MCP[🔌 Protocolo de Integración<br/>Datos · Sistemas · Documentos]
+    DOCS[📚 Repositorio de Documentos<br/>Gestión de Contenido]
+    DB[(🗄️ Almacén de Datos<br/>Estructurado y No Estructurado)]
+    SYSTEMS[💼 Sistemas Empresariales<br/>Aplicaciones de Negocio]
+    OBS[📊 Monitoreo y Análisis<br/>Insights de Rendimiento y Uso]
+
+    %% User interactions
+    U -->|Interactúa| UI
+    UI -->|Autentica| AUTH
+    UI -->|Solicita| API
+
+    %% Application flow
+    API -->|Valida| AUTH
+    API -->|Consulta| DOCS
+    API -->|Procesa con| LLM
+    API -->|Predice con| ML
+    API -->|Activa| AUTO
+
+    %% Automation flow
+    AUTO -->|Usa| LLM
+    AUTO -->|Invoca| MCP
+    AUTO -->|Notifica| API
+
+    %% AI integration
+    LLM -->|Extiende vía| MCP
+    ML -->|Accede datos vía| MCP
+
+    %% Data access
+    MCP -->|Accede| DB
+    MCP -->|Integra| SYSTEMS
+    MCP -->|Recupera| DOCS
+
+    %% Observability
+    API -.->|Métricas| OBS
+    LLM -.->|Datos de Uso| OBS
+    ML -.->|Predicciones y Rendimiento| OBS
+    AUTO -.->|Logs de Ejecución| OBS
+    MCP -.->|Eventos de Herramientas| OBS
+
+    %% Response flow
+    UI -.->|Entrega Resultados| U
+
+    %% Styling
+    style U fill:#e1f5ff
+    style UI fill:#fff4e1
+    style AUTH fill:#ffe1f0
+    style API fill:#ffd6e8
+    style LLM fill:#f0e1ff
+    style ML fill:#f0e1ff
+    style AUTO fill:#e8d4ff
+    style MCP fill:#e1ffe1
+    style DOCS fill:#ffe8b3
+    style DB fill:#ffe1e1
+    style SYSTEMS fill:#ffe1e1
+    style OBS fill:#d4f1f4
+`;
+---
+
+<BaseLayout title="Plataforma Conceptual de AI" lang="es" showControls={true}>
+    <Fragment slot="controls">
+        <button class="control-btn" onclick="resetZoom()">Restablecer Zoom</button>
+    </Fragment>
+
+    <h1>🎨 Plataforma Conceptual de AI</h1>
+    <MermaidDiagram
+        diagram={diagram}
+        loadingText="Cargando diagrama..."
+        hintText="💡 Usa la rueda del ratón para hacer zoom, arrastra para desplazar"
+    />
+</BaseLayout>

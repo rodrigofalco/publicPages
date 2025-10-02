@@ -8,7 +8,7 @@ export const pages = {
           title: "🏗️ AI Platform Architecture - Mermaid Diagram",
           cards: [
             {
-              href: "/mermaid-arquitecture-platform-ai",
+              href: "/mermaid-architecture-platform-ai",
               icon: "🏗️",
               title: "AI Platform Architecture",
               description: "Interactive Mermaid diagram showing the complete AI Platform architecture with zoom and pan functionality. Visualize all layers from user interface to data storage."

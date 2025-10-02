@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MermaidDiagram from '../components/MermaidDiagram.astro';
+
+const diagram = `
+flowchart TB
+    subgraph User[User Layer]
+        U[User]
+    end
+
+    subgraph Auth[Authentication Layer]
+        AUTH[Auth & AuthZ<br/>Entra ID / OAuth 2.0]
+    end
+
+    subgraph Interface[Interface Layer]
+        IC[Chat Interface<br/>Web/Mobile/Desktop]
+    end
+
+    subgraph Backend[Backend Layer]
+        BE[Backend API<br/>Node.js/Python/Java]
+        SCH[Scheduler<br/>Cron Jobs/Celery]
+    end
+
+    subgraph Docs[Document Repository]
+        DMS[Document Repository<br/>Google Drive/SharePoint]
+    end
+
+    subgraph AI[AI Layer]
+        LLM[LLM<br/>Claude Sonnet/GPT-4]
+    end
+
+    subgraph Automation[Automation Layer]
+        AUTO[Automation Platform<br/>Power Automate/n8n]
+    end
+
+    subgraph MCP_Layer[MCP Layer]
+        MCP[Model Context Protocol]
+        MCP1[MCP Tool 1<br/>Database Connector]
+        MCP2[MCP Tool 2<br/>API Gateway]
+        MCP3[MCP Tool 3<br/>Documents Connector]
+    end
+
+    subgraph Integrations[Integration Layer]
+        API[Internal APIs<br/>REST/GraphQL]
+        ERP[ERP/CRM<br/>SAP/Salesforce]
+    end
+
+    subgraph Data[Data Layer]
+        DB[(Databases<br/>SQL/NoSQL)]
+        FILES[Storage<br/>S3/Local Storage]
+    end
+
+    subgraph Observability[Observability Layer]
+        OBS[Monitoring<br/>Langfuse/Grafana]
+    end
+
+    U --> IC
+    IC --> AUTH
+    IC --> BE
+    BE --> AUTH
+    SCH --> BE
+    BE --> DMS
+    BE --> LLM
+    BE --> AUTO
+    AUTO --> LLM
+    AUTO --> MCP
+    AUTO --> BE
+    LLM --> MCP
+    MCP --> MCP1
+    MCP --> MCP2
+    MCP --> MCP3
+    MCP1 --> DB
+    MCP1 --> FILES
+    MCP2 --> API
+    MCP2 --> ERP
+    MCP3 --> DMS
+    BE -.-> OBS
+    LLM -.-> OBS
+    AUTO -.-> OBS
+    MCP -.-> OBS
+    DMS -.-> FILES
+    DMS -.-> DB
+    IC -.-> U
+
+    style U fill:#e1f5ff
+    style AUTH fill:#ffe1f0
+    style IC fill:#fff4e1
+    style BE fill:#ffd6e8
+    style SCH fill:#ffb3d9
+    style DMS fill:#ffe8b3
+    style LLM fill:#f0e1ff
+    style AUTO fill:#e8d4ff
+    style MCP fill:#e1ffe1
+    style MCP1 fill:#c8f7c8
+    style MCP2 fill:#c8f7c8
+    style MCP3 fill:#c8f7c8
+    style DB fill:#ffe1e1
+    style API fill:#ffe1e1
+    style FILES fill:#ffe1e1
+    style ERP fill:#ffe1e1
+    style OBS fill:#d4f1f4
+`;
+---
+
+<BaseLayout title="AI Platform Architecture" lang="en" showControls={true}>
+    <Fragment slot="controls">
+        <button class="control-btn" onclick="resetZoom()">Reset Zoom</button>
+    </Fragment>
+
+    <h1>🏗️ AI Platform Architecture</h1>
+    <MermaidDiagram
+        diagram={diagram}
+        loadingText="Loading diagram..."
+        hintText="💡 Use mouse wheel to zoom, drag to pan"
+    />
+</BaseLayout>
