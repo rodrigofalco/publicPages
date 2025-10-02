@@ -12,7 +12,9 @@
       "Bash(curl:*)",
       "Bash(awk:*)",
       "Bash(xargs:*)",
-      "Read(//var/folders/zv/r6ps0nks0tl4lyhybvr758200000gn/T/TemporaryItems/**)"
+      "Read(//var/folders/zv/r6ps0nks0tl4lyhybvr758200000gn/T/TemporaryItems/**)",
+      "Bash(git ls-tree:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
