@@ -1,6 +1,6 @@
 # Patagonian Public Pages - Astro Version
 
-This is the dynamic Astro version of the Patagonian public pages. It compiles to static HTML while allowing you to use reusable components, layouts, and manage content more efficiently.
+This is the dynamic Astro version of the Patagonian public pages. It compiles to static HTML while allowing you to use reusable components, layouts, and manage content more efficiently..
 
 ## 🚀 Quick Start
 
@@ -51,6 +51,7 @@ astro/
 ### BaseLayout
 
 The main layout that wraps all pages. Includes:
+
 - Patagonian branding (logo, colors, fonts)
 - Header with brand tagline
 - Footer with copyright
@@ -58,6 +59,7 @@ The main layout that wraps all pages. Includes:
 - Bilingual support (en/es)
 
 **Usage:**
+
 ```astro
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -73,6 +75,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 Dropdown to switch between English and Spanish versions.
 
 **Usage:**
+
 ```astro
 ---
 import LanguageSelector from '../components/LanguageSelector.astro';
@@ -86,6 +89,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
 Interactive Mermaid diagram with zoom and pan functionality.
 
 **Usage:**
+
 ```astro
 ---
 import MermaidDiagram from '../components/MermaidDiagram.astro';
@@ -111,6 +115,7 @@ flowchart TB
 4. The filename becomes the URL (e.g., `my-page.astro` → `/my-page`)
 
 **Example:**
+
 ```astro
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -125,6 +130,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ## 🌐 Bilingual Pages
 
 For bilingual support, create page pairs:
+
 - `page-name.astro` (English)
 - `page-name-es.astro` (Spanish)
 
@@ -133,11 +139,13 @@ Or use dynamic routing - see [Astro docs](https://docs.astro.build/en/guides/rou
 ## 🎨 Design System
 
 **Colors:**
+
 - Primary Blue: `#046cfc`
 - Dark Blue: `#15294b`
 - Orange Accent: `#f1870d`
 
 **Fonts:**
+
 - Headings: Montserrat
 - Body: Lato
 
