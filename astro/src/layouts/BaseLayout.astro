@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { title, lang = 'es', showControls = false } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <!DOCTYPE html>
@@ -131,7 +132,7 @@ const { title, lang = 'es', showControls = false } = Astro.props;
         <div class="brand-header">
             <div class="brand-logo">
                 <a href="https://patagonian.com" target="_blank">
-                    <img src="/patagonian_logo_RGB_color-300x58.png" alt="Patagonian">
+                    <img src={`${baseUrl}/patagonian_logo_RGB_color-300x58.png`.replace('//', '/')} alt="Patagonian">
                 </a>
             </div>
             <div class="brand-tagline">

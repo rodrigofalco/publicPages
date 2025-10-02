@@ -5,13 +5,18 @@ interface Props {
   esUrl?: string;
 }
 
-const { currentLang, enUrl = '/', esUrl = '/es' } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+const { currentLang, enUrl = '/', esUrl = '/index-es' } = Astro.props;
+
+// Prepend base URL to paths
+const fullEnUrl = enUrl.startsWith('http') ? enUrl : `${baseUrl}${enUrl}`.replace('//', '/');
+const fullEsUrl = esUrl.startsWith('http') ? esUrl : `${baseUrl}${esUrl}`.replace('//', '/');
 ---
 
 <div class="language-selector">
     <select onchange="window.location.href=this.value">
-        <option value={enUrl} selected={currentLang === 'en'}>English</option>
-        <option value={esUrl} selected={currentLang === 'es'}>Español</option>
+        <option value={fullEnUrl} selected={currentLang === 'en'}>English</option>
+        <option value={fullEsUrl} selected={currentLang === 'es'}>Español</option>
     </select>
 </div>
 
