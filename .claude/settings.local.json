@@ -14,7 +14,8 @@
       "Bash(xargs:*)",
       "Read(//var/folders/zv/r6ps0nks0tl4lyhybvr758200000gn/T/TemporaryItems/**)",
       "Bash(git ls-tree:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(gh run list:*)"
     ],
     "deny": [],
     "ask": []
