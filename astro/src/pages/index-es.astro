@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LanguageSelector from '../components/LanguageSelector.astro';
+import { pages } from '../content/pages';
+
+const content = pages.es.home;
+---
+
+<BaseLayout title="Patagonian - Páginas Públicas" lang="es">
+    <LanguageSelector currentLang="es" enUrl="/" esUrl="/index-es" />
+
+    <h1>{content.title}</h1>
+    <p class="subtitle">{content.subtitle}</p>
+
+    <h2 class="section-title">{content.sections.mermaid.title}</h2>
+    <div class="pages-grid">
+        {content.sections.mermaid.cards.map(card => (
+            <a href={card.href} class="page-card">
+                <div class="icon">{card.icon}</div>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
+            </a>
+        ))}
+    </div>
+
+    <h2 class="section-title">{content.sections.d3js.title}</h2>
+    <div class="pages-grid">
+        {content.sections.d3js.cards.map(card => (
+            <a href={card.href} class="page-card">
+                <div class="icon">{card.icon}</div>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
+            </a>
+        ))}
+    </div>
+</BaseLayout>
+
+<style>
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 40px;
+        font-size: 1.1em;
+    }
+
+    .section-title {
+        color: #15294b;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.5em;
+        margin: 30px 0 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #046cfc;
+    }
+
+    .section-title:not(:first-of-type) {
+        margin-top: 40px;
+    }
+
+    .pages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .page-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 25px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        display: block;
+    }
+
+    .page-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(4, 108, 252, 0.15);
+        border-color: #046cfc;
+    }
+
+    .page-card h3 {
+        color: #046cfc;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.3em;
+        margin-bottom: 10px;
+    }
+
+    .page-card p {
+        color: #555;
+        line-height: 1.6;
+        font-size: 0.95em;
+    }
+
+    .page-card .icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .pages-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

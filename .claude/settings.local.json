@@ -10,7 +10,10 @@
       "mcp__chrome-devtools__take_screenshot",
       "mcp__chrome-devtools__evaluate_script",
       "mcp__chrome-devtools__list_pages",
-      "WebFetch(domain:patagonian.com)"
+      "WebFetch(domain:patagonian.com)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

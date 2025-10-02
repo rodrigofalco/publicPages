@@ -1,0 +1,43 @@
+---
+interface Props {
+  currentLang: 'en' | 'es';
+  enUrl?: string;
+  esUrl?: string;
+}
+
+const { currentLang, enUrl = '/', esUrl = '/es' } = Astro.props;
+---
+
+<div class="language-selector">
+    <select onchange="window.location.href=this.value">
+        <option value={enUrl} selected={currentLang === 'en'}>English</option>
+        <option value={esUrl} selected={currentLang === 'es'}>Español</option>
+    </select>
+</div>
+
+<style>
+    .language-selector {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        z-index: 10;
+    }
+
+    .language-selector select {
+        background: white;
+        border: 2px solid #046cfc;
+        border-radius: 4px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #046cfc;
+        font-weight: 600;
+        font-family: 'Montserrat', sans-serif;
+        transition: all 0.2s;
+    }
+
+    .language-selector select:hover {
+        background: #046cfc;
+        color: white;
+    }
+</style>
