@@ -35,10 +35,8 @@ jobs:
         working-directory: ./astro
         run: npm run build
 
-      - name: Deploy to docs folder
+      - name: Commit and push to docs folder
         run: |
-          rm -rf docs/*
-          cp -r astro/dist/* docs/
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add docs/
