@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Itinerary - NQN → Madrid → NQN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1000px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+        
+        .timeline-item {
+            margin-bottom: 40px;
+            margin-left: 100px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -70px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-item.flight::before {
+            border-color: #ff6b6b;
+            background: #ffe0e0;
+        }
+        
+        .timeline-item.hotel::before {
+            border-color: #4ecdc4;
+            background: #e0f7f6;
+        }
+        
+        .timeline-item.transfer::before {
+            border-color: #95e1d3;
+            background: #e8f9f6;
+        }
+        
+        .timeline-item.train::before {
+            border-color: #ffa502;
+            background: #ffe8cc;
+        }
+        
+        .date {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .flight .card {
+            border-left-color: #ff6b6b;
+            background: #fff5f5;
+        }
+        
+        .hotel .card {
+            border-left-color: #4ecdc4;
+            background: #f0fffe;
+        }
+        
+        .transfer .card {
+            border-left-color: #95e1d3;
+            background: #f5fdf9;
+        }
+        
+        .train .card {
+            border-left-color: #ffa502;
+            background: #fff9f0;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-title .icon {
+            font-size: 20px;
+        }
+        
+        .card-detail {
+            font-size: 13px;
+            color: #555;
+            margin: 4px 0;
+            padding-left: 28px;
+        }
+        
+        .card-detail strong {
+            color: #333;
+        }
+        
+        .route {
+            font-size: 14px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .flight .route {
+            color: #ff6b6b;
+        }
+        
+        .hotel .route {
+            color: #4ecdc4;
+        }
+        
+        .transfer .route {
+            color: #95e1d3;
+        }
+        
+        .train .route {
+            color: #ffa502;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 40px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .summary h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .summary-item {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .summary-item strong {
+            color: #333;
+        }
+        
+        .timezone-note {
+            background: #e8f4f8;
+            border-left: 4px solid #0073b1;
+            padding: 12px 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .timezone-note strong {
+            color: #0073b1;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .timeline-item {
+                margin-left: 60px;
+            }
+            
+            .timeline-item::before {
+                left: -40px;
+            }
+            
+            .timeline::before {
+                left: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✈️ Tu Viaje a Madrid</h1>
+        <p class="subtitle">25 de octubre - 1 de noviembre, 2025</p>
+        
+        <div class="timeline">
+            <!-- Day 1: Flight NQN to BS AS -->
+            <div class="timeline-item flight">
+                <div class="date">25 de octubre</div>
+                <div class="route">🛫 Neuquén → Buenos Aires</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">✈️</span>
+                        Aerolíneas Argentinas - Vuelo AR1645
+                    </div>
+                    <div class="card-detail"><strong>Salida:</strong> 21:30 hs (AR) desde Aeropuerto Presidente Perón (NQN)</div>
+                    <div class="card-detail"><strong>Llegada:</strong> 23:10 hs (AR) en Ezeiza (EZE)</div>
+                    <div class="card-detail"><strong>Código de reserva:</strong> ATRIDQ</div>
+                </div>
+            </div>
+            
+            <!-- Hotel in Buenos Aires -->
+            <div class="timeline-item hotel">
+                <div class="date">25-26 de octubre</div>
+                <div class="route">🏨 Alojamiento en Buenos Aires</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🏨</span>
+                        Howard Johnson Hotel Resort & Convention Center
+                    </div>
+                    <div class="card-detail"><strong>Ubicación:</strong> Aut. Ezeiza Cañuelas Km 40.5, Ezeiza</div>
+                    <div class="card-detail"><strong>Check-in:</strong> 15:00 hs (AR) | <strong>Check-out:</strong> 11:00 hs (AR)</div>
+                    <div class="card-detail"><strong>Código de reserva:</strong> 25O03-160232</div>
+                    <div class="card-detail"><strong>Incluye:</strong> Desayuno, transfer al aeropuerto y estacionamiento</div>
+                </div>
+            </div>
+            
+            <!-- Transfer to Airport -->
+            <div class="timeline-item transfer">
+                <div class="date">26 de octubre</div>
+                <div class="route">🚐 Traslado al Aeropuerto</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🚐</span>
+                        Transfer Hotel → Ezeiza
+                    </div>
+                    <div class="card-detail">Traslado incluido desde el hotel hacia Aeropuerto Ezeiza</div>
+                </div>
+            </div>
+            
+            <!-- Flight to Madrid -->
+            <div class="timeline-item flight">
+                <div class="date">26 de octubre</div>
+                <div class="route">🛫 Buenos Aires → Madrid</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">✈️</span>
+                        Air Europa - Vuelo UX 42
+                    </div>
+                    <div class="card-detail"><strong>Salida:</strong> 13:15 hs (AR) desde Ezeiza (EZE)</div>
+                    <div class="card-detail"><strong>Llegada:</strong> 27 de octubre, 05:10 hs (ES) en Barajas (MAD)</div>
+                    <div class="card-detail"><strong>Código de reserva:</strong> BIJZHH</div>
+                </div>
+            </div>
+            
+            <!-- Train Madrid to Barcelona -->
+            <div class="timeline-item train">
+                <div class="date">28 de octubre</div>
+                <div class="route">🚆 Madrid → Barcelona</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🚆</span>
+                        iryo - Tren Infinita
+                    </div>
+                    <div class="card-detail"><strong>Salida:</strong> 08:32 hs (ES) desde Madrid-Puerta de Atocha</div>
+                    <div class="card-detail"><strong>Llegada:</strong> 11:09 hs (ES) en Barcelona-Sants</div>
+                    <div class="card-detail"><strong>Coche:</strong> 2 | <strong>Asiento:</strong> 2B</div>
+                    <div class="card-detail"><strong>Localizador:</strong> KS26BZ | <strong>Billete:</strong> 5492854772009</div>
+                    <div class="card-detail"><strong>Precio:</strong> EUR 104,68</div>
+                    <div class="card-detail"><strong>Pasajero:</strong> Rodrigo Falco</div>
+                </div>
+            </div>
+            
+            <!-- Barcelona stay implied -->
+            <div class="timeline-item hotel">
+                <div class="date">28 de octubre</div>
+                <div class="route">🌆 Barcelona (Parada en ruta)</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🌆</span>
+                        Tiempo libre en Barcelona
+                    </div>
+                    <div class="card-detail">Parada de 4 horas y 46 minutos entre trenes</div>
+                </div>
+            </div>
+            
+            <!-- Train Barcelona to Madrid -->
+            <div class="timeline-item train">
+                <div class="date">28 de octubre</div>
+                <div class="route">🚆 Barcelona → Madrid</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🚆</span>
+                        iryo - Tren Inicial Superior
+                    </div>
+                    <div class="card-detail"><strong>Salida:</strong> 15:55 hs (ES) desde Barcelona-Sants</div>
+                    <div class="card-detail"><strong>Llegada:</strong> 18:47 hs (ES) en Madrid-Puerta de Atocha</div>
+                    <div class="card-detail"><strong>Coche:</strong> 5 | <strong>Asiento:</strong> 17B</div>
+                    <div class="card-detail"><strong>Localizador:</strong> TABBPN | <strong>Billete:</strong> 7066569845613</div>
+                    <div class="card-detail"><strong>Precio:</strong> EUR 77,64</div>
+                    <div class="card-detail"><strong>Pasajero:</strong> Rodrigo Falco</div>
+                </div>
+            </div>
+
+            <!-- Hotel in Madrid -->
+            <div class="timeline-item hotel">
+                <div class="date">27-31 de octubre</div>
+                <div class="route">🏠 Alojamiento en Madrid</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">🏠</span>
+                        Airbnb - Calle de Manuela Malasaña
+                    </div>
+                    <div class="card-detail"><strong>Ubicación:</strong> Calle de Manuela Malasaña, 3 - 28004, Madrid</div>
+                    <div class="card-detail"><strong>Check-in:</strong> 16:00 hs (ES) | <strong>Check-out:</strong> 11:00 hs (ES)</div>
+                    <div class="card-detail"><strong>Código de reserva:</strong> HM4PD859JR</div>
+                    <div class="card-detail"><strong>Servicio Radical Storage:</strong> Para guardar valijas durante el check-in y el día de regreso</div>
+                </div>
+            </div>
+            
+            <!-- Return flight to Buenos Aires -->
+            <div class="timeline-item flight">
+                <div class="date">1 de noviembre</div>
+                <div class="route">🛫 Madrid → Buenos Aires</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">✈️</span>
+                        Air Europa - Vuelo UX 42
+                    </div>
+                    <div class="card-detail"><strong>Salida:</strong> 23:55 hs (ES) desde Barajas (MAD)</div>
+                    <div class="card-detail"><strong>Llegada:</strong> 2 de noviembre, 08:50 hs (AR) en Ezeiza (EZE)</div>
+                    <div class="card-detail"><strong>Código de reserva:</strong> BIJZHH</div>
+                </div>
+            </div>
+            
+            <!-- Final flight to Neuquén -->
+            <div class="timeline-item flight">
+                <div class="date">1 de noviembre</div>
+                <div class="route">🛫 Buenos Aires → Neuquén</div>
+                <div class="card">
+                    <div class="card-title">
+                        <span class="icon">✈️</span>
+                        Aerolíneas Argentinas - Vuelo AR1645
+                    </div>
+                    <div class="card-detail"><strong>Salida:</strong> 14:35 hs (AR) desde Ezeiza (EZE)</div>
+                    <div class="card-detail"><strong>Llegada:</strong> 16:35 hs (AR) en Aeropuerto Presidente Perón (NQN)</div>
+                    <div class="card-detail"><strong>Código de reserva:</strong> ATRIDQ</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary -->
+        <div class="summary">
+            <h3>📋 Resumen del Viaje</h3>
+            <div class="summary-item">📍 <strong>Destino:</strong> Madrid, España</div>
+            <div class="summary-item">📅 <strong>Duración:</strong> 8 días</div>
+            <div class="summary-item">🏨 <strong>Noches:</strong> 6 (1 en BS AS + 5 en Madrid)</div>
+            <div class="summary-item">✈️ <strong>Vuelos:</strong> 4 tramos</div>
+        </div>
+        
+        <!-- Timezone Note -->
+        <div class="timezone-note">
+            <strong>⏰ Información de horarios:</strong><br>
+            <strong>AR</strong> = Hora de Argentina (ART, UTC-3)<br>
+            <strong>ES</strong> = Hora de España (CET, UTC+1)<br>
+            La diferencia horaria es de 4 horas (España está 4 horas adelantada)
+        </div>
+    </div>
+</body>
+</html>

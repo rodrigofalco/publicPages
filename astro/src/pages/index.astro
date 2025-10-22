@@ -16,9 +16,20 @@ const withBase = (path: string) => `${baseUrl}${path}`.replace('//', '/');
     <h1>{content.title}</h1>
     <p class="subtitle">{content.subtitle}</p>
 
-    <h2 class="section-title">{content.sections.mermaid.title}</h2>
+    <h2 class="section-title">{content.sections.conceptual.title}</h2>
     <div class="pages-grid">
-        {content.sections.mermaid.cards.map(card => (
+        {content.sections.conceptual.cards.map(card => (
+            <a href={withBase(card.href)} class="page-card">
+                <div class="icon">{card.icon}</div>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
+            </a>
+        ))}
+    </div>
+
+    <h2 class="section-title">{content.sections.architecture.title}</h2>
+    <div class="pages-grid">
+        {content.sections.architecture.cards.map(card => (
             <a href={withBase(card.href)} class="page-card">
                 <div class="icon">{card.icon}</div>
                 <h3>{card.title}</h3>

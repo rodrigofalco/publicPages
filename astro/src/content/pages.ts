@@ -4,22 +4,27 @@ export const pages = {
       title: "📄 Public Pages",
       subtitle: "Interactive visualizations and documentation",
       sections: {
-        mermaid: {
-          title: "🏗️ AI Platform Architecture - Mermaid Diagram",
+        conceptual: {
+          title: "🎨 AI Conceptual Platform",
           cards: [
-            {
-              href: "/mermaid-architecture-platform-ai",
-              icon: "🏗️",
-              title: "AI Platform Architecture",
-              description:
-                "Interactive Mermaid diagram showing the complete AI Platform architecture with zoom and pan functionality. Visualize all layers from user interface to data storage.",
-            },
             {
               href: "/ai-conceptual-platform",
               icon: "🎨",
               title: "AI Conceptual Platform",
               description:
                 "Conceptual diagram of the AI platform architecture showing the interaction between users, services, AI models, and enterprise systems.",
+            },
+          ],
+        },
+        architecture: {
+          title: "🏗️ AI Platform Architecture",
+          cards: [
+            {
+              href: "/mermaid-architecture-platform-ai",
+              icon: "🏗️",
+              title: "AI Platform Architecture",
+              description:
+                "Interactive diagram showing the complete AI Platform architecture with zoom and pan functionality. Visualize all layers from user interface to data storage.",
             },
           ],
         },
@@ -43,22 +48,27 @@ export const pages = {
       title: "📄 Páginas Públicas",
       subtitle: "Visualizaciones interactivas y documentación",
       sections: {
-        mermaid: {
-          title: "🏗️ Arquitectura de Plataforma de IA - Diagrama Mermaid",
+        conceptual: {
+          title: "🎨 Plataforma Conceptual de IA",
           cards: [
-            {
-              href: "/mermaid-arquitectura-plataforma-ai",
-              icon: "🏗️",
-              title: "Arquitectura Plataforma AI",
-              description:
-                "Diagrama interactivo Mermaid que muestra la arquitectura completa de la Plataforma de IA con zoom y desplazamiento. Visualiza todas las capas desde la interfaz de usuario hasta el almacenamiento de datos.",
-            },
             {
               href: "/plataforma-conceptual-ai",
               icon: "🎨",
               title: "Plataforma Conceptual de AI",
               description:
                 "Diagrama conceptual de la arquitectura de la plataforma de AI mostrando la interacción entre usuarios, servicios, modelos de IA y sistemas empresariales.",
+            },
+          ],
+        },
+        architecture: {
+          title: "🏗️ Arquitectura de Plataforma de IA",
+          cards: [
+            {
+              href: "/mermaid-arquitectura-plataforma-ai",
+              icon: "🏗️",
+              title: "Arquitectura Plataforma AI",
+              description:
+                "Diagrama interactivo que muestra la arquitectura completa de la Plataforma de IA con zoom y desplazamiento. Visualiza todas las capas desde la interfaz de usuario hasta el almacenamiento de datos.",
             },
           ],
         },
