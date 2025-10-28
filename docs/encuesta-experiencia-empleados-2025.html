@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Experiencia de Empleados 2025 - Patagonian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #15294b 0%, #046cfc 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(90deg, #15294b 0%, #046cfc 100%);
+            padding: 30px;
+            color: white;
+            position: relative;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-selector a {
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+            font-weight: 600;
+        }
+
+        .language-selector a:hover {
+            color: #f1870d;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #15294b;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #f1870d;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #046cfc;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2em;
+            color: #15294b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #046cfc 0%, #15294b 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 3em;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .metric-label {
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #046cfc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #046cfc;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .recommendations {
+            background: #fff8f0;
+            border-left: 4px solid #f1870d;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .recommendations ul {
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+
+        .recommendations li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        svg {
+            overflow: visible;
+        }
+
+        .bar {
+            transition: opacity 0.3s;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .language-selector {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <a href="https://patagonian.com" target="_blank">
+                    <img src="patagonian_logo_RGB_color-300x58.png" alt="Logo Patagonian">
+                </a>
+            </div>
+            <div class="language-selector">
+                <a href="employee-experience-survey-2025.html">EN</a> |
+                <a href="encuesta-experiencia-empleados-2025.html" class="active">ES</a>
+            </div>
+            <h1>Encuesta de Experiencia de Empleados 2025</h1>
+            <p class="subtitle">Análisis Integral y Principales Hallazgos</p>
+        </header>
+
+        <div class="content">
+            <!-- Resumen Ejecutivo -->
+            <div class="section">
+                <h2>Resumen Ejecutivo</h2>
+                <p>La Encuesta de Experiencia de Empleados 2025 en Patagonian recopiló comentarios de todas las unidades de negocio y roles, enfocándose en liderazgo, pertenencia, inclusión, crecimiento profesional, reconocimiento, comunicación, bienestar, trabajo remoto y compromiso.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">110+</div>
+                        <div class="stat-label">Respuestas Totales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Países</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Pilares Clave</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENPS -->
+            <div class="section">
+                <h2>Índice de Promotores Neto de Empleados (ENPS)</h2>
+
+                <div class="metric-card">
+                    <div class="metric-value">22%</div>
+                    <div class="metric-label">Puntuación ENPS: Positiva, con margen de mejora</div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Distribución ENPS</div>
+                    <div id="enps-chart"></div>
+                </div>
+            </div>
+
+            <!-- Métricas de Compromiso -->
+            <div class="section">
+                <h2>Métricas de Compromiso</h2>
+
+                <div class="chart-container">
+                    <div class="chart-title">Indicadores Clave de Compromiso</div>
+                    <div id="engagement-chart"></div>
+                </div>
+            </div>
+
+            <!-- Análisis por Pilares -->
+            <div class="section">
+                <h2>Análisis por Pilares</h2>
+                <p>Desglose integral de la satisfacción en los pilares organizacionales clave:</p>
+
+                <div class="chart-container">
+                    <div class="chart-title">Puntuaciones de Desempeño por Pilar</div>
+                    <div id="pillar-chart"></div>
+                </div>
+            </div>
+
+            <!-- Hallazgos Detallados -->
+            <div class="section">
+                <h2>Hallazgos Clave por Pilar</h2>
+
+                <h3>Liderazgo</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Métricas de Liderazgo</div>
+                    <div id="leadership-chart"></div>
+                </div>
+
+                <h3>Pertenencia e Inclusión</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Métricas de Pertenencia e Inclusión</div>
+                    <div id="belonging-chart"></div>
+                </div>
+
+                <h3>Crecimiento y Desarrollo Profesional</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Métricas de Desarrollo Profesional</div>
+                    <div id="career-chart"></div>
+                </div>
+
+                <h3>Recompensas y Reconocimiento</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Métricas de Reconocimiento y Compensación</div>
+                    <div id="rewards-chart"></div>
+                </div>
+            </div>
+
+            <!-- Fortalezas y Desafíos -->
+            <div class="section">
+                <h2>Fortalezas y Desafíos</h2>
+
+                <div class="chart-container">
+                    <div class="chart-title">Principales Fortalezas vs. Desafíos Clave</div>
+                    <div id="comparison-chart"></div>
+                </div>
+            </div>
+
+            <!-- Recomendaciones -->
+            <div class="section">
+                <h2>Recomendaciones</h2>
+
+                <div class="recommendations">
+                    <h3>1. Mejorar la Comunicación del Liderazgo</h3>
+                    <ul>
+                        <li>Aumentar la transparencia sobre la estrategia, valores y cambios de la empresa</li>
+                        <li>Realizar sesiones regulares de preguntas y respuestas y publicar actualizaciones del liderazgo</li>
+                    </ul>
+                </div>
+
+                <div class="recommendations">
+                    <h3>2. Fortalecer la Cultura Empresarial</h3>
+                    <ul>
+                        <li>Invertir en actividades de integración entre equipos (virtuales y presenciales)</li>
+                        <li>Revisar y reforzar los valores fundamentales en las operaciones diarias</li>
+                    </ul>
+                </div>
+
+                <div class="recommendations">
+                    <h3>3. Revisar Compensación y Beneficios</h3>
+                    <ul>
+                        <li>Comparar la compensación con los estándares de la industria</li>
+                        <li>Comunicar claramente la filosofía de compensación y los ciclos de revisión</li>
+                    </ul>
+                </div>
+
+                <div class="recommendations">
+                    <h3>4. Ampliar el Desarrollo Profesional</h3>
+                    <ul>
+                        <li>Ofrecer programas de retroalimentación y mentoría más estructurados</li>
+                        <li>Aumentar el acceso a recursos de aprendizaje y movilidad interna</li>
+                    </ul>
+                </div>
+
+                <div class="recommendations">
+                    <h3>5. Reconocimiento y Bienestar</h3>
+                    <ul>
+                        <li>Estandarizar los programas de reconocimiento en todos los equipos</li>
+                        <li>Continuar apoyando las iniciativas de bienestar y los arreglos de trabajo flexibles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tooltip
+        const tooltip = d3.select('body').append('div')
+            .attr('class', 'tooltip');
+
+        // Color palette
+        const colors = {
+            primary: '#046cfc',
+            dark: '#15294b',
+            accent: '#f1870d',
+            positive: '#28a745',
+            warning: '#ffc107',
+            danger: '#dc3545'
+        };
+
+        // ENPS Chart
+        function createENPSChart() {
+            const data = [
+                { category: 'Promotores', value: 43, color: colors.positive },
+                { category: 'Pasivos', value: 36, color: colors.warning },
+                { category: 'Detractores', value: 21, color: colors.danger }
+            ];
+
+            const width = 600;
+            const height = 400;
+            const margin = { top: 20, right: 20, bottom: 60, left: 60 };
+
+            const svg = d3.select('#enps-chart')
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .domain(data.map(d => d.category))
+                .range([0, chartWidth])
+                .padding(0.3);
+
+            const y = d3.scaleLinear()
+                .domain([0, 50])
+                .range([chartHeight, 0]);
+
+            g.selectAll('.bar')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('class', 'bar')
+                .attr('x', d => x(d.category))
+                .attr('y', d => y(d.value))
+                .attr('width', x.bandwidth())
+                .attr('height', d => chartHeight - y(d.value))
+                .attr('fill', d => d.color)
+                .attr('rx', 5)
+                .on('mouseover', function(event, d) {
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.category}</strong><br/>${d.value}%`);
+                })
+                .on('mousemove', function(event) {
+                    tooltip.style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('opacity', 0);
+                });
+
+            // Add value labels on bars
+            g.selectAll('.label')
+                .data(data)
+                .enter()
+                .append('text')
+                .attr('class', 'label')
+                .attr('x', d => x(d.category) + x.bandwidth() / 2)
+                .attr('y', d => y(d.value) - 5)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '18px')
+                .attr('font-weight', 'bold')
+                .attr('fill', d => d.color)
+                .text(d => d.value + '%');
+
+            // X axis
+            g.append('g')
+                .attr('transform', `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .attr('font-size', '12px');
+
+            // Y axis
+            g.append('g')
+                .call(d3.axisLeft(y).tickFormat(d => d + '%'))
+                .selectAll('text')
+                .attr('font-size', '12px');
+        }
+
+        // Engagement Chart
+        function createEngagementChart() {
+            const data = [
+                { metric: 'Se Sienten Motivados', value: 75 },
+                { metric: 'Orgullosos de Trabajar Aquí', value: 82 }
+            ];
+
+            const width = 600;
+            const height = 300;
+            const margin = { top: 20, right: 20, bottom: 60, left: 200 };
+
+            const svg = d3.select('#engagement-chart')
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleLinear()
+                .domain([0, 100])
+                .range([0, chartWidth]);
+
+            const y = d3.scaleBand()
+                .domain(data.map(d => d.metric))
+                .range([0, chartHeight])
+                .padding(0.3);
+
+            g.selectAll('.bar')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('class', 'bar')
+                .attr('x', 0)
+                .attr('y', d => y(d.metric))
+                .attr('width', d => x(d.value))
+                .attr('height', y.bandwidth())
+                .attr('fill', colors.primary)
+                .attr('rx', 5)
+                .on('mouseover', function(event, d) {
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.metric}</strong><br/>${d.value}%`);
+                })
+                .on('mousemove', function(event) {
+                    tooltip.style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('opacity', 0);
+                });
+
+            // Add value labels
+            g.selectAll('.label')
+                .data(data)
+                .enter()
+                .append('text')
+                .attr('x', d => x(d.value) + 10)
+                .attr('y', d => y(d.metric) + y.bandwidth() / 2)
+                .attr('dy', '0.35em')
+                .attr('font-size', '16px')
+                .attr('font-weight', 'bold')
+                .attr('fill', colors.dark)
+                .text(d => d.value + '%');
+
+            // Y axis
+            g.append('g')
+                .call(d3.axisLeft(y))
+                .selectAll('text')
+                .attr('font-size', '12px');
+
+            // X axis
+            g.append('g')
+                .attr('transform', `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x).tickFormat(d => d + '%'))
+                .selectAll('text')
+                .attr('font-size', '12px');
+        }
+
+        // Pillar Chart
+        function createPillarChart() {
+            const data = [
+                { pillar: 'Pertenencia e Inclusión', score: 87 },
+                { pillar: 'Trabajo Remoto', score: 88 },
+                { pillar: 'Crecimiento Profesional', score: 77 },
+                { pillar: 'Reconocimiento', score: 77 },
+                { pillar: 'Bienestar', score: 79 },
+                { pillar: 'Liderazgo', score: 66 },
+                { pillar: 'Comunicación', score: 78 },
+                { pillar: 'Compensación Justa', score: 48 }
+            ].sort((a, b) => b.score - a.score);
+
+            const width = 800;
+            const height = 500;
+            const margin = { top: 20, right: 20, bottom: 120, left: 60 };
+
+            const svg = d3.select('#pillar-chart')
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleBand()
+                .domain(data.map(d => d.pillar))
+                .range([0, chartWidth])
+                .padding(0.2);
+
+            const y = d3.scaleLinear()
+                .domain([0, 100])
+                .range([chartHeight, 0]);
+
+            const colorScale = d3.scaleLinear()
+                .domain([0, 50, 100])
+                .range([colors.danger, colors.warning, colors.positive]);
+
+            g.selectAll('.bar')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('class', 'bar')
+                .attr('x', d => x(d.pillar))
+                .attr('y', d => y(d.score))
+                .attr('width', x.bandwidth())
+                .attr('height', d => chartHeight - y(d.score))
+                .attr('fill', d => colorScale(d.score))
+                .attr('rx', 5)
+                .on('mouseover', function(event, d) {
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.pillar}</strong><br/>Puntuación: ${d.score}%`);
+                })
+                .on('mousemove', function(event) {
+                    tooltip.style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('opacity', 0);
+                });
+
+            // Add value labels
+            g.selectAll('.label')
+                .data(data)
+                .enter()
+                .append('text')
+                .attr('x', d => x(d.pillar) + x.bandwidth() / 2)
+                .attr('y', d => y(d.score) - 5)
+                .attr('text-anchor', 'middle')
+                .attr('font-size', '14px')
+                .attr('font-weight', 'bold')
+                .attr('fill', colors.dark)
+                .text(d => d.score + '%');
+
+            // X axis
+            g.append('g')
+                .attr('transform', `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .attr('transform', 'rotate(-45)')
+                .style('text-anchor', 'end')
+                .attr('dx', '-0.8em')
+                .attr('dy', '0.15em')
+                .attr('font-size', '11px');
+
+            // Y axis
+            g.append('g')
+                .call(d3.axisLeft(y).tickFormat(d => d + '%'))
+                .selectAll('text')
+                .attr('font-size', '12px');
+        }
+
+        // Leadership Chart
+        function createLeadershipChart() {
+            const data = [
+                { metric: 'Confianza en el Liderazgo', value: 65 },
+                { metric: 'Claridad de la Visión', value: 64 },
+                { metric: 'Consistencia con Valores', value: 68 }
+            ];
+
+            createHorizontalBarChart(data, '#leadership-chart', 400);
+        }
+
+        // Belonging Chart
+        function createBelongingChart() {
+            const data = [
+                { metric: 'Pertenencia al Equipo', value: 93 },
+                { metric: 'Trabajo Impactante', value: 87 },
+                { metric: 'Innovación Bienvenida', value: 85 },
+                { metric: 'Expresar Opiniones', value: 84 },
+                { metric: 'Diversidad Valorada', value: 84 }
+            ];
+
+            createHorizontalBarChart(data, '#belonging-chart', 450);
+        }
+
+        // Career Chart
+        function createCareerChart() {
+            const data = [
+                { metric: 'Claridad del Rol', value: 87 },
+                { metric: 'Oportunidades de Aprendizaje', value: 74 },
+                { metric: 'Retroalimentación Regular', value: 69 }
+            ];
+
+            createHorizontalBarChart(data, '#career-chart', 400);
+        }
+
+        // Rewards Chart
+        function createRewardsChart() {
+            const data = [
+                { metric: 'Reconocimiento por Desempeño', value: 77 },
+                { metric: 'Sentirse Valorado', value: 71 },
+                { metric: 'Compensación Justa', value: 48 }
+            ];
+
+            createHorizontalBarChart(data, '#rewards-chart', 400);
+        }
+
+        // Generic Horizontal Bar Chart
+        function createHorizontalBarChart(data, selector, chartHeight) {
+            const width = 700;
+            const height = chartHeight;
+            const margin = { top: 20, right: 60, bottom: 40, left: 220 };
+
+            const svg = d3.select(selector)
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            const chartWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top - margin.bottom;
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleLinear()
+                .domain([0, 100])
+                .range([0, chartWidth]);
+
+            const y = d3.scaleBand()
+                .domain(data.map(d => d.metric))
+                .range([0, innerHeight])
+                .padding(0.25);
+
+            const colorScale = d3.scaleLinear()
+                .domain([0, 50, 100])
+                .range([colors.danger, colors.warning, colors.positive]);
+
+            g.selectAll('.bar')
+                .data(data)
+                .enter()
+                .append('rect')
+                .attr('class', 'bar')
+                .attr('x', 0)
+                .attr('y', d => y(d.metric))
+                .attr('width', d => x(d.value))
+                .attr('height', y.bandwidth())
+                .attr('fill', d => colorScale(d.value))
+                .attr('rx', 5)
+                .on('mouseover', function(event, d) {
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.metric}</strong><br/>${d.value}%`);
+                })
+                .on('mousemove', function(event) {
+                    tooltip.style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('opacity', 0);
+                });
+
+            // Add value labels
+            g.selectAll('.label')
+                .data(data)
+                .enter()
+                .append('text')
+                .attr('x', d => x(d.value) + 10)
+                .attr('y', d => y(d.metric) + y.bandwidth() / 2)
+                .attr('dy', '0.35em')
+                .attr('font-size', '14px')
+                .attr('font-weight', 'bold')
+                .attr('fill', colors.dark)
+                .text(d => d.value + '%');
+
+            // Y axis
+            g.append('g')
+                .call(d3.axisLeft(y))
+                .selectAll('text')
+                .attr('font-size', '11px');
+
+            // X axis
+            g.append('g')
+                .attr('transform', `translate(0,${innerHeight})`)
+                .call(d3.axisBottom(x).tickFormat(d => d + '%'))
+                .selectAll('text')
+                .attr('font-size', '11px');
+        }
+
+        // Comparison Chart
+        function createComparisonChart() {
+            const strengths = [
+                { item: 'Pertenencia al Equipo', value: 93 },
+                { item: 'Colaboración Remota', value: 88 },
+                { item: 'Pertenencia e Inclusión', value: 87 },
+                { item: 'Trabajo Impactante', value: 87 }
+            ];
+
+            const challenges = [
+                { item: 'Compensación Justa', value: 48 },
+                { item: 'Informado sobre la Empresa', value: 63 },
+                { item: 'Claridad de Visión', value: 64 },
+                { item: 'Confianza en Liderazgo', value: 65 }
+            ];
+
+            const width = 900;
+            const height = 500;
+            const margin = { top: 20, right: 50, bottom: 100, left: 220 };
+
+            const svg = d3.select('#comparison-chart')
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', height)
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .attr('preserveAspectRatio', 'xMidYMid meet');
+
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const g = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Combine data
+            const allData = [
+                ...strengths.map(d => ({ ...d, category: 'Fortaleza' })),
+                ...challenges.map(d => ({ ...d, category: 'Desafío' }))
+            ];
+
+            const x = d3.scaleLinear()
+                .domain([0, 100])
+                .range([0, chartWidth]);
+
+            const y = d3.scaleBand()
+                .domain(allData.map(d => d.item))
+                .range([0, chartHeight])
+                .padding(0.2);
+
+            const colorMap = {
+                'Fortaleza': colors.positive,
+                'Desafío': colors.danger
+            };
+
+            g.selectAll('.bar')
+                .data(allData)
+                .enter()
+                .append('rect')
+                .attr('class', 'bar')
+                .attr('x', 0)
+                .attr('y', d => y(d.item))
+                .attr('width', d => x(d.value))
+                .attr('height', y.bandwidth())
+                .attr('fill', d => colorMap[d.category])
+                .attr('rx', 5)
+                .on('mouseover', function(event, d) {
+                    tooltip.style('opacity', 1)
+                        .html(`<strong>${d.item}</strong><br/>${d.category}: ${d.value}%`);
+                })
+                .on('mousemove', function(event) {
+                    tooltip.style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.style('opacity', 0);
+                });
+
+            // Add value labels
+            g.selectAll('.label')
+                .data(allData)
+                .enter()
+                .append('text')
+                .attr('x', d => x(d.value) + 10)
+                .attr('y', d => y(d.item) + y.bandwidth() / 2)
+                .attr('dy', '0.35em')
+                .attr('font-size', '13px')
+                .attr('font-weight', 'bold')
+                .attr('fill', colors.dark)
+                .text(d => d.value + '%');
+
+            // Y axis
+            g.append('g')
+                .call(d3.axisLeft(y))
+                .selectAll('text')
+                .attr('font-size', '11px')
+                .attr('fill', d => {
+                    const item = allData.find(item => item.item === d);
+                    return item ? colorMap[item.category] : colors.dark;
+                })
+                .attr('font-weight', 'bold');
+
+            // X axis
+            g.append('g')
+                .attr('transform', `translate(0,${chartHeight})`)
+                .call(d3.axisBottom(x).tickFormat(d => d + '%'))
+                .selectAll('text')
+                .attr('font-size', '11px');
+
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${margin.left}, ${height - 30})`);
+
+            const legendData = [
+                { label: 'Principales Fortalezas', color: colors.positive },
+                { label: 'Desafíos Clave', color: colors.danger }
+            ];
+
+            const legendItems = legend.selectAll('.legend-item')
+                .data(legendData)
+                .enter()
+                .append('g')
+                .attr('transform', (d, i) => `translate(${i * 200}, 0)`);
+
+            legendItems.append('rect')
+                .attr('width', 15)
+                .attr('height', 15)
+                .attr('fill', d => d.color)
+                .attr('rx', 3);
+
+            legendItems.append('text')
+                .attr('x', 20)
+                .attr('y', 12)
+                .attr('font-size', '12px')
+                .text(d => d.label);
+        }
+
+        // Initialize all charts
+        createENPSChart();
+        createEngagementChart();
+        createPillarChart();
+        createLeadershipChart();
+        createBelongingChart();
+        createCareerChart();
+        createRewardsChart();
+        createComparisonChart();
+    </script>
+</body>
+</html>
