@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Compras | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+    <style>
+        .shopping-header {
+            background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+        }
+
+        .store-card {
+            background: var(--background-light);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ec4899;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .store-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .store-card.outlet {
+            border-left-color: #8b5cf6;
+        }
+
+        .store-card.mall {
+            border-left-color: #3b82f6;
+        }
+
+        .store-card.discount {
+            border-left-color: #10b981;
+        }
+
+        .store-card.disney-shop {
+            border-left-color: var(--disney-purple);
+        }
+
+        .store-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .store-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .store-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .store-badge.recommended {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .store-badge.outlet-badge {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+
+        .store-badge.mall-badge {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .store-badge.disney-badge {
+            background: linear-gradient(135deg, var(--disney-purple), #a855f7);
+        }
+
+        .store-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .store-description {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .stores-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .store-category {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .store-category h4 {
+            color: #ec4899;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .store-category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .store-category li {
+            padding: 5px 0;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .info-box.green {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-left-color: #10b981;
+        }
+
+        .info-box.blue {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left-color: #3b82f6;
+        }
+
+        .info-box.purple {
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            border-left-color: #8b5cf6;
+        }
+
+        .distance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .distance-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .distance-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ec4899;
+        }
+
+        .distance-card.universal h4 {
+            border-bottom-color: var(--universal-blue);
+        }
+
+        .distance-card.disney h4 {
+            border-bottom-color: var(--disney-purple);
+        }
+
+        .distance-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e5e7eb;
+        }
+
+        .distance-item:last-child {
+            border-bottom: none;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .tip-card h4 {
+            color: #ec4899;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            border-bottom: 1px solid #f3e8ff;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .hours-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f3f4f6;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #4b5563;
+            margin-top: 10px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tax-info {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .tax-info h4 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <header class="shopping-header">
+            <h1>Guia de Compras en Orlando</h1>
+            <p class="subtitle">Outlets, Malls y Tiendas de Descuento</p>
+            <span class="dates">Abril 2026</span>
+        </header>
+
+        <!-- Resumen -->
+        <section>
+            <h2>Resumen</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-dark);">
+                Orlando es uno de los mejores destinos de compras en Estados Unidos. Con outlets premium, malls de lujo y tiendas de descuento como Ross, hay opciones para todos los presupuestos. Esta guia organiza las opciones por cercania a los hoteles donde se hospedaran.
+            </p>
+
+            <div class="tax-info">
+                <h4>Beneficio Fiscal en Florida</h4>
+                <p><strong>NO hay impuesto (tax) en ropa y calzado bajo $75 USD.</strong> Solo Florida tiene este beneficio. El impuesto general es 6.5% y no esta incluido en los precios mostrados.</p>
+            </div>
+        </section>
+
+        <!-- The Loop - Recomendado -->
+        <section>
+            <h2>Tiendas de Descuento</h2>
+
+            <div class="store-card discount">
+                <div class="store-header">
+                    <span class="store-name">The Loop & The Loop West</span>
+                    <span class="store-badge recommended">RECOMENDADO</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> 3208 N John Young Pkwy, Kissimmee, FL 34741
+                </div>
+                <div class="store-description">
+                    Centro comercial al aire libre de ~840,000 pies cuadrados, muy cerca de Disney World. Ideal para compras economicas con tiendas de descuento y precios mas bajos que los outlets premium.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Tienda Destacada</h4>
+                        <ul>
+                            <li><strong>Ross Dress for Less</strong></li>
+                            <li>Ropa de marca 20-60% menos</li>
+                            <li>Articulos del hogar</li>
+                            <li>Calzado y accesorios</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Otras Tiendas</h4>
+                        <ul>
+                            <li>Kohl's</li>
+                            <li>JCPenney</li>
+                            <li>Target</li>
+                            <li>Old Navy</li>
+                            <li>Marshalls</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Restaurantes</h4>
+                        <ul>
+                            <li>Panera Bread</li>
+                            <li>Johnny Rockets</li>
+                            <li>Chili's</li>
+                            <li>Olive Garden</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Entretenimiento</h4>
+                        <ul>
+                            <li>Regal Cinema 16</li>
+                            <li>Estacionamiento gratuito</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box green">
+                    <strong>Por que ir a The Loop:</strong> Precios mas bajos que outlets premium. Ross es excelente para encontrar marcas de ropa a precios muy reducidos. Ideal para ropa casual, articulos del hogar y electronica basica.
+                </div>
+
+                <div class="tip-card">
+                    <h4>Tips para Ross Dress for Less</h4>
+                    <ul style="padding-left: 20px; margin: 0;">
+                        <li>Ir con tiempo - hay que buscar entre los racks</li>
+                        <li>Los mejores hallazgos estan en estanterias del fondo</li>
+                        <li>Buscar etiquetas "Red Tag" para descuentos adicionales</li>
+                        <li>Ir temprano cuando reponen mercaderia</li>
+                        <li>Revisar seccion de zapatos - excelentes ofertas</li>
+                    </ul>
+                </div>
+
+                <div class="hours-badge">
+                    🕐 Lunes-Sabado 10:00-21:00 | Domingo 11:00-19:00
+                </div>
+            </div>
+        </section>
+
+        <!-- Outlets Premium -->
+        <section>
+            <h2>Outlets Premium</h2>
+
+            <!-- Orlando International Premium Outlets -->
+            <div class="store-card outlet">
+                <div class="store-header">
+                    <span class="store-name">Orlando International Premium Outlets</span>
+                    <span class="store-badge outlet-badge">+180 Tiendas</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> 4951 International Dr, Orlando, FL 32819
+                </div>
+                <div class="store-description">
+                    El outlet mas grande de Florida. Ubicado en International Drive, a solo 3 millas de Universal Studios y 10 millas de Disney World. Descuentos de 25%-65% todos los dias.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Deportivas</h4>
+                        <ul>
+                            <li>Nike Factory Store</li>
+                            <li>Adidas Outlet</li>
+                            <li>Under Armour</li>
+                            <li>Puma</li>
+                            <li>New Balance</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Moda</h4>
+                        <ul>
+                            <li>Tommy Hilfiger</li>
+                            <li>Calvin Klein</li>
+                            <li>Polo Ralph Lauren</li>
+                            <li>Levi's Outlet</li>
+                            <li>Gap Factory</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Accesorios</h4>
+                        <ul>
+                            <li>Kate Spade</li>
+                            <li>Coach</li>
+                            <li>Michael Kors</li>
+                            <li>Saks OFF Fifth</li>
+                            <li>Sunglass Hut</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Especiales</h4>
+                        <ul>
+                            <li><strong>Disney Character Warehouse</strong></li>
+                            <li>Victoria's Secret</li>
+                            <li>Bath & Body Works</li>
+                            <li>H&M</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box purple">
+                    <strong>Disney Character Warehouse:</strong> Tienda con merchandise oficial de Disney con grandes descuentos. Excelente para souvenirs a mejor precio que en los parques.
+                </div>
+
+                <div class="info-box blue">
+                    <strong>Tips:</strong> Ir temprano (10 AM) para evitar multitudes. El iRide Trolley tiene parada aqui. Pedir libro de cupones en el centro de informacion.
+                </div>
+
+                <div class="hours-badge">
+                    🕐 Lunes-Sabado 10:00-21:00 | Domingo 11:00-19:00
+                </div>
+            </div>
+
+            <!-- Orlando Vineland Premium Outlets -->
+            <div class="store-card outlet">
+                <div class="store-header">
+                    <span class="store-name">Orlando Vineland Premium Outlets</span>
+                    <span class="store-badge outlet-badge">+160 Tiendas</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> 8200 Vineland Ave, Orlando, FL 32821 (cerca de Disney)
+                </div>
+                <div class="store-description">
+                    Outlet con diseno de villa mediterranea. Mas de 160 tiendas de marcas populares. Menos concurrido que International.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Deportivas</h4>
+                        <ul>
+                            <li>Nike</li>
+                            <li>Adidas</li>
+                            <li>Under Armour</li>
+                            <li>Lululemon</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Moda</h4>
+                        <ul>
+                            <li>Levi's</li>
+                            <li>Tommy Hilfiger</li>
+                            <li>Calvin Klein</li>
+                            <li>Gap Factory</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Accesorios</h4>
+                        <ul>
+                            <li>Coach</li>
+                            <li>Kate Spade</li>
+                            <li>Michael Kors</li>
+                            <li>Sunglass Hut</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box green">
+                    <strong>Ventaja:</strong> Menos concurrido que International. Diseno al aire libre estilo villa mediterranea. Muy cerca de Disney.
+                </div>
+
+                <div class="hours-badge">
+                    🕐 Lunes-Sabado 10:00-21:00 | Domingo 11:00-19:00
+                </div>
+            </div>
+
+            <!-- Lake Buena Vista Factory Stores -->
+            <div class="store-card outlet">
+                <div class="store-header">
+                    <span class="store-name">Lake Buena Vista Factory Stores</span>
+                    <span class="store-badge outlet-badge">Cerca Disney</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> 15657 S Apopka Vineland Rd, Orlando, FL 32821
+                </div>
+                <div class="store-description">
+                    A menos de 2 millas de Disney World. Outlet mas pequeno (~50 tiendas) pero menos concurrido. Estacionamiento frente a las tiendas.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Tiendas</h4>
+                        <ul>
+                            <li>Nike Factory Store</li>
+                            <li>Old Navy Outlet</li>
+                            <li>Aeropostale</li>
+                            <li>Carter's</li>
+                            <li>Gap Outlet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box green">
+                    <strong>Ventaja:</strong> Mucho menos concurrido que los Premium Outlets. Rapido de recorrer. Ideal para una visita corta si no quieren pasar todo el dia comprando.
+                </div>
+            </div>
+        </section>
+
+        <!-- Malls -->
+        <section>
+            <h2>Centros Comerciales (Malls)</h2>
+
+            <!-- The Mall at Millenia -->
+            <div class="store-card mall">
+                <div class="store-header">
+                    <span class="store-name">The Mall at Millenia</span>
+                    <span class="store-badge mall-badge">Con A/C</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> 4200 Conroy Rd, Orlando, FL 32839
+                </div>
+                <div class="store-description">
+                    Mall elegante con mas de 150 tiendas. Completamente climatizado (aire acondicionado) - ideal para escapar del calor de Florida.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Tiendas Ancla</h4>
+                        <ul>
+                            <li>Bloomingdale's</li>
+                            <li>Macy's</li>
+                            <li>Nordstrom</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Tecnologia</h4>
+                        <ul>
+                            <li>Apple Store</li>
+                            <li>Microsoft</li>
+                            <li>Best Buy</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Moda</h4>
+                        <ul>
+                            <li>H&M</li>
+                            <li>Zara</li>
+                            <li>Banana Republic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box blue">
+                    <strong>Ventaja:</strong> Completamente climatizado. 7 restaurantes. Ideal para descansar del calor y caminar con A/C.
+                </div>
+            </div>
+
+            <!-- The Florida Mall -->
+            <div class="store-card mall">
+                <div class="store-header">
+                    <span class="store-name">The Florida Mall</span>
+                    <span class="store-badge mall-badge">Mas Grande</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> 8001 S Orange Blossom Trail, Orlando, FL 32809
+                </div>
+                <div class="store-description">
+                    El mall mas grande del centro de Florida: 1.8 millones de pies cuadrados con mas de 250 tiendas y 25 restaurantes.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Tiendas Ancla</h4>
+                        <ul>
+                            <li>Macy's</li>
+                            <li>JCPenney</li>
+                            <li>Dillard's</li>
+                            <li>Sears</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Atracciones</h4>
+                        <ul>
+                            <li><strong>The Crayola Experience</strong></li>
+                            <li><strong>American Girl Store</strong></li>
+                            <li><strong>M&M's World</strong></li>
+                            <li>LEGO Store</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>Ideal para familias:</strong> Las atracciones interactivas (Crayola, M&M's World) lo hacen perfecto si viajan con ninos. M&M's World es una de solo 5 tiendas en el mundo.
+                </div>
+            </div>
+        </section>
+
+        <!-- Disney Springs -->
+        <section>
+            <h2>Disney Springs</h2>
+
+            <div class="store-card disney-shop">
+                <div class="store-header">
+                    <span class="store-name">Disney Springs</span>
+                    <span class="store-badge disney-badge">Entrada Gratuita</span>
+                </div>
+                <div class="store-location">
+                    <span>📍</span> Walt Disney World Resort - No requiere entrada al parque
+                </div>
+                <div class="store-description">
+                    Mas que un centro comercial - es un area completa de entretenimiento, compras y restaurantes dentro de Disney World. Entrada y estacionamiento gratuitos.
+                </div>
+
+                <div class="stores-list">
+                    <div class="store-category">
+                        <h4>Tiendas Disney</h4>
+                        <ul>
+                            <li><strong>World of Disney</strong> (la mas grande del mundo)</li>
+                            <li>Disney Style</li>
+                            <li>The LEGO Store</li>
+                            <li>Marvel Super Hero HQ</li>
+                            <li>Star Wars Galactic Outpost</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Moda</h4>
+                        <ul>
+                            <li>Uniqlo</li>
+                            <li>Zara</li>
+                            <li>Sephora</li>
+                            <li>Kate Spade</li>
+                            <li>Pandora</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Especiales</h4>
+                        <ul>
+                            <li>Basin (productos de bano)</li>
+                            <li>The Art of Disney</li>
+                            <li>Goofy's Candy Company</li>
+                            <li>Sugarboo & Co.</li>
+                        </ul>
+                    </div>
+                    <div class="store-category">
+                        <h4>Entretenimiento</h4>
+                        <ul>
+                            <li>Cirque du Soleil</li>
+                            <li>AMC Theatres</li>
+                            <li>Splitsville (bowling)</li>
+                            <li>NBA Experience</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box purple">
+                    <strong>World of Disney:</strong> La tienda de Disney mas grande del mundo. Merchandise de todos los parques, peliculas y series Disney. Imprescindible para souvenirs.
+                </div>
+
+                <div class="info-box green">
+                    <strong>Tip:</strong> Planificar visita para la tarde/noche - el ambiente con las luces es magico. Hay decenas de restaurantes para cenar.
+                </div>
+            </div>
+        </section>
+
+        <!-- Ubicaciones por Cercania -->
+        <section>
+            <h2>Ubicaciones por Cercania</h2>
+            <p style="margin-bottom: 20px;">Organizado segun donde estaran hospedados durante el viaje:</p>
+
+            <div class="distance-grid">
+                <div class="distance-card universal">
+                    <h4>Cerca de Universal (Abr 13-18)</h4>
+                    <div class="distance-item">
+                        <span>Orlando Int'l Premium Outlets</span>
+                        <strong>3 millas</strong>
+                    </div>
+                    <div class="distance-item">
+                        <span>The Mall at Millenia</span>
+                        <strong>5 millas</strong>
+                    </div>
+                    <div class="distance-item">
+                        <span>The Florida Mall</span>
+                        <strong>12 millas</strong>
+                    </div>
+                </div>
+
+                <div class="distance-card disney">
+                    <h4>Cerca de Disney (Abr 18-24)</h4>
+                    <div class="distance-item">
+                        <span>Disney Springs</span>
+                        <strong>En el resort</strong>
+                    </div>
+                    <div class="distance-item">
+                        <span>Orlando Vineland Outlets</span>
+                        <strong>5 min</strong>
+                    </div>
+                    <div class="distance-item">
+                        <span>The Loop Kissimmee</span>
+                        <strong>10-15 min</strong>
+                    </div>
+                    <div class="distance-item">
+                        <span>Lake Buena Vista Factory</span>
+                        <strong>2 millas</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips Generales -->
+        <section>
+            <h2>Tips Generales de Compras</h2>
+
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">📅</span>
+                    <div class="tip-text">
+                        <strong>Mejores dias:</strong> Martes a jueves por la manana. Evitar sabados y domingos (muy lleno).
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">📱</span>
+                    <div class="tip-text">
+                        <strong>Apps:</strong> Descargar app Simon Premium Outlets para cupones extra. Registrarse en VIP Club.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🎫</span>
+                    <div class="tip-text">
+                        <strong>Coupon Book:</strong> Pedir libro de cupones gratis en centros de informacion de outlets.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🛂</span>
+                    <div class="tip-text">
+                        <strong>Turistas:</strong> Llevar pasaporte para descuentos adicionales en algunos outlets.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">💵</span>
+                    <div class="tip-text">
+                        <strong>Aduana Argentina:</strong> Limite de $500 USD sin pagar impuestos. Guardar recibos.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">👟</span>
+                    <div class="tip-text">
+                        <strong>Calzado:</strong> Usar zapatos muy comodos. Los outlets son grandes.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">💧</span>
+                    <div class="tip-text">
+                        <strong>Hidratacion:</strong> Llevar agua. Los outlets al aire libre + calor de Florida = deshidratacion.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🛒</span>
+                    <div class="tip-text">
+                        <strong>Comparar precios:</strong> Revisar Amazon antes de comprar para asegurar buen precio.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checklist -->
+        <section>
+            <h2>Checklist Pre-Compras</h2>
+            <ul class="checklist">
+                <li>Revisar espacio disponible en maletas</li>
+                <li>Definir presupuesto maximo de compras</li>
+                <li>Hacer lista de articulos prioritarios</li>
+                <li>Descargar app Simon Premium Outlets</li>
+                <li>Llevar bolsas reutilizables grandes</li>
+                <li>Tener pasaporte a mano para descuentos</li>
+                <li>Cargar celular (para cupones digitales)</li>
+                <li>Llevar botella de agua</li>
+            </ul>
+        </section>
+
+        <!-- Link a Guitarras -->
+        <section>
+            <h2>Compras Especiales</h2>
+            <div class="store-card" style="border-left-color: #f59e0b; text-align: center;">
+                <div class="store-header" style="justify-content: center;">
+                    <span class="store-name">Guitarras - Gibson Les Paul</span>
+                </div>
+                <p style="margin: 15px 0;">Guia completa para comprar una Gibson Les Paul en Orlando y Miami. Incluye tiendas especializadas, precios, tips de negociacion y checklist de prueba.</p>
+                <a href="guitarras.html" style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #fbbf24); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; margin-top: 10px;">
+                    Ver Guia de Guitarras →
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>Guia de Compras - Orlando 2026</p>
+            <p>Rodrigo Falco & Mariangeles Martinez</p>
+            <p style="margin-top: 10px;">
+                <a href="index.html" style="color: white; text-decoration: none;">← Volver al Itinerario Principal</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

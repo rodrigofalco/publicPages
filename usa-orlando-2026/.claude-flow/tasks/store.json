@@ -1,0 +1,74 @@
+{
+  "tasks": {
+    "task-1768679502230-xowzqu": {
+      "taskId": "task-1768679502230-xowzqu",
+      "type": "feature",
+      "description": "Create static website with trip itinerary for Orlando 2026 vacation. Display flight info, hotel reservations, park tickets, and daily schedule. All content in Spanish.",
+      "priority": "high",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [],
+      "tags": [
+        "website",
+        "html",
+        "css",
+        "spanish",
+        "travel",
+        "itinerary"
+      ],
+      "createdAt": "2026-01-17T19:51:42.230Z",
+      "startedAt": null,
+      "completedAt": "2026-01-17T19:54:57.117Z",
+      "result": {
+        "status": "completed",
+        "files_created": [
+          "itinerario/index.html",
+          "itinerario/styles.css"
+        ],
+        "features": [
+          "Flight information with all 4 segments",
+          "Universal Orlando hotel and tickets details",
+          "Disney World hotel and tickets details",
+          "14-day daily itinerary with activities",
+          "Reservation summary table",
+          "Useful contacts section",
+          "Travel tips section",
+          "Responsive design",
+          "Navigation with smooth scrolling",
+          "All content in Spanish"
+        ]
+      }
+    },
+    "task-1768681011315-224d21": {
+      "taskId": "task-1768681011315-224d21",
+      "type": "research",
+      "description": "Research Gibson Les Paul Standard guitar purchasing options in Orlando, Florida. Find music stores, compare prices, identify alternatives (Epiphone Les Paul, PRS, etc.), and create comprehensive documentation at documentation/research/guitar-buying.md",
+      "priority": "normal",
+      "status": "completed",
+      "progress": 100,
+      "assignedTo": [
+        "research-lead",
+        "web-searcher",
+        "price-analyst",
+        "documenter"
+      ],
+      "tags": [
+        "research",
+        "shopping",
+        "guitar",
+        "orlando",
+        "trip-planning"
+      ],
+      "createdAt": "2026-01-17T20:16:51.315Z",
+      "startedAt": null,
+      "completedAt": "2026-01-17T20:20:24.173Z",
+      "result": {
+        "status": "completed",
+        "documentation": "documentation/research/guitar-buying.md",
+        "stores_found": 6,
+        "alternatives_researched": 3
+      }
+    }
+  },
+  "version": "3.0.0"
+}

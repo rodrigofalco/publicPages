@@ -60,18 +60,94 @@ All pages include:
 - Patagonian logo linking to https://patagonian.com
 - Responsive design for mobile/tablet/desktop
 
+## Development Workflows
+
+### Static HTML Development
+The `docs/` directory contains pure static HTML files that can be edited directly. No build process is required - changes are immediately reflected when served locally.
+
+**Local testing:** Open HTML files directly in a browser or use a simple HTTP server:
+```bash
+# Using Python
+python -m http.server 8000 --directory docs/
+
+# Using Node.js
+npx serve docs/
+```
+
+### Astro Development (Modern Version)
+The `astro/` directory contains a modern Astro-based version with reusable components and better maintainability.
+
+**Common commands:**
+```bash
+cd astro
+npm run dev          # Start development server (http://localhost:4321)
+npm run build        # Build static site to `dist/` directory
+npm run preview      # Preview built site locally
+```
+
+**Astro project structure:**
+- `src/layouts/BaseLayout.astro` - Main layout with Patagonian branding
+- `src/components/` - Reusable components (LanguageSelector, MermaidDiagram)
+- `src/pages/` - Page files (.astro) that compile to static HTML
+- `public/` - Static assets (logo, images)
+- `dist/` - Built output (after `npm run build`)
+
 ## Deployment
 
-The site auto-deploys via GitHub Actions on every push to the `main` branch.
+The site uses dual deployment workflows:
 
+### 1. Static HTML Deployment
 **Workflow:** [.github/workflows/static.yml](.github/workflows/static.yml)
+- Triggers on changes to `docs/**` files
+- Deploys static content directly to GitHub Pages
+- No build process required
 
-To manually trigger deployment:
+### 2. Astro Build Deployment
+**Workflow:** [.github/workflows/astro-deploy.yml](.github/workflows/astro-deploy.yml)
+- Triggers on changes to `astro/**` files
+- Builds Astro site with `npm run build`
+- Commits built files to `docs/` directory
+- Then triggers static deployment workflow
+
+**To manually trigger deployment:**
 1. Go to Actions tab in GitHub
-2. Select "Deploy static content to Pages"
+2. Select "Deploy static content to Pages" (for static files) or "Deploy Astro to GitHub Pages" (for Astro builds)
 3. Click "Run workflow"
 
-No build process is required - all pages are static HTML with inline CSS and JavaScript.
+## Testing
+
+This project does not have automated tests due to its static nature. Testing is done manually:
+
+1. **Visual testing:** Open pages in browser and verify layout, responsiveness
+2. **Interactive testing:** Test Mermaid diagram zoom/pan functionality
+3. **Cross-browser testing:** Verify compatibility across Chrome, Firefox, Safari
+4. **Mobile testing:** Test responsive design on various screen sizes
+
+For the Astro version, development server provides hot reload for rapid iteration.
+
+## Code Architecture Patterns
+
+### Bilingual Structure
+All pages follow a consistent bilingual pattern:
+- English files: `page-name.html` or `page-name.astro`
+- Spanish files: `nombre-pagina.html` or `nombre-pagina.astro`
+- Language selector component provides navigation between versions
+
+### Component Reuse (Astro Version)
+- **BaseLayout.astro:** Central layout with branding, header, footer
+- **MermaidDiagram.astro:** Interactive diagram with zoom/pan functionality
+- **LanguageSelector.astro:** Bilingual navigation component
+
+### Static vs Dynamic Approach
+- **Static HTML (`docs/`):** Direct editing, no build step, simple deployment
+- **Astro (`astro/`):** Component-based, build step, better maintainability
+- Both approaches deploy to same `docs/` directory for GitHub Pages
+
+### Mermaid Diagram Integration
+Diagrams are stored as `.mermaid` files in `diagram/` directory and rendered with:
+- Interactive zoom/pan via custom JavaScript
+- Responsive sizing for different screen sizes
+- Consistent styling with Patagonian branding
 
 ## Adding New Pages
 
@@ -86,12 +162,45 @@ When creating new visualization pages:
 5. Update both [index.html](docs/index.html) and [index-es.html](docs/index-es.html) with navigation links
 6. For Mermaid diagrams, store source `.mermaid` files in [diagram/](diagram/) directory
 
+## Working with Dual Codebase
+
+This repository maintains two parallel implementations:
+
+### Static HTML (`docs/` directory)
+- **Purpose:** Production deployment, simple edits, quick fixes
+- **Editing:** Direct file modifications
+- **Deployment:** Changes to `docs/` trigger immediate GitHub Pages deployment
+- **Use when:** Making small content changes, fixing typos, adding simple pages
+
+### Astro Version (`astro/` directory)
+- **Purpose:** Modern development, component reuse, better maintainability
+- **Editing:** Component-based development with `npm run dev`
+- **Deployment:** Changes to `astro/` trigger build and commit to `docs/`
+- **Use when:** Creating new features, refactoring, improving architecture
+
+### Migration Strategy
+When migrating from static HTML to Astro:
+1. Create corresponding `.astro` file in `astro/src/pages/`
+2. Extract common elements to `BaseLayout.astro`
+3. Move diagram logic to `MermaidDiagram.astro` component
+4. Build with `npm run build` in `astro/` directory
+5. Built files automatically deploy to `docs/` via GitHub Actions
+
 ## Technology Stack
 
+### Static HTML Version
 - **Pure HTML/CSS/JavaScript** - No build tools or package managers
 - **Mermaid.js** - Architecture diagram rendering (CDN: https://cdn.jsdelivr.net/npm/mermaid)
 - **D3.js v7.8.5** - Interactive data visualizations (CDN: https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js)
-- **GitHub Pages** - Static hosting
+
+### Astro Version
+- **Astro 5.14.1** - Static site generator with component architecture
+- **Mermaid.js 11.12.0** - Local npm package for diagram rendering
+- **TypeScript** - Type safety in components
+- **Node.js 20+** - Development environment
+
+### Hosting
+- **GitHub Pages** - Static hosting from `docs/` directory
 
 ## AI Platform Architecture
 

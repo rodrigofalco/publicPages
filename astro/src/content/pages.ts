@@ -40,6 +40,18 @@ export const pages = {
             },
           ],
         },
+        travel: {
+          title: "✈️ Travel Itineraries",
+          cards: [
+            {
+              href: "/orlando-2026-itinerary",
+              icon: "🏰",
+              title: "Orlando 2026 Trip",
+              description:
+                "Complete itinerary for Orlando, Florida vacation in April 2026. Universal and Disney theme parks planning (Available in English and Spanish).",
+            },
+          ],
+        },
       },
     },
   },
@@ -81,6 +93,18 @@ export const pages = {
               title: "Panel D3.js de IA",
               description:
                 "Panel interactivo D3.js para visualización de arquitectura de IA con capacidades dinámicas de exploración de datos.",
+            },
+          ],
+        },
+        travel: {
+          title: "✈️ Itinerarios de Viaje",
+          cards: [
+            {
+              href: "/orlando-2026-itinerario",
+              icon: "🏰",
+              title: "Viaje a Orlando 2026",
+              description:
+                "Itinerario completo para vacaciones en Orlando, Florida en abril 2026. Planificación de parques temáticos Universal y Disney (Disponible en inglés y español).",
             },
           ],
         },

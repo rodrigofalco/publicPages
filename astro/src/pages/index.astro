@@ -48,6 +48,17 @@ const withBase = (path: string) => `${baseUrl}${path}`.replace('//', '/');
             </a>
         ))}
     </div>
+
+    <h2 class="section-title">{content.sections.travel.title}</h2>
+    <div class="pages-grid">
+        {content.sections.travel.cards.map(card => (
+            <a href={withBase(card.href)} class="page-card">
+                <div class="icon">{card.icon}</div>
+                <h3>{card.title}</h3>
+                <p>{card.description}</p>
+            </a>
+        ))}
+    </div>
 </BaseLayout>
 
 <style>

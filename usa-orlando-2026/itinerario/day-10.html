@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 10 - Descanso y Disney Springs | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+    <style>
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid #10b981;
+            transition: transform 0.2s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(5px);
+        }
+
+        .time-block.shopping {
+            border-left-color: var(--disney-purple);
+            background: linear-gradient(135deg, rgba(123, 45, 142, 0.1) 0%, var(--background-light) 100%);
+        }
+
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+
+        .time-block.rest {
+            border-left-color: #06b6d4;
+            background: linear-gradient(135deg, #ecfeff 0%, var(--background-light) 100%);
+        }
+
+        .time-column {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .time-period {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-location {
+            font-size: 0.9rem;
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .activity-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .activity-tips {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .activity-tips strong {
+            color: #10b981;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.relax {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .badge.shopping-badge {
+            background: var(--disney-purple);
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <header>
+            <h1>Dia 10 - Descanso y Disney Springs</h1>
+            <p class="subtitle">Martes 21 de Abril, 2026</p>
+            <span class="dates">Dia de recuperacion entre parques</span>
+        </header>
+
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">😴</div>
+                    <div class="summary-label">Sin Alarmas</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">🏊</div>
+                    <div class="summary-label">Piscina</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">🛍️</div>
+                    <div class="summary-label">Disney Springs</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">Relax</div>
+                    <div class="summary-label">Descanso Total</div>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>Itinerario Flexible</h2>
+            <p style="color: var(--text-light); margin-bottom: 25px;">
+                Este dia es para recuperar energia despues de Magic Kingdom y EPCOT. Sin horarios estrictos - disfruten a su ritmo.
+            </p>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">9:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge relax">Descanso</span>
+                        Despertar Natural
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney's Pop Century Resort
+                    </div>
+                    <div class="activity-description">
+                        Despues de dos dias intensos de parques, dormir lo que el cuerpo necesite. Sin alarmas, sin apuros.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">10:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Desayuno Tranquilo
+                    </div>
+                    <div class="activity-location">
+                        📍 Everything POP Food Court
+                    </div>
+                    <div class="activity-description">
+                        El food court del hotel tiene opciones de desayuno:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Huevos y bacon</li>
+                            <li>Waffles Mickey</li>
+                            <li>Pastries y muffins</li>
+                            <li>Fruit y yogurt</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">11:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge relax">Pool Time</span>
+                        Piscina Hippy Dippy
+                    </div>
+                    <div class="activity-location">
+                        📍 Pop Century - Hippy Dippy Pool
+                    </div>
+                    <div class="activity-description">
+                        La piscina principal del hotel con forma de flor de los años 60. Perfecta para relajarse:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Tumbonas y sombrillas disponibles</li>
+                            <li>Toallas en la habitacion</li>
+                            <li>Petals Pool Bar para bebidas y snacks</li>
+                            <li>Area de ninos y jacuzzi</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Las mañanas son menos concurridas. Aplicar protector solar frecuentemente.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">13:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Almuerzo
+                    </div>
+                    <div class="activity-location">
+                        📍 Hotel o camino a Disney Springs
+                    </div>
+                    <div class="activity-description">
+                        Opciones:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Everything POP:</strong> Pizza, burgers, sandwiches en el hotel</li>
+                            <li><strong>Esperar a Disney Springs:</strong> Almorzar alla con mas opciones</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">14:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Descanso / Siesta
+                    </div>
+                    <div class="activity-location">
+                        📍 Habitacion
+                    </div>
+                    <div class="activity-description">
+                        Tomar una siesta corta o simplemente relajarse en la habitacion antes de ir a Disney Springs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block shopping">
+                <div class="time-column">
+                    <div class="time-value">16:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge shopping-badge">Compras</span>
+                        Disney Springs
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney Springs (bus gratuito desde el hotel)
+                    </div>
+                    <div class="activity-description">
+                        El centro de entretenimiento y compras de Disney World con mas de 100 tiendas y restaurantes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block shopping">
+                <div class="time-column">
+                    <div class="time-value">16:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        World of Disney
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney Springs - Marketplace
+                    </div>
+                    <div class="activity-description">
+                        La tienda de Disney mas grande del mundo! 12 salas tematicas con todo tipo de merchandising Disney:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Ropa y accesorios</li>
+                            <li>Juguetes y peluches</li>
+                            <li>Decoracion para el hogar</li>
+                            <li>Articulos de coleccion</li>
+                            <li>Ears (orejas de Mickey) de todos los estilos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block shopping">
+                <div class="time-column">
+                    <div class="time-value">17:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Otras Tiendas Destacadas
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney Springs
+                    </div>
+                    <div class="activity-description">
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>The LEGO Store:</strong> Figuras gigantes de LEGO, Pick-a-Brick wall</li>
+                            <li><strong>Star Wars Trading Post:</strong> Merchandising de Star Wars</li>
+                            <li><strong>Uniqlo:</strong> Ropa con colaboraciones Disney exclusivas</li>
+                            <li><strong>Basin:</strong> Productos de baño artesanales</li>
+                            <li><strong>Sugarboo & Co:</strong> Decoracion vintage y regalos</li>
+                            <li><strong>Ever After Jewelry:</strong> Joyas con temas Disney</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">19:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Cena en Disney Springs
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney Springs
+                    </div>
+                    <div class="activity-description">
+                        Opciones para todos los gustos y presupuestos:
+                        <br><br>
+                        <strong>Casual ($15-25):</strong>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>D-Luxe Burger - Hamburguesas gourmet</li>
+                            <li>Blaze Pizza - Pizza personalizada</li>
+                            <li>Earl of Sandwich - Sandwiches calientes</li>
+                        </ul>
+                        <br>
+                        <strong>Moderado ($25-45):</strong>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>The Boathouse - Mariscos, steaks</li>
+                            <li>Raglan Road - Irish pub con musica en vivo</li>
+                            <li>Morimoto Asia - Cocina asiatica</li>
+                        </ul>
+                        <br>
+                        <strong>Premium ($45-70):</strong>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>STK Orlando - Steakhouse moderno</li>
+                            <li>Paddlefish - Mariscos en barco de vapor</li>
+                            <li>Wine Bar George - Vinos y comida mediterranea</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">20:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Explorar Disney Springs de Noche
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney Springs
+                    </div>
+                    <div class="activity-description">
+                        Disney Springs es hermoso de noche con todas las luces:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Caminar por el lago</li>
+                            <li>Ghirardelli Ice Cream (sundaes enormes)</li>
+                            <li>Sprinkles Cupcakes (cupcakes automaticos 24h)</li>
+                            <li>Erin McKenna's Bakery (opciones sin gluten/veganas)</li>
+                            <li>Splitsville Luxury Lanes (bowling)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">21:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Regreso al Hotel
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney's Pop Century Resort
+                    </div>
+                    <div class="activity-description">
+                        Tomar el bus de regreso. Manana es Hollywood Studios - preparen la ropa y carguen los celulares!
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Preparar:</strong> Mañana es dia de Star Wars y Toy Story. Si son fans, lleven ropa tematica!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Experiencias Opcionales</h2>
+            <div class="card">
+                <h3>Si Quieren Mas Aventura</h3>
+                <ul class="checklist">
+                    <li><strong>Amphicar Tours:</strong> Paseo en autos anfibios de los años 60 en el lago ($125/auto)</li>
+                    <li><strong>Splitsville:</strong> Bowling de lujo con comida y bebidas</li>
+                    <li><strong>AMC Movies:</strong> Cine con asientos reclinables de cuero</li>
+                    <li><strong>The Void:</strong> Experiencia de realidad virtual Star Wars (si esta abierto)</li>
+                    <li><strong>House of Blues:</strong> Musica en vivo y comida sureña</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Consejos del Dia</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">😴</span>
+                    <div class="tip-text">
+                        <strong>Descanso real:</strong> No se sientan culpables por no hacer "nada". El cuerpo necesita recuperarse.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">👟</span>
+                    <div class="tip-text">
+                        <strong>Calzado:</strong> Disney Springs tambien requiere caminar bastante. Usen zapatos comodos.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">💰</span>
+                    <div class="tip-text">
+                        <strong>Precios:</strong> Disney Springs tiene precios de parque tematico. Consideren donde realmente quieren gastar.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dia 10 - Descanso y Disney Springs</p>
+            <p>Martes 21 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-9.html" style="color: white; text-decoration: none;">← Dia 9</a>
+                |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a>
+                |
+                <a href="day-11.html" style="color: white; text-decoration: none;">Dia 11 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

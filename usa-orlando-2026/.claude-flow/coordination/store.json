@@ -1,0 +1,21 @@
+{
+  "topology": {
+    "type": "mesh",
+    "maxNodes": 5,
+    "redundancy": 2,
+    "consensusAlgorithm": "gossip"
+  },
+  "loadBalance": {
+    "algorithm": "adaptive",
+    "weights": {},
+    "healthCheck": true
+  },
+  "sync": {
+    "lastSync": "2026-01-17T19:51:34.156Z",
+    "syncCount": 0,
+    "conflicts": 0,
+    "pendingChanges": 0
+  },
+  "nodes": {},
+  "version": "3.0.0"
+}

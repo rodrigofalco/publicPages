@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 8 - Magic Kingdom | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏰</text></svg>">
+    <style>
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid var(--disney-purple);
+            transition: transform 0.2s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(5px);
+        }
+
+        .time-block.priority {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, var(--background-light) 100%);
+        }
+
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+
+        .time-block.show {
+            border-left-color: #ec4899;
+            background: linear-gradient(135deg, #fdf2f8 0%, var(--background-light) 100%);
+        }
+
+        .time-column {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .time-period {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-location {
+            font-size: 0.9rem;
+            color: var(--disney-purple);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .activity-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .activity-tips {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(123, 45, 142, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .activity-tips strong {
+            color: var(--disney-purple);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.must-do {
+            background: #ef4444;
+            color: white;
+        }
+
+        .badge.classic {
+            background: var(--disney-purple);
+            color: white;
+        }
+
+        .badge.early-entry {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .badge.thrill {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .badge.show {
+            background: #ec4899;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, var(--disney-purple) 0%, #a855f7 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .attraction-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .land-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px dashed var(--border-color);
+        }
+
+        .land-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .land-icon {
+            font-size: 3rem;
+        }
+
+        .land-info h3 {
+            color: var(--disney-purple);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .land-info p {
+            color: var(--text-light);
+            margin: 5px 0 0;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: var(--disney-purple);
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <header>
+            <h1>Dia 8 - Magic Kingdom</h1>
+            <p class="subtitle">Domingo 19 de Abril, 2026</p>
+            <span class="dates">El parque mas magico del mundo</span>
+        </header>
+
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">8:30 AM</div>
+                    <div class="summary-label">Early Entry</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">6</div>
+                    <div class="summary-label">Lands Tematicas</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">🎆</div>
+                    <div class="summary-label">Fuegos Nocturnos</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">~14 hrs</div>
+                    <div class="summary-label">Dia Completo</div>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>Itinerario Detallado</h2>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">7:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Despertar y Preparacion
+                    </div>
+                    <div class="activity-location">
+                        📍 Disney's Pop Century Resort
+                    </div>
+                    <div class="activity-description">
+                        Dia magico por delante! Desayunar algo rapido y salir temprano para aprovechar el Early Entry.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">7:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Transporte a Magic Kingdom
+                    </div>
+                    <div class="activity-location">
+                        📍 Pop Century Bus Stop
+                    </div>
+                    <div class="activity-description">
+                        Tomar el bus de Disney hacia Magic Kingdom. El viaje toma aproximadamente 20-25 minutos. Llegar a la parada temprano para el primer bus.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Nota:</strong> Magic Kingdom tiene dos etapas de entrada: 1) Transportation and Ticket Center 2) Main Entrance via Monorail/Ferry/Walking. Los buses van directo a la entrada.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">8:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge early-entry">Early Entry</span>
+                        Entrada al Parque
+                    </div>
+                    <div class="activity-location">
+                        📍 Magic Kingdom - Main Entrance
+                    </div>
+                    <div class="activity-description">
+                        Los huespedes del resort entran 30 minutos antes. Ir DIRECTO a Tomorrowland para las atracciones mas populares.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Estrategia:</strong> Ir primero a Tron Lightcycle (si abierta) o Space Mountain mientras las filas son cortas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="land-section">
+                <div class="land-header">
+                    <span class="land-icon">🚀</span>
+                    <div class="land-info">
+                        <h3>Tomorrowland</h3>
+                        <p>Early Entry - Atracciones Principales</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">8:35</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge must-do">Prioridad #1</span>
+                        TRON Lightcycle / Run
+                    </div>
+                    <div class="activity-location">
+                        📍 Tomorrowland
+                    </div>
+                    <div class="activity-description">
+                        La montana rusa mas nueva de Magic Kingdom! Montan motos de luz del mundo de TRON en una carrera a alta velocidad. La atraccion mas popular del parque.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 122 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Alta</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> TRON usa Virtual Queue o Individual Lightning Lane. Intentar conseguir en la app a las 7 AM.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">9:15</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge classic">Clasica</span>
+                        Space Mountain
+                    </div>
+                    <div class="activity-location">
+                        📍 Tomorrowland
+                    </div>
+                    <div class="activity-description">
+                        La montana rusa indoor original de Disney! Viaje a traves del espacio en completa oscuridad. Un clasico desde 1975.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 3 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 112 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media-Alta</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">10:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Buzz Lightyear's Space Ranger Spin
+                    </div>
+                    <div class="activity-location">
+                        📍 Tomorrowland
+                    </div>
+                    <div class="activity-description">
+                        Shooter interactivo donde compiten por puntos disparando a objetivos mientras el vehiculo gira. Divertido para competir entre ustedes!
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="land-section">
+                <div class="land-header">
+                    <span class="land-icon">🏔️</span>
+                    <div class="land-info">
+                        <h3>Frontierland</h3>
+                        <p>Manana - Montanas Rusas Clasicas</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">10:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge must-do">Imperdible</span>
+                        Big Thunder Mountain Railroad
+                    </div>
+                    <div class="activity-location">
+                        📍 Frontierland
+                    </div>
+                    <div class="activity-description">
+                        "La montana rusa mas salvaje del oeste!" Viaje en tren minero a traves de una mina de oro abandonada. Emocionante pero no demasiado intensa.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 3.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 102 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">11:15</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge thrill">Splash!</span>
+                        Tiana's Bayou Adventure
+                    </div>
+                    <div class="activity-location">
+                        📍 Frontierland
+                    </div>
+                    <div class="activity-description">
+                        La renovada atraccion (antes Splash Mountain) ahora tematica de "La Princesa y el Sapo". Flume ride con una caida final de 16 metros.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 11 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 102 cm</span>
+                        <span class="stat"><span class="stat-icon">💧</span> Se mojan</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Hacerla por la manana o al mediodia cuando el sol ayuda a secarlos.
+                    </div>
+                </div>
+            </div>
+
+            <div class="land-section">
+                <div class="land-header">
+                    <span class="land-icon">☠️</span>
+                    <div class="land-info">
+                        <h3>Adventureland</h3>
+                        <p>Mediodia - Clasicos de Disney</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">12:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge classic">Clasica</span>
+                        Pirates of the Caribbean
+                    </div>
+                    <div class="activity-location">
+                        📍 Adventureland
+                    </div>
+                    <div class="activity-description">
+                        La atraccion que inspiro las peliculas! Viaje en bote a traves de escenas de piratas con audio-animatronics increibles, incluyendo Jack Sparrow.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 8.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">12:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Jungle Cruise
+                    </div>
+                    <div class="activity-location">
+                        📍 Adventureland
+                    </div>
+                    <div class="activity-description">
+                        Crucero por rios de Africa, Asia y Sudamerica con un capitan que hace chistes malos todo el tiempo. Clasico de Disney renovado recientemente.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 10 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">13:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Almuerzo
+                    </div>
+                    <div class="activity-location">
+                        📍 Pecos Bill Tall Tale Inn o Columbia Harbour House
+                    </div>
+                    <div class="activity-description">
+                        <strong>Pecos Bill (Frontierland):</strong> Tex-Mex - Burritos, nachos, bowls ($12-16 USD)<br><br>
+                        <strong>Columbia Harbour House (Liberty Square):</strong> Mariscos - Fish and chips, lobster roll, ensaladas ($14-18 USD)
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Usar Mobile Order en la app para evitar filas!
+                    </div>
+                </div>
+            </div>
+
+            <div class="land-section">
+                <div class="land-header">
+                    <span class="land-icon">👻</span>
+                    <div class="land-info">
+                        <h3>Liberty Square</h3>
+                        <p>Tarde - Mansion Embrujada</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">14:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge must-do">Imperdible</span>
+                        Haunted Mansion
+                    </div>
+                    <div class="activity-location">
+                        📍 Liberty Square
+                    </div>
+                    <div class="activity-description">
+                        La mansion con 999 fantasmas felices! Dark ride con efectos especiales clasicos y modernos. Espeluznante pero no da miedo real.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 9 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Dato curioso:</strong> Busquen los efectos de "Pepper's Ghost" - tecnologia del siglo 19!
+                    </div>
+                </div>
+            </div>
+
+            <div class="land-section">
+                <div class="land-header">
+                    <span class="land-icon">🏰</span>
+                    <div class="land-info">
+                        <h3>Fantasyland</h3>
+                        <p>Tarde - La Magia de Disney</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">14:45</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge classic">Clasica</span>
+                        Peter Pan's Flight
+                    </div>
+                    <div class="activity-location">
+                        📍 Fantasyland
+                    </div>
+                    <div class="activity-description">
+                        Vuelen sobre Londres y Neverland en barcos piratas colgantes. La atraccion mas popular de Fantasyland - las filas siempre son largas.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 3 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Si la fila es muy larga, consideren Lightning Lane para esta atraccion.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">15:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Seven Dwarfs Mine Train
+                    </div>
+                    <div class="activity-location">
+                        📍 Fantasyland
+                    </div>
+                    <div class="activity-description">
+                        Montana rusa familiar con vagones que se balancean. Viaje a traves de la mina de los siete enanitos con escenas de Blancanieves.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 97 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">16:15</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        it's a small world
+                    </div>
+                    <div class="activity-location">
+                        📍 Fantasyland
+                    </div>
+                    <div class="activity-description">
+                        El clasico viaje en bote con ninos animatronicos cantando de todo el mundo. La cancion se les quedara pegada por dias!
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 11 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Muy Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block show">
+                <div class="time-column">
+                    <div class="time-value">17:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge show">Show</span>
+                        Festival of Fantasy Parade
+                    </div>
+                    <div class="activity-location">
+                        📍 Main Street U.S.A.
+                    </div>
+                    <div class="activity-description">
+                        La parada de la tarde con carrozas de todas las peliculas Disney. Muy colorida y emocionante.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Verificar horario en la app. Ubicarse 20-30 min antes para buen lugar. Frontierland suele estar menos lleno que Main Street.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">18:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Cena
+                    </div>
+                    <div class="activity-location">
+                        📍 Be Our Guest o Cosmic Ray's Starlight Cafe
+                    </div>
+                    <div class="activity-description">
+                        <strong>Be Our Guest (Reservacion requerida):</strong> Cena dentro del castillo de La Bella y la Bestia. Comida francesa ($40-60 USD por persona).<br><br>
+                        <strong>Cosmic Ray's (Quick Service):</strong> Hamburguesas, pollo, ensaladas con show de Sonny Eclipse ($12-18 USD).
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">19:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Re-rides o Atracciones Restantes
+                    </div>
+                    <div class="activity-location">
+                        📍 Magic Kingdom
+                    </div>
+                    <div class="activity-description">
+                        Tiempo para completar atracciones que no hicieron o repetir favoritas. Opciones:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>The Many Adventures of Winnie the Pooh</li>
+                            <li>Under the Sea - Journey of the Little Mermaid</li>
+                            <li>Tomorrowland Speedway</li>
+                            <li>People Mover</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block show priority">
+                <div class="time-column">
+                    <div class="time-value">21:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge must-do">Imperdible</span>
+                        Happily Ever After - Fuegos Artificiales
+                    </div>
+                    <div class="activity-location">
+                        📍 Main Street U.S.A. - Frente al Castillo
+                    </div>
+                    <div class="activity-description">
+                        El espectaculo de fuegos artificiales de Magic Kingdom con proyecciones en el castillo. Uno de los mejores shows nocturnos de cualquier parque del mundo.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Mejores ubicaciones:</strong>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Main Street frente al castillo (lleguen 30-45 min antes)</li>
+                            <li>Hub grass area (requiere llegar temprano)</li>
+                            <li>Cerca de Partners Statue (Walt y Mickey)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">21:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Salida del Parque
+                    </div>
+                    <div class="activity-location">
+                        📍 Magic Kingdom → Pop Century
+                    </div>
+                    <div class="activity-description">
+                        Despues de los fuegos, todos salen al mismo tiempo. Las filas de buses pueden ser largas. Alternativas:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Esperar 15-20 min comprando souvenirs en Main Street</li>
+                            <li>Caminar lento disfrutando las tiendas</li>
+                            <li>Las tiendas de Main Street cierran 1 hora despues del parque</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Checklist del Dia</h2>
+            <div class="card">
+                <h3>Llevar al Parque</h3>
+                <ul class="checklist">
+                    <li>Celular cargado al 100% con app My Disney Experience</li>
+                    <li>Cargador portatil</li>
+                    <li>Protector solar</li>
+                    <li>Botella de agua</li>
+                    <li>Poncho (por si llueve)</li>
+                    <li>Snacks</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Consejos del Dia</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">📱</span>
+                    <div class="tip-text">
+                        <strong>Virtual Queue TRON:</strong> A las 7 AM se abre la cola virtual. Intentar obtener un boarding group desde la app.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">⚡</span>
+                    <div class="tip-text">
+                        <strong>Lightning Lane:</strong> Considerar comprar para Peter Pan's Flight o Seven Dwarfs Mine Train si las filas son muy largas.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">📍</span>
+                    <div class="tip-text">
+                        <strong>Fuegos artificiales:</strong> Ubicarse con 30-45 minutos de anticipacion para buen lugar.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dia 8 - Magic Kingdom</p>
+            <p>Domingo 19 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-7.html" style="color: white; text-decoration: none;">← Dia 7</a>
+                |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a>
+                |
+                <a href="day-9.html" style="color: white; text-decoration: none;">Dia 9 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

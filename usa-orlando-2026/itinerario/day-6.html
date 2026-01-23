@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 6 - Universal Epic Universe | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+    <style>
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid #8b5cf6;
+            transition: transform 0.2s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(5px);
+        }
+
+        .time-block.priority {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, var(--background-light) 100%);
+        }
+
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+
+        .time-block.nintendo {
+            border-left-color: #dc2626;
+            background: linear-gradient(135deg, #fef2f2 0%, var(--background-light) 100%);
+        }
+
+        .time-block.dragon {
+            border-left-color: #059669;
+            background: linear-gradient(135deg, #ecfdf5 0%, var(--background-light) 100%);
+        }
+
+        .time-block.dark {
+            border-left-color: #1f2937;
+            background: linear-gradient(135deg, #f3f4f6 0%, var(--background-light) 100%);
+        }
+
+        .time-column {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .time-period {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-location {
+            font-size: 0.9rem;
+            color: #8b5cf6;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .activity-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .activity-tips {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .activity-tips strong {
+            color: #8b5cf6;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.must-do {
+            background: #ef4444;
+            color: white;
+        }
+
+        .badge.new {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .badge.nintendo {
+            background: #dc2626;
+            color: white;
+        }
+
+        .badge.dragon {
+            background: #059669;
+            color: white;
+        }
+
+        .badge.dark-universe {
+            background: #1f2937;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .world-card {
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            color: white;
+        }
+
+        .world-card.nintendo {
+            background: linear-gradient(135deg, #dc2626 0%, #f87171 100%);
+        }
+
+        .world-card.dragon {
+            background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+        }
+
+        .world-card.dark {
+            background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+        }
+
+        .world-card.celestial {
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+        }
+
+        .world-card h4 {
+            margin-bottom: 10px;
+        }
+
+        .attraction-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .park-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px dashed var(--border-color);
+        }
+
+        .park-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .park-icon {
+            font-size: 3rem;
+        }
+
+        .park-info h3 {
+            color: #8b5cf6;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .park-info p {
+            color: var(--text-light);
+            margin: 5px 0 0;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: #8b5cf6;
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <header>
+            <h1>Dia 6 - Universal Epic Universe</h1>
+            <p class="subtitle">Viernes 17 de Abril, 2026</p>
+            <span class="dates">El nuevo parque de Universal - Apertura 2025</span>
+        </header>
+
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">9:00 AM</div>
+                    <div class="summary-label">Apertura General</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">5</div>
+                    <div class="summary-label">Mundos Tematicos</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">NEW!</div>
+                    <div class="summary-label">Parque 2025</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">~12 hrs</div>
+                    <div class="summary-label">Dia Completo</div>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>Sobre Epic Universe</h2>
+            <p style="color: var(--text-light); margin-bottom: 20px;">
+                Universal Epic Universe es el cuarto parque tematico de Universal Orlando, inaugurado en 2025. Es el parque mas grande y ambicioso de Universal hasta la fecha, con mundos completamente inmersivos inspirados en franquicias iconicas.
+            </p>
+
+            <div class="world-card nintendo">
+                <h4>🍄 Super Nintendo World</h4>
+                <p>El mundo de Mario cobra vida con atracciones interactivas, Power-Up Bands, y la iconica Montana Rusa de Mario Kart.</p>
+            </div>
+
+            <div class="world-card dragon">
+                <h4>🐉 How to Train Your Dragon - Isle of Berk</h4>
+                <p>Vuela con Chimuelo en una atraccion de montana rusa voladora unica en su tipo.</p>
+            </div>
+
+            <div class="world-card dark">
+                <h4>🧛 Dark Universe</h4>
+                <p>Los monstruos clasicos de Universal cobran vida: Dracula, Frankenstein, La Momia, el Hombre Lobo.</p>
+            </div>
+
+            <div class="world-card celestial">
+                <h4>✨ Celestial Park</h4>
+                <p>El hub central del parque con jardines, fuentes, y atracciones familiares.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Itinerario Detallado</h2>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">7:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Salida hacia Epic Universe
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-description">
+                        Epic Universe esta ubicado en un terreno separado del complejo principal de Universal (cerca del Orange County Convention Center). El transporte puede tomar mas tiempo.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Transporte:</strong> Verificar opciones de shuttle desde el hotel o usar auto propio/Uber.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">8:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge new">Nuevo</span>
+                        Llegada a Epic Universe
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Epic Universe - Entrada Principal
+                    </div>
+                    <div class="activity-description">
+                        Llegar temprano para estar entre los primeros en entrar. Al ser un parque nuevo (2025-2026), las multitudes pueden ser intensas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="park-section">
+                <div class="park-header">
+                    <span class="park-icon">🍄</span>
+                    <div class="park-info">
+                        <h3>Super Nintendo World</h3>
+                        <p>Manana - Primera Parada</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block nintendo priority">
+                <div class="time-column">
+                    <div class="time-value">9:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge nintendo">Prioridad</span>
+                        Mario Kart: Bowser's Challenge
+                    </div>
+                    <div class="activity-location">
+                        📍 Super Nintendo World - Castillo de Bowser
+                    </div>
+                    <div class="activity-description">
+                        LA atraccion estrella del area! Montana rusa con realidad aumentada donde compiten en una carrera de Mario Kart. La tecnologia de AR hace que sientan que estan dentro del juego.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 107 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Esta sera la atraccion mas popular del parque. Hacerla PRIMERO es clave.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block nintendo">
+                <div class="time-column">
+                    <div class="time-value">10:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge nintendo">Interactivo</span>
+                        Comprar Power-Up Band
+                    </div>
+                    <div class="activity-location">
+                        📍 Super Nintendo World - Tiendas
+                    </div>
+                    <div class="activity-description">
+                        Las Power-Up Bands (~$40 USD) permiten interactuar con todo el area:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Golpear bloques de ? para coleccionar monedas</li>
+                            <li>Participar en desafios de mini-juegos</li>
+                            <li>Pelear contra Koopa Troopa y Piranha Plants</li>
+                            <li>Competir con otros visitantes</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Nota:</strong> La banda es opcional pero mejora MUCHO la experiencia. Se puede usar en Super Nintendo World de otros parques tambien.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block nintendo">
+                <div class="time-column">
+                    <div class="time-value">10:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Yoshi's Adventure
+                    </div>
+                    <div class="activity-location">
+                        📍 Super Nintendo World
+                    </div>
+                    <div class="activity-description">
+                        Paseo familiar en Yoshi a traves del Mushroom Kingdom. Atraccion tranquila pero muy inmersiva y con lindas vistas del area.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block nintendo">
+                <div class="time-column">
+                    <div class="time-value">11:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Explorar Super Nintendo World
+                    </div>
+                    <div class="activity-location">
+                        📍 Super Nintendo World
+                    </div>
+                    <div class="activity-description">
+                        Tiempo para explorar el area y completar actividades interactivas con la Power-Up Band. Buscar:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Bowser Jr. Shadow Showdown (minijuego)</li>
+                            <li>Key Challenge (desafios de llaves)</li>
+                            <li>Fotos con Mario, Luigi, Peach, Toad</li>
+                            <li>Toadstool Cafe (restaurante tematico)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">12:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Almuerzo - Toadstool Cafe
+                    </div>
+                    <div class="activity-location">
+                        📍 Super Nintendo World - Toadstool Cafe
+                    </div>
+                    <div class="activity-description">
+                        Restaurante tematico con comida inspirada en el Mushroom Kingdom:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Mario Burger (bacon mushroom burger)</li>
+                            <li>Super Mushroom Soup</li>
+                            <li>Luigi's Pesto Pasta</li>
+                            <li>Question Block Tiramisu</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Puede tener espera. Usar mobile ordering si esta disponible.
+                    </div>
+                </div>
+            </div>
+
+            <div class="park-section">
+                <div class="park-header">
+                    <span class="park-icon">🐉</span>
+                    <div class="park-info">
+                        <h3>How to Train Your Dragon - Isle of Berk</h3>
+                        <p>Temprano por la tarde</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block dragon priority">
+                <div class="time-column">
+                    <div class="time-value">13:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge dragon">Imperdible</span>
+                        Hiccup's Wing Gliders
+                    </div>
+                    <div class="activity-location">
+                        📍 Isle of Berk
+                    </div>
+                    <div class="activity-description">
+                        Montana rusa de vuelo donde montan dragones! Los vehiculos se inclinan y giran simulando el vuelo de un dragon. Una de las atracciones mas innovadoras de Universal.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 3 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 122 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media-Alta</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block dragon">
+                <div class="time-column">
+                    <div class="time-value">14:15</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge dragon">Familiar</span>
+                        The Untrainable Dragon
+                    </div>
+                    <div class="activity-location">
+                        📍 Isle of Berk
+                    </div>
+                    <div class="activity-description">
+                        Dark ride familiar a traves del mundo de Como Entrenar a tu Dragon. Encuentren a Chimuelo y otros dragones en esta aventura para toda la familia.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 6 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block dragon">
+                <div class="time-column">
+                    <div class="time-value">15:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Explorar Isle of Berk
+                    </div>
+                    <div class="activity-location">
+                        📍 Isle of Berk
+                    </div>
+                    <div class="activity-description">
+                        El area recrea el pueblo vikingo de Berk con increible detalle. Meet & greet con dragones animatronicos, tiendas vikingas, y arquitectura nordica.
+                    </div>
+                </div>
+            </div>
+
+            <div class="park-section">
+                <div class="park-header">
+                    <span class="park-icon">🧛</span>
+                    <div class="park-info">
+                        <h3>Dark Universe</h3>
+                        <p>Tarde - Los Monstruos Clasicos</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block dark priority">
+                <div class="time-column">
+                    <div class="time-value">16:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge dark-universe">Terror</span>
+                        Monsters Unchained: The Frankenstein Experiment
+                    </div>
+                    <div class="activity-location">
+                        📍 Dark Universe
+                    </div>
+                    <div class="activity-description">
+                        Dark ride epico que combina a todos los monstruos clasicos de Universal en una historia original. La atraccion principal del area con efectos especiales de ultima generacion.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 7 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 107 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block dark">
+                <div class="time-column">
+                    <div class="time-value">17:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Curse of the Werewolf
+                    </div>
+                    <div class="activity-location">
+                        📍 Dark Universe
+                    </div>
+                    <div class="activity-description">
+                        Montana rusa spinning a traves de un bosque embrujado. Los vehiculos giran mientras avanzan creando una experiencia impredecible y emocionante.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 122 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Alta</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block dark">
+                <div class="time-column">
+                    <div class="time-value">17:45</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Explorar Dark Universe
+                    </div>
+                    <div class="activity-location">
+                        📍 Dark Universe
+                    </div>
+                    <div class="activity-description">
+                        El area tiene una atmosfera gotica increible inspirada en las peliculas clasicas de monstruos de Universal de los años 30-40. Arquitectura de Europa del Este, niebla, iluminacion tenue.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">18:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Cena
+                    </div>
+                    <div class="activity-location">
+                        📍 Dark Universe o Celestial Park
+                    </div>
+                    <div class="activity-description">
+                        Opciones de cena en el parque. Verificar restaurantes disponibles en la app.
+                    </div>
+                </div>
+            </div>
+
+            <div class="park-section">
+                <div class="park-header">
+                    <span class="park-icon">✨</span>
+                    <div class="park-info">
+                        <h3>Celestial Park</h3>
+                        <p>Noche - Hub Central</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">19:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Starfall Racers
+                    </div>
+                    <div class="activity-location">
+                        📍 Celestial Park
+                    </div>
+                    <div class="activity-description">
+                        Montana rusa doble donde dos trenes compiten! Atraccion familiar pero emocionante con vistas de todo el parque.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 107 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">20:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Re-rides y Cierre del Dia
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Epic Universe
+                    </div>
+                    <div class="activity-description">
+                        Tiempo libre para repetir atracciones favoritas o completar lo que falte. El parque de noche tiene iluminacion espectacular.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">21:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Regreso al Hotel
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-description">
+                        Ultimo dia en Universal! Manana check-out y transicion a Disney World.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Preparar:</strong> Empacar todo esta noche. Check-out manana antes de ir a Disney.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Checklist del Dia</h2>
+            <div class="card">
+                <h3>Llevar al Parque</h3>
+                <ul class="checklist">
+                    <li>Tickets del parque (verificar validez Epic Universe)</li>
+                    <li>Cargador portatil (Power-Up Band usa bateria del celular)</li>
+                    <li>Protector solar</li>
+                    <li>Botella de agua</li>
+                    <li>Ropa comoda</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Antes de Dormir</h3>
+                <ul class="checklist">
+                    <li>Empacar maletas</li>
+                    <li>Verificar hora de check-out</li>
+                    <li>Confirmar reserva Disney Pop Century</li>
+                    <li>Planificar ruta Universal → Disney</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dia 6 - Universal Epic Universe</p>
+            <p>Viernes 17 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-5.html" style="color: white; text-decoration: none;">← Dia 5</a>
+                |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a>
+                |
+                <a href="day-7.html" style="color: white; text-decoration: none;">Dia 7 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

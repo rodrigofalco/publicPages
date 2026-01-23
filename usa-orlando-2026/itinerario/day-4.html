@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 4 - Islands of Adventure | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏝️</text></svg>">
+    <style>
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid var(--universal-blue);
+            transition: transform 0.2s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(5px);
+        }
+
+        .time-block.priority {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, var(--background-light) 100%);
+        }
+
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+
+        .time-block.transport {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(135deg, #f5f3ff 0%, var(--background-light) 100%);
+        }
+
+        .time-block.photo {
+            border-left-color: #ec4899;
+            background: linear-gradient(135deg, #fdf2f8 0%, var(--background-light) 100%);
+        }
+
+        .time-column {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .time-period {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-location {
+            font-size: 0.9rem;
+            color: var(--universal-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .activity-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .activity-tips {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0, 119, 192, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .activity-tips strong {
+            color: var(--universal-blue);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.must-do {
+            background: #ef4444;
+            color: white;
+        }
+
+        .badge.recommended {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge.early-access {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .badge.thrill {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, var(--universal-blue) 0%, #00a8e8 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .attraction-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .park-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px dashed var(--border-color);
+        }
+
+        .park-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .park-icon {
+            font-size: 3rem;
+        }
+
+        .park-info h3 {
+            color: var(--universal-blue);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .park-info p {
+            color: var(--text-light);
+            margin: 5px 0 0;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: var(--universal-blue);
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .hogwarts-highlight {
+            background: linear-gradient(135deg, #722f37 0%, #1a1a2e 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #d4af37;
+        }
+
+        .hogwarts-highlight h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .hogwarts-highlight p {
+            color: rgba(255,255,255,0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <header>
+            <h1>Dia 4 - Islands of Adventure</h1>
+            <p class="subtitle">Miercoles 15 de Abril, 2026</p>
+            <span class="dates">Dia completo en IOA + Hogwarts Express de regreso</span>
+        </header>
+
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">8:00 AM</div>
+                    <div class="summary-label">Early Park Admission</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">2</div>
+                    <div class="summary-label">Parques a Visitar</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">12+</div>
+                    <div class="summary-label">Atracciones</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">~13 hrs</div>
+                    <div class="summary-label">Duracion Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hogwarts Express Highlight -->
+        <div class="hogwarts-highlight">
+            <h3>Hogwarts Express - Viaje de Regreso</h3>
+            <p>Hoy completan la experiencia del Hogwarts Express! El viaje de Hogsmeade → King's Cross tiene escenas completamente diferentes al de ayer: veran a Hagrid en su motocicleta volando junto al tren, los gemelos Weasley haciendo travesuras, y mas sorpresas magicas.</p>
+        </div>
+
+        <section>
+            <h2>Itinerario Detallado</h2>
+
+            <div class="park-header">
+                <span class="park-icon">🏝️</span>
+                <div class="park-info">
+                    <h3>Islands of Adventure</h3>
+                    <p>Manana y Tarde - Early Park Admission a Hogsmeade</p>
+                </div>
+            </div>
+
+            <!-- 7:30 AM -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">7:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Salida del Hotel
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-description">
+                        Tomar el shuttle hacia Islands of Adventure para aprovechar el Early Park Admission.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8:00 AM - EPA -->
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">8:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge early-access">Early Access</span>
+                        Early Park Admission
+                    </div>
+                    <div class="activity-location">
+                        📍 Islands of Adventure - Entrada Principal
+                    </div>
+                    <div class="activity-description">
+                        Dirigirse directamente a Hogsmeade para Hagrid's Motorbike Adventure. Con el Early Park Admission tendran filas minimas.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8:15 AM - HAGRID'S -->
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">8:15</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge must-do">Re-ride!</span>
+                        Hagrid's Magical Creatures Motorbike Adventure
+                    </div>
+                    <div class="activity-location">
+                        📍 The Wizarding World of Harry Potter - Hogsmeade
+                    </div>
+                    <div class="activity-description">
+                        Segunda oportunidad para subirse a la mejor atraccion de Universal! Con Early Park Admission, la espera sera minima. Si les gusto ayer, hoy la disfrutaran aun mas sabiendo que esperar.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 3 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 122 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Alta</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Prueben sentarse en el sidecar esta vez si ayer fueron en la motocicleta (o viceversa) - la experiencia es diferente!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9:00 AM - VelociCoaster -->
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">9:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge thrill">Extrema</span>
+                        VelociCoaster
+                    </div>
+                    <div class="activity-location">
+                        📍 Jurassic World - Islands of Adventure
+                    </div>
+                    <div class="activity-description">
+                        La montana rusa mas intensa de Florida. Cuatro inversiones, velocidad maxima de 112 km/h, y el "Top Hat" de 47 metros sobre la laguna. Experiencia de adrenalina pura.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 130 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: EXTREMA</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Advertencia:</strong> Lockers obligatorios. No subir con objetos sueltos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9:45 AM - Skull Island -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">9:45</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge recommended">Recomendado</span>
+                        Skull Island: Reign of Kong
+                    </div>
+                    <div class="activity-location">
+                        📍 Skull Island - Islands of Adventure
+                    </div>
+                    <div class="activity-description">
+                        Expedicion en vehiculo todoterreno masivo a traves de la jungla de Skull Island. Encuentros con dinosaurios, criaturas prehistoricas y el legendario King Kong en 3D de 20 pies de altura.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 6 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 91 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10:30 AM - Marvel Area -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">10:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge recommended">Clasica</span>
+                        The Amazing Adventures of Spider-Man
+                    </div>
+                    <div class="activity-location">
+                        📍 Marvel Super Hero Island
+                    </div>
+                    <div class="activity-description">
+                        Atraccion clasica que combina vehiculos en movimiento con pantallas 3D y efectos especiales. Ayuden a Spider-Man a derrotar a los villanos en las calles de Nueva York.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 102 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11:15 AM - Hulk -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">11:15</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge thrill">Extrema</span>
+                        The Incredible Hulk Coaster
+                    </div>
+                    <div class="activity-location">
+                        📍 Marvel Super Hero Island
+                    </div>
+                    <div class="activity-description">
+                        Montana rusa iconica con lanzamiento de 0 a 67 km/h en 2 segundos. Siete inversiones incluyendo un zero-g roll sobre la laguna.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 137 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Extrema</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12:00 PM - Doctor Doom -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">12:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Doctor Doom's Fearfall
+                    </div>
+                    <div class="activity-location">
+                        📍 Marvel Super Hero Island
+                    </div>
+                    <div class="activity-description">
+                        Torres de caida libre estilo "shot up" - los disparan hacia arriba a 60 metros de altura y luego caen. Vistas increibles de los parques.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 40 seg</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 132 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Alta</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12:30 PM - LUNCH -->
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">12:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Almuerzo
+                    </div>
+                    <div class="activity-location">
+                        📍 Captain America Diner o Cafe 4
+                    </div>
+                    <div class="activity-description">
+                        <strong>Captain America Diner:</strong> Hamburguesas, pollo frito, ensaladas estilo americano ($12-18 USD).<br><br>
+                        <strong>Cafe 4:</strong> Pizza, pasta y ensaladas italianas ($12-16 USD).
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1:30 PM - Water Rides -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">13:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge recommended">Refrescante</span>
+                        Popeye & Bluto's Bilge-Rat Barges
+                    </div>
+                    <div class="activity-location">
+                        📍 Toon Lagoon
+                    </div>
+                    <div class="activity-description">
+                        Rafting en grupo a traves de rapidos. Esta atraccion los va a EMPAPAR completamente - perfecto para el calor de la tarde!
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 107 cm</span>
+                        <span class="stat"><span class="stat-icon">💧</span> MUY mojados</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Advertencia:</strong> Van a salir COMPLETAMENTE empapados. Llevar bolsa para proteger celulares.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2:15 PM - Dudley -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">14:15</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Dudley Do-Right's Ripsaw Falls
+                    </div>
+                    <div class="activity-location">
+                        📍 Toon Lagoon
+                    </div>
+                    <div class="activity-description">
+                        Flume ride (tipo tronco) con una caida final de 23 metros. Ya estan mojados, asi que aprovechen!
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 112 cm</span>
+                        <span class="stat"><span class="stat-icon">💧</span> Se mojan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3:00 PM - Seuss Landing -->
+            <div class="time-block photo">
+                <div class="time-column">
+                    <div class="time-value">15:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Explorar Seuss Landing
+                    </div>
+                    <div class="activity-location">
+                        📍 Seuss Landing
+                    </div>
+                    <div class="activity-description">
+                        El area mas colorida y fotografiable del parque. Tiempo para secarse y tomar fotos:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>The Cat in the Hat - Dark ride divertido</li>
+                            <li>High in the Sky Seuss Trolley Train Ride</li>
+                            <li>One Fish Two Fish Red Fish Blue Fish</li>
+                            <li>Fotos con personajes de Dr. Seuss</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4:00 PM - Lost Continent -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">16:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge recommended">Clasica</span>
+                        Poseidon's Fury (si esta abierta)
+                    </div>
+                    <div class="activity-location">
+                        📍 The Lost Continent
+                    </div>
+                    <div class="activity-description">
+                        Show walk-through con efectos especiales impresionantes incluyendo un tunel de agua, fuego y una batalla entre dioses.
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 20 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎭</span> Show interactivo</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Nota:</strong> Verificar horarios en la app. No siempre esta abierta.
+                    </div>
+                </div>
+            </div>
+
+            <!-- HOGWARTS EXPRESS - RETURN TRIP -->
+            <div class="park-section">
+                <div class="park-header">
+                    <span class="park-icon">🚂</span>
+                    <div class="park-info">
+                        <h3>Hogwarts Express - Viaje de Regreso</h3>
+                        <p>Hogsmeade → King's Cross (Segunda direccion)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5:00 PM - Hogwarts Express Return -->
+            <div class="time-block transport">
+                <div class="time-column">
+                    <div class="time-value">17:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge must-do">Experiencia Unica</span>
+                        Hogwarts Express: Hogsmeade → King's Cross
+                    </div>
+                    <div class="activity-location">
+                        📍 Hogsmeade Station → King's Cross Station
+                    </div>
+                    <div class="activity-description">
+                        El viaje de regreso tiene escenas COMPLETAMENTE DIFERENTES al de ayer:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Hagrid volando junto al tren en su motocicleta</li>
+                            <li>Los gemelos Weasley haciendo travesuras</li>
+                            <li>Escenas del campo ingles y Londres</li>
+                            <li>Llegada a la estacion King's Cross con el Ministerio de Magia</li>
+                        </ul>
+                    </div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 4 min</span>
+                        <span class="stat"><span class="stat-icon">🎫</span> Requiere Park-to-Park</span>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Completado!</strong> Con este viaje habran experimentado ambas direcciones del Hogwarts Express - una experiencia completa del mundo de Harry Potter!
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIVERSAL STUDIOS FLORIDA - EVENING -->
+            <div class="park-section">
+                <div class="park-header">
+                    <span class="park-icon">🎬</span>
+                    <div class="park-info">
+                        <h3>Universal Studios Florida</h3>
+                        <p>Tarde/Noche - Ultima visita y re-rides</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5:30 PM - Diagon Alley Evening -->
+            <div class="time-block photo">
+                <div class="time-column">
+                    <div class="time-value">17:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Dragon de Gringotts al Atardecer
+                    </div>
+                    <div class="activity-location">
+                        📍 Diagon Alley - Universal Studios Florida
+                    </div>
+                    <div class="activity-description">
+                        El dragon de Gringotts escupiendo fuego con la luz del atardecer es espectacular. Aprovechen para fotos y compras de ultimo momento en las tiendas de Diagon Alley.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6:15 PM - Re-rides -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">18:15</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Re-rides o Atracciones Perdidas
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Studios Florida
+                    </div>
+                    <div class="activity-description">
+                        Ultima oportunidad para atracciones de Universal Studios:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Escape from Gringotts:</strong> Re-ride con filas mas cortas</li>
+                            <li><strong>Revenge of the Mummy:</strong> Clasica que vale repetir</li>
+                            <li><strong>The Simpsons Ride:</strong> Si no la hicieron ayer</li>
+                            <li><strong>Compras:</strong> Tiendas de souvenirs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7:15 PM - Dinner -->
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">19:15</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Cena
+                    </div>
+                    <div class="activity-location">
+                        📍 The Leaky Cauldron o CityWalk
+                    </div>
+                    <div class="activity-description">
+                        <strong>Opcion en parque:</strong> The Leaky Cauldron - Fish and Chips, Shepherd's Pie ($15-22 USD).<br><br>
+                        <strong>Opcion CityWalk:</strong> Mas variedad - Toothsome Chocolate Emporium, Voodoo Doughnut, The Cowfish, NBC Sports Grill.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8:30 PM - Evening Activities -->
+            <div class="time-block photo">
+                <div class="time-column">
+                    <div class="time-value">20:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Diagon Alley de Noche
+                    </div>
+                    <div class="activity-location">
+                        📍 Diagon Alley - Universal Studios Florida
+                    </div>
+                    <div class="activity-description">
+                        Diagon Alley de noche es magico - las luces de las tiendas, el dragon iluminado, y menos multitudes. Ultima oportunidad para fotos nocturnas y disfrutar del ambiente.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9:00 PM - End -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">21:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Cierre del Dia
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Studios Florida → Hotel
+                    </div>
+                    <div class="activity-description">
+                        Salida del parque y regreso al hotel. Manana es dia de descanso y compras antes de Epic Universe el viernes!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Checklist del Dia</h2>
+            <div class="card">
+                <h3>Llevar al Parque</h3>
+                <ul class="checklist">
+                    <li>Tarjeta del hotel (Early Park Admission)</li>
+                    <li>Tickets del parque</li>
+                    <li>Bolsa impermeable para celular</li>
+                    <li>Poncho de lluvia</li>
+                    <li>Cambio de ropa (para atracciones de agua)</li>
+                    <li>Protector solar</li>
+                    <li>Botella de agua</li>
+                    <li>Cargador portatil</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Resumen de Hogwarts Express</h2>
+            <div class="card">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--universal-blue); color: white;">
+                            <th style="padding: 12px; text-align: left;">Direccion</th>
+                            <th style="padding: 12px; text-align: left;">Dia</th>
+                            <th style="padding: 12px; text-align: left;">Highlights</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 12px;">King's Cross → Hogsmeade</td>
+                            <td style="padding: 12px;">Dia 3 (ayer)</td>
+                            <td style="padding: 12px;">Ron, Hermione, carrito de dulces, dementores</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px;">Hogsmeade → King's Cross</td>
+                            <td style="padding: 12px;">Dia 4 (hoy)</td>
+                            <td style="padding: 12px;">Hagrid en motocicleta, gemelos Weasley, llegada a Londres</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Consejos del Dia</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">💧</span>
+                    <div class="tip-text">
+                        <strong>Atracciones de agua:</strong> Hacerlas despues del almuerzo cuando hace mas calor. El sol de Florida los secara rapido.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">📱</span>
+                    <div class="tip-text">
+                        <strong>Proteger electronica:</strong> Usar bolsas impermeables en Popeye's y Dudley Do-Right's.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🚂</span>
+                    <div class="tip-text">
+                        <strong>Hogwarts Express:</strong> El viaje de regreso completa la experiencia magica. No se lo pierdan!
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🌙</span>
+                    <div class="tip-text">
+                        <strong>Diagon Alley nocturno:</strong> Las tiendas y el dragon iluminados crean una atmosfera magica.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dia 4 - Islands of Adventure + Hogwarts Express Completo</p>
+            <p>Miercoles 15 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-3.html" style="color: white; text-decoration: none;">← Dia 3</a>
+                |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a>
+                |
+                <a href="day-5.html" style="color: white; text-decoration: none;">Dia 5 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

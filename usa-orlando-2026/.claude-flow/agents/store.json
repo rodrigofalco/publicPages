@@ -1,0 +1,89 @@
+{
+  "agents": {
+    "web-developer-1": {
+      "agentId": "web-developer-1",
+      "agentType": "coder",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-01-17T19:51:42.082Z",
+      "domain": "frontend",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "content-researcher-1": {
+      "agentId": "content-researcher-1",
+      "agentType": "researcher",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "haiku"
+      },
+      "createdAt": "2026-01-17T19:51:42.166Z",
+      "domain": "content",
+      "model": "haiku",
+      "modelRoutedBy": "explicit"
+    },
+    "research-lead": {
+      "agentId": "research-lead",
+      "agentType": "researcher",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-01-17T20:16:46.262Z",
+      "domain": "research",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "web-searcher": {
+      "agentId": "web-searcher",
+      "agentType": "search-specialist",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "sonnet"
+      },
+      "createdAt": "2026-01-17T20:16:46.320Z",
+      "domain": "research",
+      "model": "sonnet",
+      "modelRoutedBy": "explicit"
+    },
+    "price-analyst": {
+      "agentId": "price-analyst",
+      "agentType": "analyst",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "haiku"
+      },
+      "createdAt": "2026-01-17T20:16:46.375Z",
+      "domain": "analysis",
+      "model": "haiku",
+      "modelRoutedBy": "explicit"
+    },
+    "documenter": {
+      "agentId": "documenter",
+      "agentType": "docs-architect",
+      "status": "idle",
+      "health": 1,
+      "taskCount": 0,
+      "config": {
+        "model": "haiku"
+      },
+      "createdAt": "2026-01-17T20:16:46.430Z",
+      "domain": "documentation",
+      "model": "haiku",
+      "modelRoutedBy": "explicit"
+    }
+  },
+  "version": "3.0.0"
+}

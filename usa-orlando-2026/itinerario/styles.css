@@ -1,0 +1,579 @@
+/* Orlando 2026 Trip Itinerary - Styles */
+
+:root {
+    --primary-color: #1e3a5f;
+    --secondary-color: #ff6b35;
+    --disney-purple: #7b2d8e;
+    --universal-blue: #0077c0;
+    --background-light: #f8f9fa;
+    --text-dark: #2c3e50;
+    --text-light: #6c757d;
+    --success-green: #28a745;
+    --white: #ffffff;
+    --border-color: #dee2e6;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #2c5282 100%);
+    color: var(--white);
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+header .dates {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+/* Navigation */
+nav {
+    background: var(--white);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav a:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+nav a.active {
+    background: var(--secondary-color);
+    color: var(--white);
+}
+
+/* Sections */
+section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+section h2 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+section h3 {
+    color: var(--text-dark);
+    font-size: 1.3rem;
+    margin: 20px 0 15px;
+}
+
+/* Cards */
+.card {
+    background: var(--background-light);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-left: 5px solid var(--secondary-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card.disney {
+    border-left-color: var(--disney-purple);
+}
+
+.card.universal {
+    border-left-color: var(--universal-blue);
+}
+
+.card.flight {
+    border-left-color: var(--success-green);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.card-badge {
+    background: var(--secondary-color);
+    color: var(--white);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.card-badge.disney {
+    background: var(--disney-purple);
+}
+
+.card-badge.universal {
+    background: var(--universal-blue);
+}
+
+.card-badge.confirmed {
+    background: var(--success-green);
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--universal-blue), var(--disney-purple));
+    border-radius: 3px;
+}
+
+.timeline-item {
+    position: relative;
+    padding: 20px 0;
+    padding-left: 30px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 25px;
+    width: 15px;
+    height: 15px;
+    background: var(--white);
+    border: 3px solid var(--secondary-color);
+    border-radius: 50%;
+}
+
+.timeline-item.universal::before {
+    border-color: var(--universal-blue);
+}
+
+.timeline-item.disney::before {
+    border-color: var(--disney-purple);
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.timeline-content {
+    background: var(--background-light);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Flight Card */
+.flight-route {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.flight-point {
+    text-align: center;
+}
+
+.flight-code {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.flight-city {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.flight-arrow {
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+.flight-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background: var(--primary-color);
+    color: var(--white);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+tr:hover {
+    background: var(--background-light);
+}
+
+tr:last-child td:first-child {
+    border-radius: 0 0 0 10px;
+}
+
+tr:last-child td:last-child {
+    border-radius: 0 0 10px 0;
+}
+
+/* Daily Itinerary */
+.day-card {
+    background: linear-gradient(135deg, var(--background-light) 0%, var(--white) 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.day-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    line-height: 1;
+}
+
+.day-date {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+}
+
+.day-theme {
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.day-theme.universal {
+    background: linear-gradient(135deg, var(--universal-blue), #00a8e8);
+}
+
+.day-theme.disney {
+    background: linear-gradient(135deg, var(--disney-purple), #a855f7);
+}
+
+.day-theme.rest {
+    background: linear-gradient(135deg, #10b981, #34d399);
+}
+
+.day-theme.shopping {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.day-theme.travel {
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+}
+
+.day-activities {
+    list-style: none;
+}
+
+.day-activities li {
+    padding: 10px 0;
+    padding-left: 25px;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.day-activities li:last-child {
+    border-bottom: none;
+}
+
+.day-activities li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--success-green);
+    font-weight: bold;
+}
+
+/* Contact Info */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.contact-card {
+    background: var(--background-light);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.contact-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.contact-title {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.contact-info {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.contact-info a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+/* Tips Section */
+.tips-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.tip-item {
+    background: var(--background-light);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.tip-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.tip-text {
+    font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+footer p {
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    .flight-route {
+        flex-direction: column;
+    }
+
+    .flight-arrow {
+        transform: rotate(90deg);
+    }
+
+    .day-number {
+        font-size: 2rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+    }
+
+    nav {
+        display: none;
+    }
+
+    section {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}

@@ -1,0 +1,556 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LanguageSelector from '../components/LanguageSelector.astro';
+
+const baseUrl = import.meta.env.BASE_URL;
+
+// Trip data
+const tripData = {
+  general: {
+    title: "Orlando 2026 Trip",
+    subtitle: "Orlando, Florida Vacation - April 2026",
+    travelers: ["Rodrigo Falco", "Mariangeles Martinez"],
+    dates: "April 13-24, 2026",
+    note: "Miami is only an air connection - No time for activities in Miami"
+  },
+  flights: {
+    reservationCode: "DILXEB",
+    segments: [
+      {
+        date: "Sunday April 12, 2026",
+        flights: [
+          {
+            flight: "AR 1643",
+            route: "Neuquén (NQN) → Buenos Aires (AEP)",
+            departure: "15:00",
+            arrival: "16:40",
+            duration: "1h 40min",
+            aircraft: "Boeing 737-800",
+            cabin: "Economy (E)"
+          },
+          {
+            flight: "AR 1302",
+            route: "Buenos Aires (EZE) → Miami (MIA)",
+            departure: "22:45",
+            arrival: "07:00 (+1)",
+            duration: "9h 15min",
+            aircraft: "Airbus A330",
+            cabin: "Economy (E)"
+          }
+        ]
+      },
+      {
+        date: "Friday April 24, 2026",
+        flights: [
+          {
+            flight: "AR 1303",
+            route: "Miami (MIA) → Buenos Aires (EZE)",
+            departure: "18:25",
+            arrival: "04:30 (+1)",
+            duration: "9h 5min",
+            aircraft: "Airbus A330",
+            cabin: "Economy (T)"
+          },
+          {
+            flight: "AR 1638",
+            route: "Buenos Aires (EZE) → Neuquén (NQN)",
+            departure: "07:15",
+            arrival: "09:15",
+            duration: "2h 0min",
+            aircraft: "Boeing 737 MAX",
+            cabin: "Economy (T)"
+          }
+        ]
+      }
+    ]
+  },
+  universal: {
+    hotel: "Universal Endless Summer Resort - Surfside Inn and Suites",
+    checkIn: "Monday April 13, 2026",
+    checkOut: "Saturday April 18, 2026",
+    room: "Standard 2 Queen Beds",
+    confirmation: "03YAFM6TM",
+    tickets: "3-Day Park-to-Park Ticket (Adult)",
+    ticketValid: "April 14-19, 2026",
+    earlyAdmission: true
+  },
+  disney: {
+    hotel: "Disney's Pop Century Resort",
+    checkIn: "Saturday April 18, 2026",
+    checkOut: "Friday April 24, 2026",
+    room: "Standard Room",
+    confirmation: "40770023",
+    tickets: "4-Day Ticket with Admission to 1 Park Per Day",
+    ticketValid: "April 18-24, 2026"
+  },
+  pendingTasks: [
+    "Create trip spreadsheet and share with Mariangeles",
+    "Purchase air tickets to Miami",
+    "Rent car Miami - Orlando - Miami",
+    "Book accommodation in Orlando",
+    "Plan daily itinerary in Orlando",
+    "Purchase theme park tickets",
+    "Research restaurants and dining options"
+  ]
+}
+---
+
+<BaseLayout title="Orlando 2026 Trip - Complete Itinerary" lang="en">
+    <LanguageSelector currentLang="en" enUrl="/orlando-2026-itinerary" esUrl="/orlando-2026-itinerario" />
+
+    <div id="itinerario">
+        <header class="trip-header">
+            <h1>{tripData.general.title}</h1>
+            <p class="subtitle">{tripData.general.subtitle}</p>
+            <div class="trip-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Travelers:</span>
+                    <span class="meta-value">{tripData.general.travelers.join(' & ')}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Dates:</span>
+                    <span class="meta-value">{tripData.general.dates}</span>
+                </div>
+            </div>
+            <div class="note">
+                <strong>Note:</strong> {tripData.general.note}
+            </div>
+        </header>
+
+        <section class="section">
+            <h2>✈️ Flights</h2>
+            <div class="flight-summary">
+                <div class="summary-item">
+                    <span class="label">Reservation Code:</span>
+                    <span class="value">{tripData.flights.reservationCode}</span>
+                </div>
+            </div>
+
+            {tripData.flights.segments.map(segment => (
+                <div class="flight-segment">
+                    <h3>{segment.date}</h3>
+                    <div class="flights-container">
+                        {segment.flights.map(flight => (
+                            <div class="flight-card">
+                                <div class="flight-header">
+                                    <span class="flight-number">{flight.flight}</span>
+                                    <span class="flight-route">{flight.route}</span>
+                                </div>
+                                <div class="flight-details">
+                                    <div class="detail">
+                                        <span class="label">Departure:</span>
+                                        <span class="value">{flight.departure}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Arrival:</span>
+                                        <span class="value">{flight.arrival}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Duration:</span>
+                                        <span class="value">{flight.duration}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Aircraft:</span>
+                                        <span class="value">{flight.aircraft}</span>
+                                    </div>
+                                    <div class="detail">
+                                        <span class="label">Cabin:</span>
+                                        <span class="value">{flight.cabin}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </section>
+
+        <section class="section">
+            <h2>🏨 Universal Orlando Resort</h2>
+            <div class="resort-card">
+                <div class="resort-header">
+                    <h3>{tripData.universal.hotel}</h3>
+                    <div class="dates">
+                        {tripData.universal.checkIn} - {tripData.universal.checkOut}
+                    </div>
+                </div>
+                <div class="resort-details">
+                    <div class="detail">
+                        <span class="label">Room:</span>
+                        <span class="value">{tripData.universal.room}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Confirmation:</span>
+                        <span class="value">{tripData.universal.confirmation}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Tickets:</span>
+                        <span class="value">{tripData.universal.tickets}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Valid:</span>
+                        <span class="value">{tripData.universal.ticketValid}</span>
+                    </div>
+                    {tripData.universal.earlyAdmission && (
+                        <div class="detail">
+                            <span class="label">Early Park Admission:</span>
+                            <span class="value">✓ Included</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🏰 Walt Disney World</h2>
+            <div class="resort-card">
+                <div class="resort-header">
+                    <h3>{tripData.disney.hotel}</h3>
+                    <div class="dates">
+                        {tripData.disney.checkIn} - {tripData.disney.checkOut}
+                    </div>
+                </div>
+                <div class="resort-details">
+                    <div class="detail">
+                        <span class="label">Room:</span>
+                        <span class="value">{tripData.disney.room}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Confirmation:</span>
+                        <span class="value">{tripData.disney.confirmation}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Tickets:</span>
+                        <span class="value">{tripData.disney.tickets}</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Valid:</span>
+                        <span class="value">{tripData.disney.ticketValid}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📋 Pending Tasks</h2>
+            <div class="tasks">
+                {tripData.pendingTasks.map(task => (
+                    <div class="task-item">
+                        <input type="checkbox" id={`task-${task.slice(0,10)}`} />
+                        <label for={`task-${task.slice(0,10)}`}>{task}</label>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <footer class="page-footer">
+            <p>Last updated: January 2026</p>
+            <p>Trip documentation stored in <code>usa-orlando-2026/</code></p>
+        </footer>
+    </div>
+</BaseLayout>
+
+<style>
+    #itinerario {
+        font-family: 'Lato', sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .trip-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #eee;
+    }
+
+    .trip-header h1 {
+        color: #15294b;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        color: #666;
+        font-size: 1.1em;
+        margin-bottom: 20px;
+    }
+
+    .trip-meta {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 20px;
+    }
+
+    .meta-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .meta-label {
+        font-size: 0.9em;
+        color: #888;
+        margin-bottom: 5px;
+    }
+
+    .meta-value {
+        font-weight: 600;
+        color: #046cfc;
+    }
+
+    .note {
+        background: #fff8e1;
+        border-left: 4px solid #f1870d;
+        padding: 12px 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+        font-size: 0.95em;
+    }
+
+    .section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .section h2 {
+        color: #15294b;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.6em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .flight-summary {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .summary-item .label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .summary-item .value {
+        font-weight: 700;
+        color: #046cfc;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .flight-segment {
+        margin-bottom: 30px;
+    }
+
+    .flight-segment h3 {
+        color: #555;
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 4px solid #046cfc;
+    }
+
+    .flights-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .flight-card {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .flight-card:hover {
+        border-color: #046cfc;
+        box-shadow: 0 5px 15px rgba(4, 108, 252, 0.1);
+    }
+
+    .flight-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .flight-number {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        color: #046cfc;
+        font-size: 1.2em;
+    }
+
+    .flight-route {
+        color: #555;
+        font-weight: 600;
+        font-size: 0.95em;
+        text-align: right;
+    }
+
+    .flight-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .detail {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .label {
+        font-size: 0.85em;
+        color: #888;
+        margin-bottom: 3px;
+    }
+
+    .value {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .resort-card {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .resort-card:hover {
+        border-color: #046cfc;
+        box-shadow: 0 5px 15px rgba(4, 108, 252, 0.1);
+    }
+
+    .resort-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .resort-header h3 {
+        color: #15294b;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.4em;
+        margin: 0;
+    }
+
+    .dates {
+        color: #046cfc;
+        font-weight: 600;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .resort-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .tasks {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 25px;
+    }
+
+    .task-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .task-item:last-child {
+        border-bottom: none;
+    }
+
+    .task-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .task-item label {
+        cursor: pointer;
+        font-size: 1em;
+        color: #333;
+    }
+
+    .task-item input[type="checkbox"]:checked + label {
+        text-decoration: line-through;
+        color: #888;
+    }
+
+    .page-footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #666;
+        font-size: 0.9em;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+
+    .page-footer code {
+        background: #f1f3f5;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        color: #046cfc;
+    }
+
+    @media (max-width: 768px) {
+        .trip-meta {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .flights-container {
+            grid-template-columns: 1fr;
+        }
+
+        .flight-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .flight-route {
+            text-align: left;
+        }
+
+        .resort-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .flight-details {
+            grid-template-columns: 1fr;
+        }
+
+        .resort-details {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

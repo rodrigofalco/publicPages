@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 5 - Descanso y Compras | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛍️</text></svg>">
+    <style>
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid #10b981;
+            transition: transform 0.2s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(5px);
+        }
+
+        .time-block.shopping {
+            border-left-color: #ec4899;
+            background: linear-gradient(135deg, #fdf2f8 0%, var(--background-light) 100%);
+        }
+
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+
+        .time-block.rest {
+            border-left-color: #06b6d4;
+            background: linear-gradient(135deg, #ecfeff 0%, var(--background-light) 100%);
+        }
+
+        .time-column {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .time-period {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-location {
+            font-size: 0.9rem;
+            color: #10b981;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .activity-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .activity-tips {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .activity-tips strong {
+            color: #10b981;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.relax {
+            background: #06b6d4;
+            color: white;
+        }
+
+        .badge.shopping-badge {
+            background: #ec4899;
+            color: white;
+        }
+
+        .badge.recommended {
+            background: #10b981;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .outlet-card {
+            background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .outlet-card h4 {
+            margin-bottom: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <header>
+            <h1>Dia 5 - Descanso y Compras</h1>
+            <p class="subtitle">Jueves 16 de Abril, 2026</p>
+            <span class="dates">Dia libre - Outlets y Relax</span>
+        </header>
+
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">😴</div>
+                    <div class="summary-label">Dormir Hasta Tarde</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">🏊</div>
+                    <div class="summary-label">Piscina del Hotel</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">🛍️</div>
+                    <div class="summary-label">Outlets</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">Relax</div>
+                    <div class="summary-label">Descansar Piernas</div>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2>Itinerario Detallado</h2>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">9:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge relax">Descanso</span>
+                        Despertar sin Alarma
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-description">
+                        Despues de dos dias intensos de parques, hoy es dia de recuperacion. Dormir todo lo que necesiten sin alarmas ni apuros.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Importante:</strong> Descansar bien es clave para disfrutar el resto del viaje. Los parques demandan mucha energia.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">10:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Desayuno Tranquilo
+                    </div>
+                    <div class="activity-location">
+                        📍 Sand Bar (Restaurante del hotel) o IHOP cercano
+                    </div>
+                    <div class="activity-description">
+                        Desayunar con calma en el hotel o salir a un IHOP/Denny's cercano para un desayuno americano completo.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">11:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge relax">Pool Time</span>
+                        Piscina del Hotel
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort - Piscina
+                    </div>
+                    <div class="activity-description">
+                        El hotel tiene una piscina tematica de playa muy linda. Perfecto para relajarse, tomar sol y refrescarse del calor de Florida.
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Piscina estilo "beach entry" (entrada gradual)</li>
+                            <li>Tumbonas y sombrillas disponibles</li>
+                            <li>Bar de piscina para bebidas y snacks</li>
+                            <li>Toallas disponibles en el area</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Aplicar protector solar frecuentemente. El sol de Florida es muy fuerte incluso en abril.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">13:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Almuerzo
+                    </div>
+                    <div class="activity-location">
+                        📍 Hotel o camino a los outlets
+                    </div>
+                    <div class="activity-description">
+                        Almorzar antes de salir de compras. Opciones en el area:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Chili's:</strong> Comida Tex-Mex casual</li>
+                            <li><strong>Olive Garden:</strong> Italiana estilo americano</li>
+                            <li><strong>Five Guys:</strong> Las mejores hamburguesas de cadena</li>
+                            <li><strong>Chipotle:</strong> Burritos y bowls rapidos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block shopping">
+                <div class="time-column">
+                    <div class="time-value">14:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge shopping-badge">Compras</span>
+                        Orlando Premium Outlets (Vineland)
+                    </div>
+                    <div class="activity-location">
+                        📍 8200 Vineland Ave, Orlando, FL 32821
+                    </div>
+                    <div class="activity-description">
+                        El outlet mas grande y completo de Orlando con mas de 160 tiendas de marcas premium.
+                    </div>
+                    <div class="outlet-card">
+                        <h4>Tiendas Destacadas</h4>
+                        <p><strong>Deportivas:</strong> Nike, Adidas, Under Armour, Puma, New Balance</p>
+                        <p><strong>Moda:</strong> Tommy Hilfiger, Calvin Klein, Levi's, Gap, Banana Republic</p>
+                        <p><strong>Lujo:</strong> Coach, Kate Spade, Michael Kors, Tory Burch</p>
+                        <p><strong>Otros:</strong> Bath & Body Works, Victoria's Secret, Sunglass Hut</p>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Ir primero al centro de informacion para obtener el libro de cupones. Muchas tiendas dan descuentos adicionales.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block shopping">
+                <div class="time-column">
+                    <div class="time-value">17:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge shopping-badge">Opcion</span>
+                        Orlando Premium Outlets (International Dr) o The Mall at Millenia
+                    </div>
+                    <div class="activity-location">
+                        📍 4951 International Dr o 4200 Conroy Rd
+                    </div>
+                    <div class="activity-description">
+                        Si quieren mas opciones de compras:
+                        <br><br>
+                        <strong>Premium Outlets I-Drive:</strong> Otro outlet con tiendas diferentes. Mas pequeno pero con algunas marcas exclusivas.
+                        <br><br>
+                        <strong>The Mall at Millenia:</strong> Mall de lujo cerrado (aire acondicionado!) con Apple Store, Bloomingdale's, Macy's, y tiendas de diseñador.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Nota:</strong> Millenia es ideal si buscan marcas de lujo o quieren escapar del calor en un mall climatizado.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">19:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Cena
+                    </div>
+                    <div class="activity-location">
+                        📍 International Drive
+                    </div>
+                    <div class="activity-description">
+                        International Drive tiene cientos de restaurantes. Algunas recomendaciones:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>The Cheesecake Factory:</strong> Menu enorme, porciones gigantes, cheesecakes increibles</li>
+                            <li><strong>Bahama Breeze:</strong> Comida caribeña relajada</li>
+                            <li><strong>Texas de Brazil:</strong> Churrascaria brasileña (caro pero excelente)</li>
+                            <li><strong>Red Lobster:</strong> Mariscos americanos</li>
+                            <li><strong>Shake Shack:</strong> Hamburguesas gourmet rapidas</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> The Cheesecake Factory suele tener espera. Pueden poner su nombre en la lista via app y pasear mientras esperan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">21:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Regreso al Hotel
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-description">
+                        Volver al hotel a descansar y organizar las compras. Manana es el dia de Epic Universe - el nuevo parque de Universal que abre en 2025!
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Preparar para manana:</strong> Epic Universe no tiene Early Park Admission para hoteles value como Endless Summer (verificar en 2026). Revisar horarios del parque.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Guia de Compras</h2>
+            <div class="card">
+                <h3>Mejores Ofertas por Categoria</h3>
+                <ul class="checklist">
+                    <li><strong>Ropa deportiva:</strong> Nike y Adidas suelen tener 40-60% de descuento</li>
+                    <li><strong>Jeans:</strong> Levi's outlet tiene excelentes precios</li>
+                    <li><strong>Carteras:</strong> Coach y Kate Spade con 50-70% off</li>
+                    <li><strong>Fragancias:</strong> Perfumania o Bath & Body Works</li>
+                    <li><strong>Electronica:</strong> Mejor en Best Buy fuera del outlet</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Tips de Ahorro</h3>
+                <ul class="checklist">
+                    <li>Pedir el coupon book en el centro de informacion</li>
+                    <li>Registrarse en las apps de las tiendas para descuentos extra</li>
+                    <li>Los precios ya incluyen impuestos en la etiqueta</li>
+                    <li>Comparar precios en Amazon antes de comprar</li>
+                    <li>Las mejores ofertas suelen ser temprano o cerca del cierre</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Consejos del Dia</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">👟</span>
+                    <div class="tip-text">
+                        <strong>Calzado comodo:</strong> Los outlets son grandes y caminaran mucho. Usar zapatos comodos.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">💳</span>
+                    <div class="tip-text">
+                        <strong>Limite de aduanas:</strong> Argentina permite hasta $500 USD en compras sin pagar impuestos. Tenganlo en cuenta.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🧴</span>
+                    <div class="tip-text">
+                        <strong>Protector solar:</strong> Incluso en el outlet al aire libre, el sol de Florida es fuerte.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">💧</span>
+                    <div class="tip-text">
+                        <strong>Hidratacion:</strong> Llevar agua. Los outlets son al aire libre y hace calor.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dia 5 - Descanso y Compras</p>
+            <p>Jueves 16 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-4.html" style="color: white; text-decoration: none;">← Dia 4</a>
+                |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a>
+                |
+                <a href="day-6.html" style="color: white; text-decoration: none;">Dia 6 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

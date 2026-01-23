@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 11 - Hollywood Studios | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+    <style>
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid var(--disney-purple);
+            transition: transform 0.2s ease;
+        }
+        .time-block:hover { transform: translateX(5px); }
+        .time-block.priority {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, var(--background-light) 100%);
+        }
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+        .time-block.starwars {
+            border-left-color: #1f2937;
+            background: linear-gradient(135deg, #f3f4f6 0%, var(--background-light) 100%);
+        }
+        .time-block.toystory {
+            border-left-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff 0%, var(--background-light) 100%);
+        }
+        .time-column { min-width: 80px; text-align: center; }
+        .time-value { font-size: 1.4rem; font-weight: 700; color: var(--primary-color); }
+        .time-period { font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; }
+        .activity-content { flex: 1; }
+        .activity-title { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .activity-location { font-size: 0.9rem; color: var(--disney-purple); margin-bottom: 10px; }
+        .activity-description { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+        .activity-tips { margin-top: 12px; padding: 12px; background: rgba(123, 45, 142, 0.1); border-radius: 8px; font-size: 0.9rem; }
+        .activity-tips strong { color: var(--disney-purple); }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge.must-do { background: #ef4444; color: white; }
+        .badge.starwars { background: #1f2937; color: white; }
+        .badge.toystory { background: #3b82f6; color: white; }
+        .badge.thrill { background: #f59e0b; color: white; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-color); text-decoration: none; font-weight: 500; padding: 10px 20px; background: var(--background-light); border-radius: 25px; margin-bottom: 20px; transition: all 0.3s ease; }
+        .back-link:hover { background: var(--primary-color); color: white; }
+        .summary-box { background: linear-gradient(135deg, var(--disney-purple) 0%, #a855f7 100%); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; }
+        .summary-box h3 { color: white; margin-bottom: 15px; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .summary-item { text-align: center; }
+        .summary-value { font-size: 1.8rem; font-weight: 700; }
+        .summary-label { font-size: 0.85rem; opacity: 0.9; }
+        .attraction-stats { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
+        .stat { display: flex; align-items: center; gap: 5px; font-size: 0.85rem; color: var(--text-light); }
+        .area-section { margin-top: 40px; padding-top: 30px; border-top: 3px dashed var(--border-color); }
+        .area-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .area-icon { font-size: 3rem; }
+        .area-info h3 { color: var(--disney-purple); font-size: 1.5rem; margin: 0; }
+        .area-info p { color: var(--text-light); margin: 5px 0 0; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 10px 0; padding-left: 30px; position: relative; border-bottom: 1px solid var(--border-color); }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist li::before { content: '[ ]'; position: absolute; left: 0; color: var(--disney-purple); font-weight: bold; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link"><span>←</span> Volver al Itinerario</a>
+        <header>
+            <h1>Dia 11 - Hollywood Studios</h1>
+            <p class="subtitle">Miercoles 22 de Abril, 2026</p>
+            <span class="dates">Star Wars, Toy Story y Tower of Terror</span>
+        </header>
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item"><div class="summary-value">8:30 AM</div><div class="summary-label">Early Entry</div></div>
+                <div class="summary-item"><div class="summary-value">⭐</div><div class="summary-label">Galaxy's Edge</div></div>
+                <div class="summary-item"><div class="summary-value">🚀</div><div class="summary-label">Toy Story Land</div></div>
+                <div class="summary-item"><div class="summary-value">~13 hrs</div><div class="summary-label">Dia Completo</div></div>
+            </div>
+        </div>
+
+        <section>
+            <h2>Itinerario Detallado</h2>
+
+            <div class="time-block">
+                <div class="time-column"><div class="time-value">7:30</div><div class="time-period">AM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Transporte a Hollywood Studios</div>
+                    <div class="activity-location">📍 Pop Century - Skyliner Station</div>
+                    <div class="activity-description">El Skyliner va directo a Hollywood Studios desde Pop Century. Viaje rapido y con vistas al parque.</div>
+                </div>
+            </div>
+
+            <div class="area-section">
+                <div class="area-header">
+                    <span class="area-icon">⭐</span>
+                    <div class="area-info"><h3>Star Wars: Galaxy's Edge</h3><p>Early Entry - Batuu</p></div>
+                </div>
+            </div>
+
+            <div class="time-block starwars priority">
+                <div class="time-column"><div class="time-value">8:30</div><div class="time-period">AM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title"><span class="badge must-do">Prioridad #1</span> Rise of the Resistance</div>
+                    <div class="activity-location">📍 Star Wars: Galaxy's Edge</div>
+                    <div class="activity-description">LA mejor atraccion de Disney World. Mision de 18 minutos donde son capturados por la Primera Orden. Trackless, efectos increibles, Star Destroyers a escala real.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 18 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 102 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                    <div class="activity-tips"><strong>Tip:</strong> IR PRIMERO con Early Entry. Las filas pueden ser de 2-3 horas durante el dia.</div>
+                </div>
+            </div>
+
+            <div class="time-block starwars">
+                <div class="time-column"><div class="time-value">9:15</div><div class="time-period">AM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title"><span class="badge starwars">Star Wars</span> Millennium Falcon: Smugglers Run</div>
+                    <div class="activity-location">📍 Star Wars: Galaxy's Edge</div>
+                    <div class="activity-description">Piloten el Millennium Falcon! Mision interactiva donde cada pasajero tiene un rol (piloto, artillero, ingeniero). El cockpit es una replica exacta.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 97 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                    <div class="activity-tips"><strong>Tip:</strong> Pidan ser pilotos para la mejor experiencia!</div>
+                </div>
+            </div>
+
+            <div class="time-block starwars">
+                <div class="time-column"><div class="time-value">10:00</div><div class="time-period">AM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Explorar Galaxy's Edge</div>
+                    <div class="activity-location">📍 Star Wars: Galaxy's Edge - Black Spire Outpost</div>
+                    <div class="activity-description">El area mas inmersiva de Disney:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Savi's Workshop:</strong> Construir tu propio lightsaber ($250)</li>
+                            <li><strong>Droid Depot:</strong> Construir tu propio droide ($100+)</li>
+                            <li><strong>Oga's Cantina:</strong> Bar tematico (reservacion recomendada)</li>
+                            <li><strong>Dok-Ondar's:</strong> Tienda de antiguedades con Dok-Ondar animatronico</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips"><strong>Blue Milk / Green Milk:</strong> Las bebidas iconicas de Star Wars ($8 cada una)</div>
+                </div>
+            </div>
+
+            <div class="area-section">
+                <div class="area-header">
+                    <span class="area-icon">🚀</span>
+                    <div class="area-info"><h3>Toy Story Land</h3><p>Manana - Woody y Buzz</p></div>
+                </div>
+            </div>
+
+            <div class="time-block toystory priority">
+                <div class="time-column"><div class="time-value">11:00</div><div class="time-period">AM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title"><span class="badge toystory">Popular</span> Slinky Dog Dash</div>
+                    <div class="activity-location">📍 Toy Story Land</div>
+                    <div class="activity-description">Montana rusa familiar donde montan a Slinky Dog! Recorre el patio de Andy a tamaño de juguete. Muy divertida para todas las edades.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 2 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 97 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block toystory">
+                <div class="time-column"><div class="time-value">11:45</div><div class="time-period">AM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Alien Swirling Saucers</div>
+                    <div class="activity-location">📍 Toy Story Land</div>
+                    <div class="activity-description">Atraccion tipo tazas giratorias con los aliens de Pizza Planet. "The Claw!"</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 1.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 81 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja-Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block toystory">
+                <div class="time-column"><div class="time-value">12:15</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Toy Story Mania!</div>
+                    <div class="activity-location">📍 Toy Story Land</div>
+                    <div class="activity-description">Shooter 3D interactivo donde compiten por puntos! Muy adictivo y las filas suelen ser manejables.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 7 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column"><div class="time-value">13:00</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">🍽️ Almuerzo</div>
+                    <div class="activity-location">📍 Woody's Lunch Box o Backlot Express</div>
+                    <div class="activity-description">
+                        <strong>Woody's Lunch Box:</strong> Sandwiches, tater tots, totchos ($12-16)<br>
+                        <strong>Backlot Express:</strong> Hamburguesas, pollo, opciones vegetarianas ($13-18)
+                    </div>
+                </div>
+            </div>
+
+            <div class="area-section">
+                <div class="area-header">
+                    <span class="area-icon">🎭</span>
+                    <div class="area-info"><h3>Sunset Boulevard</h3><p>Tarde - Clasicos de Hollywood</p></div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column"><div class="time-value">14:00</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title"><span class="badge must-do">Imperdible</span> The Twilight Zone Tower of Terror</div>
+                    <div class="activity-location">📍 Sunset Boulevard</div>
+                    <div class="activity-description">El ascensor embrujado del Hollywood Tower Hotel! Caidas libres impredecibles de hasta 13 pisos. Uno de los mejores dark rides del mundo.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 102 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Alta</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column"><div class="time-value">14:45</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title"><span class="badge thrill">Extrema</span> Rock 'n' Roller Coaster Starring Aerosmith</div>
+                    <div class="activity-location">📍 Sunset Boulevard</div>
+                    <div class="activity-description">Montana rusa indoor que acelera de 0 a 90 km/h en 2.8 segundos! Tres inversiones en la oscuridad con musica de Aerosmith a todo volumen.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 1.5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Altura min: 122 cm</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Extrema</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column"><div class="time-value">15:30</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Mickey & Minnie's Runaway Railway</div>
+                    <div class="activity-location">📍 Hollywood Boulevard</div>
+                    <div class="activity-description">Atraccion trackless donde entran en un cartoon de Mickey! Tecnologia sin pantallas 2D, efectos practicos sorprendentes. Muy divertida.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 5 min</span>
+                        <span class="stat"><span class="stat-icon">📏</span> Sin restriccion</span>
+                        <span class="stat"><span class="stat-icon">🎢</span> Intensidad: Baja</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column"><div class="time-value">16:15</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Indiana Jones Epic Stunt Spectacular</div>
+                    <div class="activity-location">📍 Echo Lake</div>
+                    <div class="activity-description">Show en vivo con stunts de las peliculas de Indiana Jones. Explosiones, peleas, vehiculos reales. Verificar horarios en la app.</div>
+                    <div class="attraction-stats">
+                        <span class="stat"><span class="stat-icon">⏱️</span> Duracion: 30 min</span>
+                        <span class="stat"><span class="stat-icon">🎭</span> Show en vivo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block meal">
+                <div class="time-column"><div class="time-value">18:00</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">🍽️ Cena</div>
+                    <div class="activity-location">📍 Hollywood Studios</div>
+                    <div class="activity-description">
+                        <strong>Docking Bay 7 (Galaxy's Edge):</strong> Comida de otro planeta, literalmente ($15-20)<br>
+                        <strong>50's Prime Time Cafe (Reservacion):</strong> Comida americana casera con camareros que actuan como mama regañona ($20-35)<br>
+                        <strong>Sci-Fi Dine-In Theater:</strong> Comer en autos clásicos viendo peliculas B de los 50s ($18-30)
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column"><div class="time-value">19:30</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Re-rides / Atracciones Pendientes</div>
+                    <div class="activity-location">📍 Hollywood Studios</div>
+                    <div class="activity-description">Tiempo para repetir favoritas o hacer lo que falto. Las filas bajan al final del dia.</div>
+                </div>
+            </div>
+
+            <div class="time-block priority">
+                <div class="time-column"><div class="time-value">20:30</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title"><span class="badge must-do">Show Nocturno</span> Fantasmic!</div>
+                    <div class="activity-location">📍 Hollywood Hills Amphitheater</div>
+                    <div class="activity-description">Show nocturno epico con Mickey luchando contra los villanos Disney. Agua, fuego, lasers, proyecciones, fuegos artificiales. Uno de los mejores shows de Disney.</div>
+                    <div class="activity-tips"><strong>Tip:</strong> Llegar 30-45 minutos antes para conseguir buen lugar. El anfiteatro es grande pero se llena.</div>
+                </div>
+            </div>
+
+            <div class="time-block">
+                <div class="time-column"><div class="time-value">21:30</div><div class="time-period">PM</div></div>
+                <div class="activity-content">
+                    <div class="activity-title">Regreso al Hotel</div>
+                    <div class="activity-location">📍 Hollywood Studios → Pop Century via Skyliner</div>
+                    <div class="activity-description">Ultimo dia de parques Disney manana - Animal Kingdom!</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Consejos del Dia</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">⭐</span>
+                    <div class="tip-text"><strong>Rise of the Resistance:</strong> Es la prioridad #1 del dia. Si no lo logran en Early Entry, consideren Individual Lightning Lane.</div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">🍺</span>
+                    <div class="tip-text"><strong>Oga's Cantina:</strong> Reservacion recomendada. Se puede hacer en la app con 60 dias de anticipacion.</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Dia 11 - Hollywood Studios</p>
+            <p>Miercoles 22 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-10.html" style="color: white; text-decoration: none;">← Dia 10</a> |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a> |
+                <a href="day-12.html" style="color: white; text-decoration: none;">Dia 12 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia 2 - Llegada a Orlando | Orlando 2026</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>">
+    <style>
+        /* Additional styles for detailed day view */
+        .time-block {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: 15px;
+            border-left: 5px solid #6366f1;
+            transition: transform 0.2s ease;
+        }
+
+        .time-block:hover {
+            transform: translateX(5px);
+        }
+
+        .time-block.priority {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, var(--background-light) 100%);
+        }
+
+        .time-block.meal {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, var(--background-light) 100%);
+        }
+
+        .time-block.transport {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(135deg, #f5f3ff 0%, var(--background-light) 100%);
+        }
+
+        .time-block.flight {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #ecfdf5 0%, var(--background-light) 100%);
+        }
+
+        .time-block.shopping {
+            border-left-color: #ec4899;
+            background: linear-gradient(135deg, #fdf2f8 0%, var(--background-light) 100%);
+        }
+
+        .time-block.rest {
+            border-left-color: #06b6d4;
+            background: linear-gradient(135deg, #ecfeff 0%, var(--background-light) 100%);
+        }
+
+        .time-column {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .time-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .time-period {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-location {
+            font-size: 0.9rem;
+            color: #6366f1;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .activity-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .activity-tips {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .activity-tips strong {
+            color: #6366f1;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.important {
+            background: #ef4444;
+            color: white;
+        }
+
+        .badge.info {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .badge.flight-badge {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge.shopping-badge {
+            background: #ec4899;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            background: var(--background-light);
+            border-radius: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .hotel-info-card {
+            background: linear-gradient(135deg, var(--universal-blue) 0%, #00a8e8 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+        }
+
+        .hotel-info-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: '[ ]';
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            font-weight: bold;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Link -->
+        <a href="index.html" class="back-link">
+            <span>←</span> Volver al Itinerario
+        </a>
+
+        <!-- Header -->
+        <header>
+            <h1>Dia 2 - Llegada a Orlando</h1>
+            <p class="subtitle">Lunes 13 de Abril, 2026</p>
+            <span class="dates">Miami → Orlando + Check-in Universal</span>
+        </header>
+
+        <!-- Summary Box -->
+        <div class="summary-box">
+            <h3>Resumen del Dia</h3>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">07:00</div>
+                    <div class="summary-label">Llegada Miami</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">~4h</div>
+                    <div class="summary-label">Miami a Orlando</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">15:00</div>
+                    <div class="summary-label">Check-in Hotel</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">Relax</div>
+                    <div class="summary-label">Tarde Libre</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <section>
+            <h2>Itinerario Detallado</h2>
+
+            <!-- 07:00 AM - Llegada MIA -->
+            <div class="time-block flight">
+                <div class="time-column">
+                    <div class="time-value">07:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge flight-badge">Llegada</span>
+                        Aterrizaje en Miami
+                    </div>
+                    <div class="activity-location">
+                        📍 Aeropuerto Internacional de Miami (MIA)
+                    </div>
+                    <div class="activity-description">
+                        Llegada del vuelo AR 1302 desde Buenos Aires. Hora local de Miami (misma zona horaria que Argentina en abril).
+                    </div>
+                </div>
+            </div>
+
+            <!-- 07:30 - Migracion -->
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">07:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge important">Obligatorio</span>
+                        Migracion y Aduana EE.UU.
+                    </div>
+                    <div class="activity-location">
+                        📍 Miami International Airport - Immigration Hall
+                    </div>
+                    <div class="activity-description">
+                        Proceso de entrada a Estados Unidos:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Kioscos APC:</strong> Si tienen ESTA, pueden usar los kioscos automaticos</li>
+                            <li><strong>Documentos:</strong> Pasaporte, ESTA, formulario de aduana completado</li>
+                            <li><strong>Preguntas tipicas:</strong> Proposito del viaje, donde se hospedaran, fecha de regreso</li>
+                            <li><strong>Huellas y foto:</strong> Proceso biometrico obligatorio</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tiempo estimado:</strong> 30-90 minutos dependiendo de las filas. Ser pacientes y responder con claridad.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 09:00 - Equipaje y Aduana -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">09:00</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Recoger Equipaje y Aduana
+                    </div>
+                    <div class="activity-location">
+                        📍 Miami International Airport - Baggage Claim
+                    </div>
+                    <div class="activity-description">
+                        Retirar el equipaje despachado en las cintas correspondientes al vuelo AR 1302. Luego pasar por aduana entregando el formulario.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Recordar:</strong> No traer alimentos frescos, frutas, carnes o productos prohibidos. Declaren todo lo que traigan.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 09:30 - Alquiler Auto -->
+            <div class="time-block transport">
+                <div class="time-column">
+                    <div class="time-value">09:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge info">Transporte</span>
+                        Alquiler de Auto
+                    </div>
+                    <div class="activity-location">
+                        📍 Miami International Airport - Rental Car Center
+                    </div>
+                    <div class="activity-description">
+                        Dirigirse al Rental Car Center de MIA (hay shuttle gratuito desde las terminales). Proceso de alquiler:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Presentar licencia de conducir internacional o argentina</li>
+                            <li>Tarjeta de credito a nombre del conductor</li>
+                            <li>Confirmar reserva</li>
+                            <li>Revisar el vehiculo antes de salir</li>
+                            <li>Configurar GPS o Google Maps</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Importante:</strong> Verificar que el seguro cubra todo. Tomar fotos del auto antes de retirarlo.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10:30 - Desayuno Miami -->
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">10:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Desayuno/Brunch
+                    </div>
+                    <div class="activity-location">
+                        📍 Miami - Cerca del aeropuerto
+                    </div>
+                    <div class="activity-description">
+                        Parar a desayunar algo sustancioso antes de emprender el viaje a Orlando. Opciones:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>IHOP:</strong> Desayunos americanos clasicos</li>
+                            <li><strong>Denny's:</strong> 24 horas, cerca del aeropuerto</li>
+                            <li><strong>First Watch:</strong> Brunch de mejor calidad</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11:30 - Viaje a Orlando -->
+            <div class="time-block transport">
+                <div class="time-column">
+                    <div class="time-value">11:30</div>
+                    <div class="time-period">AM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge info">Ruta</span>
+                        Viaje Miami → Orlando
+                    </div>
+                    <div class="activity-location">
+                        📍 Florida Turnpike / I-95 Norte
+                    </div>
+                    <div class="activity-description">
+                        Viaje de aproximadamente 4 horas (380 km) por autopista. Ruta recomendada:
+                        <br><br>
+                        <strong>Miami → Florida Turnpike Norte → Orlando</strong>
+                        <br><br>
+                        La Florida Turnpike es autopista de peaje pero es la ruta mas directa y rapida.
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Peajes:</strong> Se pagan con SunPass electronico (incluido en muchos alquileres) o efectivo en algunas cabinas. Consultar con la rentadora.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13:30 - Parada Descanso -->
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">13:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Parada de Descanso
+                    </div>
+                    <div class="activity-location">
+                        📍 Florida Turnpike - Service Plaza
+                    </div>
+                    <div class="activity-description">
+                        Parada a mitad de camino para:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Estirar las piernas</li>
+                            <li>Usar el bano</li>
+                            <li>Comprar snacks o bebidas</li>
+                            <li>Cargar combustible si es necesario</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15:30 - Llegada Orlando -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">15:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Llegada a Orlando
+                    </div>
+                    <div class="activity-location">
+                        📍 Orlando, Florida
+                    </div>
+                    <div class="activity-description">
+                        Bienvenidos a Orlando! La capital mundial de los parques tematicos. Dirigirse directamente al hotel Universal Endless Summer Resort.
+                    </div>
+                    <div class="hotel-info-card">
+                        <h4>Universal Endless Summer Resort - Surfside Inn</h4>
+                        <p>📍 7000 Universal Blvd, Orlando, FL 32819</p>
+                        <p>📞 (407) 503-7000</p>
+                        <p>Reserva: <strong>W36604U2</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 16:00 - Check-in Hotel -->
+            <div class="time-block priority">
+                <div class="time-column">
+                    <div class="time-value">16:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge important">Check-in</span>
+                        Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort - Surfside Inn
+                    </div>
+                    <div class="activity-description">
+                        Proceso de check-in en el hotel:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Presentar ID con foto y tarjeta de credito</li>
+                            <li>Confirmar reserva W36604U2</li>
+                            <li>Obtener tarjetas de habitacion (importantes para Early Park Admission)</li>
+                            <li>Preguntar sobre shuttle a los parques</li>
+                            <li>Recoger tickets de los parques en Vacation Planning Center</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Recordar:</strong> La tarjeta del hotel es necesaria para el Early Park Admission. No olvidarla!
+                    </div>
+                </div>
+            </div>
+
+            <!-- 17:00 - Descanso -->
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">17:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Instalarse y Descansar
+                    </div>
+                    <div class="activity-location">
+                        📍 Habitacion del Hotel
+                    </div>
+                    <div class="activity-description">
+                        Tomarse un tiempo para:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Desempacar lo necesario</li>
+                            <li>Ducharse y refrescarse</li>
+                            <li>Descansar un poco del viaje largo</li>
+                            <li>Cargar todos los dispositivos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 18:00 - Walmart -->
+            <div class="time-block shopping">
+                <div class="time-column">
+                    <div class="time-value">18:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        <span class="badge shopping-badge">Compras</span>
+                        Walmart Supercenter
+                    </div>
+                    <div class="activity-location">
+                        📍 Walmart - International Drive o Turkey Lake Rd
+                    </div>
+                    <div class="activity-description">
+                        Compras esenciales para el viaje:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Agua embotellada:</strong> Pack grande para la habitacion</li>
+                            <li><strong>Snacks:</strong> Barras de cereal, frutos secos, galletas</li>
+                            <li><strong>Protector solar:</strong> SPF 50+ (el sol de Florida es fuerte)</li>
+                            <li><strong>Ponchos:</strong> Por si llueve en los parques</li>
+                            <li><strong>Medicamentos basicos:</strong> Ibuprofeno, Dramamine, etc.</li>
+                            <li><strong>Cargador portatil:</strong> Si no trajeron</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Tip:</strong> Los precios de agua y snacks en los parques son muy altos. Comprar aqui ahorra mucho dinero.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 19:30 - CityWalk -->
+            <div class="time-block">
+                <div class="time-column">
+                    <div class="time-value">19:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Exploracion CityWalk
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal CityWalk
+                    </div>
+                    <div class="activity-description">
+                        CityWalk es el area de entretenimiento de Universal con restaurantes, tiendas y bares. Entrada gratuita (solo se paga estacionamiento si van en auto).
+                        <br><br>
+                        <strong>Recomendaciones:</strong>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>Caminar por el area para familiarizarse</li>
+                            <li>Ver las tiendas de Universal</li>
+                            <li>Observar la entrada a los parques</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 20:00 - Cena -->
+            <div class="time-block meal">
+                <div class="time-column">
+                    <div class="time-value">20:00</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        🍽️ Cena en CityWalk
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal CityWalk - Restaurantes
+                    </div>
+                    <div class="activity-description">
+                        Opciones de cena en CityWalk:
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li><strong>Toothsome Chocolate Emporium:</strong> Steakhouse con increibles milkshakes</li>
+                            <li><strong>Vivo Italian Kitchen:</strong> Comida italiana casual</li>
+                            <li><strong>The Cowfish:</strong> Fusion de sushi y hamburguesas</li>
+                            <li><strong>NBC Sports Grill:</strong> Comida americana, TV deportiva</li>
+                            <li><strong>Bubba Gump Shrimp:</strong> Mariscos estilo Forrest Gump</li>
+                        </ul>
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Nota:</strong> No es necesario reservar en la mayoria de restaurantes de CityWalk, excepto en temporada alta.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 21:30 - Regreso Hotel -->
+            <div class="time-block rest">
+                <div class="time-column">
+                    <div class="time-value">21:30</div>
+                    <div class="time-period">PM</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">
+                        Regreso al Hotel
+                    </div>
+                    <div class="activity-location">
+                        📍 Universal Endless Summer Resort
+                    </div>
+                    <div class="activity-description">
+                        Tomar el shuttle gratuito de regreso al hotel. Prepararse para dormir temprano - manana es el primer dia de parques con Early Park Admission a las 8:00 AM!
+                    </div>
+                    <div class="activity-tips">
+                        <strong>Preparar para manana:</strong> Dejar lista la ropa, cargar celulares, configurar alarma para las 6:30 AM.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checklist Section -->
+        <section>
+            <h2>Checklist del Dia</h2>
+            <div class="card">
+                <h3>En el Aeropuerto</h3>
+                <ul class="checklist">
+                    <li>Pasar migracion con ESTA</li>
+                    <li>Recoger equipaje</li>
+                    <li>Pasar aduana</li>
+                    <li>Recoger auto de alquiler</li>
+                    <li>Verificar seguro del auto</li>
+                    <li>Configurar GPS</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Check-in Hotel</h3>
+                <ul class="checklist">
+                    <li>Presentar ID y tarjeta de credito</li>
+                    <li>Obtener tarjetas de habitacion</li>
+                    <li>Preguntar por Early Park Admission</li>
+                    <li>Recoger tickets de parques</li>
+                    <li>Preguntar horarios de shuttle</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Compras Walmart</h3>
+                <ul class="checklist">
+                    <li>Agua embotellada (pack grande)</li>
+                    <li>Snacks y barras de cereal</li>
+                    <li>Protector solar SPF 50+</li>
+                    <li>Ponchos de lluvia</li>
+                    <li>Medicamentos basicos</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section>
+            <h2>Consejos del Dia</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span class="tip-icon">😴</span>
+                    <div class="tip-text">
+                        <strong>Jet Lag:</strong> Aunque la diferencia horaria es minima, el viaje largo puede cansar. No forzar demasiado este dia.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">💳</span>
+                    <div class="tip-text">
+                        <strong>Tarjeta del Hotel:</strong> Es FUNDAMENTAL para el Early Park Admission. Llevarla siempre.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">📱</span>
+                    <div class="tip-text">
+                        <strong>App Universal:</strong> Descargar la app de Universal Orlando y crear cuenta antes de ir a los parques.
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <span class="tip-icon">⏰</span>
+                    <div class="tip-text">
+                        <strong>Dormir temprano:</strong> Manana el dia empieza a las 7:30 AM para aprovechar el Early Park Admission.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Dia 2 - Llegada a Orlando</p>
+            <p>Lunes 13 de Abril, 2026</p>
+            <p style="margin-top: 10px;">
+                <a href="day-1.html" style="color: white; text-decoration: none;">← Dia 1</a>
+                |
+                <a href="index.html" style="color: white; text-decoration: none;">Itinerario Principal</a>
+                |
+                <a href="day-3.html" style="color: white; text-decoration: none;">Dia 3 →</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
