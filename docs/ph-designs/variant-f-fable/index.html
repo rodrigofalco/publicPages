@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patagonian Habitat — Una inversión en el lugar que soñás</title>
+<meta name="description" content="Desarrolladora de real estate en Villa La Angostura, Patagonia Argentina. Micro-ecosistemas donde trabajo, negocios, hogar y descanso conviven.">
+<link rel="icon" href="../assets/logo/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PATAGONIAN HABITAT — VARIANTE F (Fable)
+   "Ficha de obra": modernismo técnico patagónico.
+   Grilla expuesta, mono de especificación, numerales gigantes.
+   ============================================================ */
+:root{
+  --bosque:#14211a;
+  --bosque-2:#1c2f24;
+  --bosque-3:#25382c;
+  --piedra:#efe9dd;
+  --piedra-2:#e6ddcc;
+  --papel:#f4f0e6;
+  --cobre:#c2814e;
+  --cobre-claro:#dda877;
+  --tinta:#161a15;
+  --gris:#6e7267;
+  --linea:rgba(22,26,21,.18);
+  --linea-osc:rgba(244,240,230,.16);
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --sans:'Bricolage Grotesque',system-ui,sans-serif;
+  --pad:clamp(1.25rem,4vw,4rem);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+}
+body{
+  font-family:var(--sans);
+  font-weight:400;
+  background:var(--papel);
+  color:var(--tinta);
+  line-height:1.6;
+  font-size:clamp(1rem,.95rem + .2vw,1.0625rem);
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cobre);outline-offset:3px;border-radius:2px}
+::selection{background:var(--cobre);color:var(--papel)}
+
+/* ---------- type utilities ---------- */
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.display{
+  font-family:var(--sans);
+  font-weight:800;
+  font-variation-settings:'opsz' 96;
+  line-height:.96;
+  letter-spacing:-.02em;
+  text-transform:uppercase;
+  text-wrap:balance;
+}
+
+/* ---------- section scaffolding ---------- */
+.sec{position:relative;padding:clamp(4.5rem,9vw,8.5rem) var(--pad)}
+.wrap{max-width:1320px;margin:0 auto;position:relative}
+.shead{
+  display:flex;align-items:baseline;gap:1.25rem;flex-wrap:wrap;
+  border-top:1px solid var(--linea);
+  padding-top:1rem;margin-bottom:clamp(2.25rem,5vw,4rem);
+}
+.shead .idx{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;font-weight:600;color:var(--cobre)}
+.shead .kick{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+.shead .rule{flex:1;height:1px;background:var(--linea);align-self:center;min-width:40px}
+.shead .tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
+.dark .shead{border-color:var(--linea-osc)}
+.dark .shead .rule{background:var(--linea-osc)}
+.dark .shead .tag{color:rgba(244,240,230,.55)}
+
+/* crosshair marks */
+.cross{position:relative}
+.cross::before,.cross::after{
+  content:"";position:absolute;width:17px;height:17px;pointer-events:none;
+  background:
+    linear-gradient(currentColor,currentColor) center/1.5px 100% no-repeat,
+    linear-gradient(currentColor,currentColor) center/100% 1.5px no-repeat;
+  opacity:.85;
+}
+.cross::before{top:-8px;left:-8px}
+.cross::after{bottom:-8px;right:-8px}
+
+/* ---------- reveal (never gates visibility) ---------- */
+.rv{opacity:1}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.rv.in{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+
+/* ============ NAV ============ */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:0 var(--pad);height:64px;
+  background:rgba(244,240,230,.88);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--linea);
+}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--cobre);z-index:101}
+.nav-logo img{height:34px;width:auto}
+.nav-links{display:flex;gap:clamp(1rem,2vw,2rem);list-style:none;align-items:center}
+.nav-links a{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;padding:.4rem 0;position:relative;color:var(--tinta);
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--cobre);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  text-decoration:none;background:var(--bosque);color:var(--papel);
+  padding:.72rem 1.1rem;border:1px solid var(--bosque);
+  transition:background .25s,color .25s;white-space:nowrap;
+}
+.nav-cta:hover{background:var(--cobre);border-color:var(--cobre);color:var(--tinta)}
+.burger{
+  display:none;background:none;border:1px solid var(--linea);width:44px;height:44px;
+  cursor:pointer;position:relative;z-index:110;
+}
+.burger span{position:absolute;left:10px;right:10px;height:2px;background:var(--tinta);transition:.3s}
+.burger span:nth-child(1){top:15px}
+.burger span:nth-child(2){top:21px}
+.burger span:nth-child(3){top:27px}
+.burger[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){top:21px;transform:rotate(-45deg)}
+
+/* mobile menu */
+.mmenu{
+  display:none;position:fixed;inset:0;z-index:105;background:var(--bosque);color:var(--piedra);
+  padding:96px var(--pad) 2rem;flex-direction:column;gap:.25rem;
+}
+.mmenu.open{display:flex}
+.mmenu a{
+  font-family:var(--sans);font-weight:700;text-transform:uppercase;font-size:clamp(1.6rem,7vw,2.2rem);
+  text-decoration:none;padding:.55rem 0;border-bottom:1px solid var(--linea-osc);
+  display:flex;justify-content:space-between;align-items:center;letter-spacing:-.01em;
+}
+.mmenu a .n{font-family:var(--mono);font-size:.7rem;color:var(--cobre-claro);letter-spacing:.14em}
+.mmenu .mcta{background:var(--cobre);color:var(--tinta);border:none;margin-top:1.5rem;
+  padding:1rem;justify-content:center;font-size:1.05rem;font-family:var(--mono);letter-spacing:.12em}
+
+/* ============ HERO ============ */
+.hero{
+  display:grid;grid-template-columns:minmax(0,46fr) minmax(0,54fr);
+  grid-template-rows:minmax(0,1fr) auto;
+  min-height:100svh;background:var(--bosque);color:var(--piedra);
+  padding-top:64px;
+}
+.hero-strip{
+  grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--linea-osc);list-style:none;
+}
+.hero-strip li{
+  display:flex;align-items:baseline;gap:.8rem;
+  padding:1.05rem var(--pad);border-right:1px solid var(--linea-osc);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(244,240,230,.85);
+}
+.hero-strip li:last-child{border-right:none}
+.hero-strip b{
+  font-family:var(--sans);font-weight:800;font-size:1.7rem;line-height:1;
+  color:var(--cobre-claro);letter-spacing:-.02em;
+}
+.hero-panel{
+  display:flex;flex-direction:column;justify-content:space-between;gap:1.15rem;
+  padding:clamp(1.4rem,2.5vw,2rem) var(--pad) clamp(1.8rem,3vw,2.4rem);
+  position:relative;
+}
+.hero-coords{
+  display:flex;justify-content:space-between;gap:1rem;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(244,240,230,.5);border-bottom:1px solid var(--linea-osc);
+  padding-bottom:.9rem;margin-bottom:auto;
+}
+.hero-coords b{color:var(--cobre-claro);font-weight:600}
+.hero-kicker{display:flex;align-items:center;gap:.9rem;color:var(--cobre-claro)}
+.hero-kicker .dot{width:8px;height:8px;background:var(--cobre);border-radius:50%;flex:none}
+.hero h1{
+  font-size:clamp(2.7rem,5.4vw,4.7rem);
+  margin-top:.3rem;
+}
+.hero h1 .hollow{
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--cobre-claro);
+  text-stroke:1.5px var(--cobre-claro);
+}
+.hero-tagline{font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cobre-claro)}
+.hero-lead{max-width:52ch;color:rgba(244,240,230,.82);font-weight:300;font-size:clamp(.95rem,1vw,1.02rem)}
+.hero-ctas{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.3rem}
+.btn{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  text-decoration:none;padding:1rem 1.5rem;display:inline-flex;align-items:center;gap:.6rem;
+  transition:background .25s,color .25s,border-color .25s;
+}
+.btn .ar{transition:transform .25s}
+.btn:hover .ar{transform:translateX(4px)}
+.btn-solid{background:var(--cobre);color:var(--tinta);border:1px solid var(--cobre)}
+.btn-solid:hover{background:var(--cobre-claro);border-color:var(--cobre-claro)}
+.btn-ghost{background:transparent;color:var(--piedra);border:1px solid rgba(244,240,230,.4)}
+.btn-ghost:hover{border-color:var(--cobre-claro);color:var(--cobre-claro)}
+.hero-media{position:relative;overflow:hidden;min-height:420px}
+.hero-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.hero-media::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(20,33,26,.42),rgba(20,33,26,0) 34%);
+}
+.hero-plate{
+  position:absolute;z-index:2;right:clamp(1rem,2.5vw,2rem);bottom:clamp(1rem,2.5vw,2rem);
+  background:rgba(20,33,26,.82);backdrop-filter:blur(6px);
+  border:1px solid var(--linea-osc);padding:.8rem 1rem;color:var(--piedra);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  display:flex;flex-direction:column;gap:.25rem;
+}
+.hero-plate b{color:var(--cobre-claro);font-weight:600}
+
+/* marquee */
+.marquee{
+  background:var(--cobre);color:var(--tinta);overflow:hidden;white-space:nowrap;
+  border-top:1px solid var(--bosque);border-bottom:1px solid var(--bosque);
+  padding:.85rem 0;position:relative;
+}
+.marquee-track{display:inline-flex;gap:0;animation:mq 36s linear infinite;will-change:transform}
+@keyframes mq{to{transform:translateX(-50%)}}
+.marquee span{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  padding:0 1.6rem;display:inline-flex;align-items:center;gap:1.6rem;
+}
+.marquee span::after{content:"✛";font-size:.9em;opacity:.7}
+
+/* ============ MANIFIESTO ============ */
+.manifiesto h2{
+  font-size:clamp(2rem,4.6vw,4rem);
+  max-width:22ch;
+}
+.manifiesto h2 em{font-style:normal;color:var(--cobre)}
+.manif-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,5vw,5rem);align-items:end}
+.manif-body{font-weight:300;font-size:clamp(1.05rem,1.2vw,1.2rem);color:#33382f;max-width:46ch}
+.manif-body p{margin-bottom:1.2rem}
+.firma{display:flex;align-items:center;gap:1rem;margin-top:1.6rem}
+.firma .l{width:56px;height:1px;background:var(--cobre)}
+.firma span{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gris)}
+
+/* ============ MÉTODO ============ */
+.metodo{background:var(--bosque);color:var(--piedra)}
+.metodo-head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2rem,4vw,4rem);align-items:end}
+.metodo h2{font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:24ch}
+.metodo .lead{color:rgba(244,240,230,.72);font-weight:300;max-width:44ch;font-size:1.05rem;border-left:1px solid var(--cobre);padding-left:1.4rem}
+.steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--linea-osc);border-right:none;
+  margin-top:clamp(2.5rem,5vw,4rem);
+}
+.step{
+  border-right:1px solid var(--linea-osc);
+  padding:clamp(1.4rem,2vw,2rem);
+  display:flex;flex-direction:column;gap:4.5rem;min-height:340px;
+  position:relative;transition:background .3s;
+}
+.step:hover{background:var(--bosque-2)}
+.step .num{
+  font-family:var(--sans);font-weight:800;font-size:clamp(2.6rem,3.4vw,3.4rem);line-height:1;
+  color:transparent;-webkit-text-stroke:1.2px var(--cobre-claro);
+}
+.step h3{font-size:1.15rem;font-weight:700;text-transform:uppercase;letter-spacing:.01em;margin-bottom:.6rem}
+.step p{font-weight:300;font-size:.94rem;color:rgba(244,240,230,.75)}
+.step::after{
+  content:"";position:absolute;top:1.4rem;right:1.4rem;width:8px;height:8px;
+  border:1px solid var(--cobre-claro);transition:background .3s;
+}
+.step:hover::after{background:var(--cobre-claro)}
+
+/* ============ PROYECTO ============ */
+.proyecto-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(2rem,5vw,5rem)}
+.proyecto h2{font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:20ch}
+.proyecto .cuerpo{font-weight:300;color:#33382f;max-width:50ch;align-self:end}
+.proyecto .cuerpo p{margin-bottom:1.1rem;font-size:1.05rem}
+.proyecto .cuerpo .loc{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--cobre);display:flex;gap:.7rem;align-items:center;margin-top:.4rem;
+}
+.gallery{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(.7rem,1.2vw,1.1rem);
+  margin-top:clamp(2.5rem,5vw,4rem);
+}
+.fig{position:relative;overflow:hidden;background:var(--piedra-2)}
+.fig img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.fig:hover img{transform:scale(1.04)}
+.fig .cap{
+  position:absolute;left:0;bottom:0;background:var(--bosque);color:var(--piedra);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.5rem .8rem;display:flex;gap:.8rem;
+}
+.fig .cap b{color:var(--cobre-claro);font-weight:600}
+.fig-a{grid-column:span 7;aspect-ratio:16/10}
+.fig-b{grid-column:span 5;aspect-ratio:auto}
+.fig-c{grid-column:span 5;aspect-ratio:16/11}
+.fig-d{grid-column:span 7;aspect-ratio:16/9}
+
+/* stats */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--linea);border-right:none;
+  margin-top:clamp(2.5rem,5vw,4rem);background:var(--piedra);
+}
+.stat{border-right:1px solid var(--linea);padding:clamp(1.3rem,2vw,1.8rem);position:relative}
+.stat .big{
+  font-family:var(--sans);font-weight:800;font-size:clamp(3.4rem,6vw,5.6rem);line-height:.9;
+  letter-spacing:-.03em;color:var(--bosque);
+}
+.stat .lbl{font-weight:600;font-size:.95rem;margin-top:.7rem;text-transform:uppercase;letter-spacing:.02em}
+.stat .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:.3rem}
+.stat .st{
+  display:inline-block;margin-top:.9rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:.32rem .6rem;border:1px solid var(--linea);
+}
+.stat .st.ok{background:var(--bosque);color:var(--piedra);border-color:var(--bosque)}
+.stat .st.mid{background:var(--cobre);color:var(--tinta);border-color:var(--cobre)}
+.stat .st.next{color:var(--gris)}
+
+/* ============ AVANCE ============ */
+.avance{background:var(--piedra);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+.avance h2{font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:22ch}
+.bars{margin-top:clamp(2.5rem,5vw,4rem);display:flex;flex-direction:column}
+.bar{
+  display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr) minmax(0,2fr);
+  gap:clamp(1rem,2.5vw,2.5rem);align-items:center;
+  padding:1.5rem 0;border-top:1px solid var(--linea);
+}
+.bar:last-child{border-bottom:1px solid var(--linea)}
+.bar .name{font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.01em}
+.bar .note{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);margin-top:.35rem;display:block}
+.track{
+  height:30px;border:1px solid var(--tinta);position:relative;
+  background:repeating-linear-gradient(-45deg,transparent 0 7px,rgba(22,26,21,.12) 7px 8px);
+}
+.fill{
+  position:absolute;inset:3px auto 3px 3px;background:var(--bosque);
+  transition:width 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.fill.copper{background:var(--cobre)}
+.bar .pct{
+  font-family:var(--sans);font-weight:800;font-size:clamp(1.7rem,2.6vw,2.4rem);line-height:1;
+  text-align:right;letter-spacing:-.02em;
+}
+.bar .pct small{display:block;font-family:var(--mono);font-weight:500;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-top:.3rem}
+
+/* planos */
+.planos{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.8rem,1.4vw,1.2rem);margin-top:clamp(2.5rem,5vw,4rem)}
+.plano{border:1px solid var(--tinta);background:#fbf9f3;display:flex;flex-direction:column}
+.plano .sheet{padding:1rem;background:#fff;border-bottom:1px solid var(--tinta);flex:1;display:flex;align-items:center}
+.plano img{width:100%;height:auto;mix-blend-mode:multiply}
+.plano .tblock{
+  display:flex;justify-content:space-between;gap:1rem;padding:.7rem 1rem;
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--bosque);color:var(--piedra);
+}
+.plano .tblock b{color:var(--cobre-claro);font-weight:600}
+
+/* ============ COMERCIAL ============ */
+.comercial{background:var(--bosque);color:var(--piedra)}
+.comercial-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(2rem,4vw,4rem);align-items:stretch}
+.comercial h2{font-size:clamp(1.9rem,3.6vw,3.1rem);max-width:18ch}
+.comercial .cuerpo{color:rgba(244,240,230,.78);font-weight:300;margin-top:1.2rem;max-width:50ch;font-size:1.05rem}
+.clist{list-style:none;margin-top:2rem;border-top:1px solid var(--linea-osc)}
+.clist li{
+  display:flex;gap:1.1rem;align-items:baseline;padding:1.05rem 0;border-bottom:1px solid var(--linea-osc);
+  font-weight:300;
+}
+.clist .m{font-family:var(--mono);font-size:.68rem;color:var(--cobre-claro);letter-spacing:.12em;font-weight:600;flex:none}
+.comercial .btn{margin-top:2rem}
+.comercial-media{position:relative;overflow:hidden;min-height:380px;border:1px solid var(--linea-osc)}
+.comercial-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.comercial-media .cap{
+  position:absolute;left:0;bottom:0;background:var(--cobre);color:var(--tinta);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  padding:.5rem .8rem;
+}
+
+/* ============ NOSOTROS ============ */
+.nosotros h2{font-size:clamp(1.9rem,3.8vw,3.3rem);max-width:20ch}
+.nosotros .lead{color:#33382f;font-weight:300;max-width:52ch;margin-top:1.2rem;font-size:1.05rem}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.6rem);margin-top:clamp(2.5rem,5vw,4rem)}
+.person{border:1px solid var(--linea);background:var(--piedra);display:flex;flex-direction:column}
+.person .ph{position:relative;overflow:hidden;aspect-ratio:4/4.6}
+.person .ph img{width:100%;height:100%;object-fit:cover;filter:grayscale(28%);transition:filter .5s,transform .7s cubic-bezier(.2,.7,.2,1)}
+.person:hover .ph img{filter:grayscale(0);transform:scale(1.03)}
+.person .ph .idx{
+  position:absolute;top:.8rem;left:.8rem;background:var(--bosque);color:var(--cobre-claro);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;padding:.35rem .6rem;font-weight:600;
+}
+.person .info{padding:1.3rem 1.3rem 1.6rem;border-top:1px solid var(--linea)}
+.person h3{font-size:1.25rem;font-weight:700;text-transform:uppercase;letter-spacing:.01em}
+.person .role{font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cobre);margin:.4rem 0 .9rem;font-weight:600}
+.person p{font-weight:300;font-size:.92rem;color:#3a3f37}
+
+/* ============ CONTACTO ============ */
+.contacto{
+  position:relative;color:var(--piedra);
+  padding:clamp(5rem,10vw,9rem) var(--pad);
+  isolation:isolate;overflow:hidden;
+}
+.contacto .bgimg{position:absolute;inset:0;z-index:-2}
+.contacto .bgimg img{width:100%;height:100%;object-fit:cover}
+.contacto::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,rgba(15,25,19,.96) 0%,rgba(15,25,19,.87) 52%,rgba(15,25,19,.62) 100%);
+}
+.contacto h2{font-size:clamp(2.2rem,5vw,4.2rem);max-width:16ch}
+.contacto .cuerpo{color:rgba(244,240,230,.82);font-weight:300;max-width:48ch;margin-top:1.4rem;font-size:1.1rem}
+.contact-ctas{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2.2rem}
+.btn-wa{background:var(--cobre);color:var(--tinta);border:1px solid var(--cobre)}
+.btn-wa:hover{background:var(--cobre-claro);border-color:var(--cobre-claro)}
+.contact-data{
+  margin-top:clamp(2.5rem,5vw,4rem);border-top:1px solid var(--linea-osc);
+  display:grid;grid-template-columns:repeat(3,1fr);
+}
+.cdat{padding:1.4rem 1.4rem 1.4rem 0;border-right:1px solid var(--linea-osc)}
+.cdat:last-child{border-right:none;padding-left:1.4rem}
+.cdat:nth-child(2){padding-left:1.4rem}
+.cdat .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cobre-claro);font-weight:600;display:block;margin-bottom:.5rem}
+.cdat p,.cdat a{font-weight:300;font-size:.95rem;color:rgba(244,240,230,.88);text-decoration:none}
+.cdat a:hover{color:var(--cobre-claro)}
+
+/* ============ FOOTER ============ */
+.footer{
+  background:var(--tinta);color:rgba(244,240,230,.7);
+  padding:2rem var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;
+}
+.footer img{height:30px;width:auto}
+.footer p{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase}
+.footer a{color:var(--cobre-claro);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1024px){
+  .steps{grid-template-columns:repeat(2,1fr);border-right:1px solid var(--linea-osc)}
+  .step{border-bottom:1px solid var(--linea-osc);border-right:none;min-height:0;gap:2.6rem}
+  .step:nth-child(odd){border-right:1px solid var(--linea-osc)}
+  .stats{grid-template-columns:repeat(2,1fr);border-right:1px solid var(--linea)}
+  .stat{border-right:none;border-bottom:1px solid var(--linea)}
+  .stat:nth-child(odd){border-right:1px solid var(--linea)}
+  .stat:nth-child(3),.stat:nth-child(4){border-bottom:none}
+  .planos{grid-template-columns:1fr;max-width:640px}
+}
+@media(max-width:900px){
+  .nav-links{display:none}
+  .nav .nav-cta{display:none}
+  .burger{display:block}
+  .hero{grid-template-columns:1fr;grid-template-rows:none;min-height:0}
+  .hero-panel{order:1;padding-top:clamp(2.5rem,6vw,4rem)}
+  .hero-media{order:2;min-height:56vw}
+  .hero-strip{order:3;grid-template-columns:1fr}
+  .hero-strip li{border-right:none;border-bottom:1px solid var(--linea-osc);padding:.9rem var(--pad)}
+  .hero-strip li:last-child{border-bottom:none}
+  .manif-grid,.proyecto-grid,.comercial-grid,.metodo-head{grid-template-columns:1fr}
+  .metodo .lead{border-left:none;padding-left:0;margin-top:.4rem}
+  .gallery{grid-template-columns:1fr 1fr}
+  .fig-a{grid-column:span 2}
+  .fig-b,.fig-c{grid-column:span 1;aspect-ratio:4/4.4}
+  .fig-d{grid-column:span 2}
+  .bar{grid-template-columns:1fr;gap:.8rem}
+  .bar .pct{text-align:left;display:flex;align-items:baseline;gap:.8rem}
+  .bar .pct small{margin-top:0}
+  .team{grid-template-columns:1fr;max-width:480px}
+  .contact-data{grid-template-columns:1fr}
+  .cdat{border-right:none;border-bottom:1px solid var(--linea-osc);padding:1.2rem 0}
+  .cdat:nth-child(2),.cdat:last-child{padding-left:0}
+  .cdat:last-child{border-bottom:none}
+}
+@media(max-width:520px){
+  .hero h1{font-size:clamp(2.3rem,11vw,3rem)}
+  .hero-coords{font-size:.56rem;letter-spacing:.1em;white-space:nowrap}
+  .steps{grid-template-columns:1fr}
+  .step:nth-child(odd){border-right:none}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat .big{font-size:2.9rem}
+  .gallery{grid-template-columns:1fr}
+  .fig-a,.fig-b,.fig-c,.fig-d{grid-column:span 1;aspect-ratio:4/3}
+  .comercial-media{min-height:64vw}
+}
+</style>
+</head>
+<body id="top">
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <a class="nav-logo" href="#top" aria-label="Patagonian Habitat — inicio">
+    <img src="../assets/logo/logo-claro.png" alt="Patagonian Habitat" height="34">
+  </a>
+  <nav aria-label="Navegación principal">
+    <ul class="nav-links">
+      <li><a href="#manifiesto">La desarrolladora</a></li>
+      <li><a href="#metodo">Método</a></li>
+      <li><a href="#proyecto">Proyecto VLA</a></li>
+      <li><a href="#avance">Avance de obra</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+    </ul>
+  </nav>
+  <a class="nav-cta" href="#contacto">Consultar disponibilidad</a>
+  <button class="burger" aria-expanded="false" aria-controls="mmenu" aria-label="Abrir menú">
+    <span></span><span></span><span></span>
+  </button>
+  <span class="progress" aria-hidden="true"></span>
+</header>
+
+<nav class="mmenu" id="mmenu" aria-label="Menú móvil">
+  <a href="#manifiesto"><span>La desarrolladora</span><span class="n">01</span></a>
+  <a href="#metodo"><span>Método</span><span class="n">02</span></a>
+  <a href="#proyecto"><span>Proyecto VLA</span><span class="n">03</span></a>
+  <a href="#avance"><span>Avance de obra</span><span class="n">04</span></a>
+  <a href="#nosotros"><span>Nosotros</span><span class="n">06</span></a>
+  <a class="mcta" href="#contacto">Consultar disponibilidad</a>
+</nav>
+
+<main>
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-label="Presentación">
+  <div class="hero-panel">
+    <p class="hero-coords"><span><b>PH·VLA</b> Micro-ecosistema 01</span><span>40°45′S / 71°38′O</span></p>
+    <p class="hero-kicker mono"><span class="dot" aria-hidden="true"></span>Desarrolladora de real estate · Patagonia Argentina</p>
+    <h1 class="display">Creamos espacios únicos para <span class="hollow">propósitos únicos.</span></h1>
+    <p class="hero-tagline">— Una inversión en el lugar que soñás</p>
+    <p class="hero-lead">Somos una desarrolladora patagónica. No construimos metros cuadrados: diseñamos micro-ecosistemas donde el trabajo, los negocios, el hogar y el descanso conviven y se potencian entre sí. Cada proyecto nace de una pregunta: ¿qué valor real le genera a quien lo va a habitar?</p>
+    <div class="hero-ctas">
+      <a class="btn btn-solid" href="#avance">Ver el avance de obra <span class="ar" aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost" href="#metodo">Conocé nuestro método</a>
+    </div>
+  </div>
+  <div class="hero-media">
+    <img src="../assets/img/05-scaled.jpg" alt="Vista exterior del edificio Patagonian Habitat VLA sobre la ladera, rodeado de bosque patagónico" fetchpriority="high">
+    <p class="hero-plate"><b>PH·VLA / Etapa 1 — habitada</b><span>Cerro Centinela 83 · Villa La Angostura</span></p>
+  </div>
+  <ul class="hero-strip">
+    <li><b>11</b> unidades terminadas</li>
+    <li><b>3</b> pisos comerciales en etapa final</li>
+    <li><b>7</b> cocheras entregadas</li>
+  </ul>
+</section>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Una inversión en el lugar que soñás</span><span>Villa La Angostura · Región de los 7 Lagos</span><span>11 unidades terminadas</span><span>7 cocheras entregadas</span><span>3 pisos comerciales</span><span>Hotel boutique · 14 habitaciones</span>
+    <span>Una inversión en el lugar que soñás</span><span>Villa La Angostura · Región de los 7 Lagos</span><span>11 unidades terminadas</span><span>7 cocheras entregadas</span><span>3 pisos comerciales</span><span>Hotel boutique · 14 habitaciones</span>
+  </div>
+</div>
+
+<!-- ================= MANIFIESTO ================= -->
+<section class="sec manifiesto" id="manifiesto">
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·01</span><span class="kick">Manifiesto</span><span class="rule" aria-hidden="true"></span><span class="tag">La desarrolladora</span>
+    </header>
+    <div class="manif-grid">
+      <h2 class="display rv">El valor de un proyecto no se mide en metros cuadrados. Se mide en <em>la vida que sucede adentro.</em></h2>
+      <div class="manif-body rv">
+        <p>Cada desarrollo de Patagonian Habitat es un micro-ecosistema: residencias, espacios de trabajo y hospitalidad que se alimentan mutuamente. El que vive tiene dónde trabajar. El que trabaja tiene dónde quedarse. El que invierte tiene un activo con demanda los 365 días del año.</p>
+        <p>Así pensamos, diseñamos y construimos — en el lugar del mundo que elegimos para vivir.</p>
+        <div class="firma"><span class="l" aria-hidden="true"></span><span>Patagonia Argentina, Región de los 7 Lagos</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MÉTODO ================= -->
+<section class="sec metodo dark" id="metodo">
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·02</span><span class="kick">Nuestro método</span><span class="rule" aria-hidden="true"></span><span class="tag">4 pasos</span>
+    </header>
+    <div class="metodo-head">
+      <h2 class="display rv">Micro-ecosistemas: cómo convertimos un edificio en un lugar que genera valor.</h2>
+      <p class="lead rv">Un edificio de un solo uso depende de un solo mercado. Un micro-ecosistema combina usos que se potencian y diversifican el retorno.</p>
+    </div>
+    <div class="steps rv">
+      <article class="step">
+        <span class="num" aria-hidden="true">01</span>
+        <div><h3>Pensamos el propósito</h3><p>Antes del plano, la pregunta: qué necesita este lugar y quién lo va a habitar. El diseño responde al propósito, no al revés.</p></div>
+      </article>
+      <article class="step">
+        <span class="num" aria-hidden="true">02</span>
+        <div><h3>Combinamos usos</h3><p>Residencial, comercial y hospitalidad en un mismo ecosistema. Cada uso alimenta la demanda del otro y sostiene la ocupación todo el año.</p></div>
+      </article>
+      <article class="step">
+        <span class="num" aria-hidden="true">03</span>
+        <div><h3>Construimos y entregamos</h3><p>Mampostería tradicional, doble vidriado, losa radiante. Diseño moderno-patagónico construido para durar — y entregado.</p></div>
+      </article>
+      <article class="step">
+        <span class="num" aria-hidden="true">04</span>
+        <div><h3>Generamos valor</h3><p>Para el que vive, un lugar que funciona. Para el que invierte, un activo con múltiples fuentes de renta en dólares.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROYECTO VLA ================= -->
+<section class="sec proyecto" id="proyecto">
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·03</span><span class="kick">Proyecto insignia · Villa La Angostura</span><span class="rule" aria-hidden="true"></span><span class="tag">PH·VLA</span>
+    </header>
+    <div class="proyecto-grid">
+      <h2 class="display rv">Patagonian Habitat VLA: el primer micro-ecosistema, <em style="font-style:normal;color:var(--cobre)">ya en marcha.</em></h2>
+      <div class="cuerpo rv">
+        <p>En el corazón de Villa La Angostura —Cerro Centinela 83, a 100 metros de El Mercado · Paseo Encantado— construimos nuestro primer ecosistema completo: apartamentos residenciales turísticos, tres pisos comerciales y un hotel boutique.</p>
+        <p>No es una promesa: la primera etapa está terminada y habitada. Once unidades entregadas, siete cocheras listas y los pisos comerciales en etapa final de obra.</p>
+        <p class="loc"><span aria-hidden="true">✛</span> Cerro Centinela 83 · Barrio El Once · VLA</p>
+      </div>
+    </div>
+
+    <div class="gallery rv">
+      <figure class="fig fig-a">
+        <img src="../assets/img/02-scaled.jpg" alt="Fachada del edificio Patagonian Habitat VLA con balcones de madera y vidrio">
+        <figcaption class="cap"><b>Fig. 01</b> Exterior · Fachada norte</figcaption>
+      </figure>
+      <figure class="fig fig-b">
+        <img src="../assets/img/Interior-03-scaled.jpg" alt="Interior de una unidad: cocina minimalista con barra de madera y banquetas">
+        <figcaption class="cap"><b>Fig. 02</b> Interior · Unidad tipo</figcaption>
+      </figure>
+      <figure class="fig fig-c">
+        <img src="../assets/img/Interior-RC-01-scaled.jpg" alt="Interior de una unidad residencial con terminaciones en madera">
+        <figcaption class="cap"><b>Fig. 03</b> Interior · Residencia</figcaption>
+      </figure>
+      <figure class="fig fig-d">
+        <img src="../assets/img/03-scaled.jpg" alt="Vista general del conjunto Patagonian Habitat VLA entre el bosque">
+        <figcaption class="cap"><b>Fig. 04</b> Conjunto · Vista general</figcaption>
+      </figure>
+    </div>
+
+    <div class="stats rv" role="list" aria-label="Datos del proyecto">
+      <div class="stat" role="listitem">
+        <p class="big">11</p>
+        <p class="lbl">Unidades terminadas</p>
+        <p class="sub">Apartamentos residenciales</p>
+        <span class="st ok">Entregado</span>
+      </div>
+      <div class="stat" role="listitem">
+        <p class="big">3</p>
+        <p class="lbl">Pisos comerciales</p>
+        <p class="sub">~150 m² c/u</p>
+        <span class="st mid">Etapa final</span>
+      </div>
+      <div class="stat" role="listitem">
+        <p class="big">7</p>
+        <p class="lbl">Cocheras listas</p>
+        <p class="sub">Operativas</p>
+        <span class="st ok">Entregado</span>
+      </div>
+      <div class="stat" role="listitem">
+        <p class="big">14</p>
+        <p class="lbl">Habitaciones</p>
+        <p class="sub">Hotel boutique</p>
+        <span class="st next">Próxima etapa</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AVANCE DE OBRA ================= -->
+<section class="sec avance" id="avance">
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·04</span><span class="kick">Obra ejecutada</span><span class="rule" aria-hidden="true"></span><span class="tag">Estado a la fecha</span>
+    </header>
+    <h2 class="display rv">Lo que dijimos que íbamos a hacer, <em style="font-style:normal;color:var(--cobre)">lo estamos haciendo.</em></h2>
+
+    <div class="bars rv">
+      <div class="bar">
+        <div><p class="name">Apartamentos residenciales — Etapa 1</p><span class="note">11 unidades terminadas y entregadas</span></div>
+        <div class="track" aria-hidden="true"><span class="fill" style="width:100%"></span></div>
+        <p class="pct">100%<small>Entregado</small></p>
+      </div>
+      <div class="bar">
+        <div><p class="name">Pisos comerciales</p><span class="note">3 niveles · ~150 m² c/u · Terminaciones en curso</span></div>
+        <div class="track" aria-hidden="true"><span class="fill copper" style="width:85%"></span></div>
+        <p class="pct">~85%<small>Etapa final</small></p>
+      </div>
+      <div class="bar">
+        <div><p class="name">Cocheras</p><span class="note">Siete cocheras terminadas y operativas</span></div>
+        <div class="track" aria-hidden="true"><span class="fill" style="width:100%"></span></div>
+        <p class="pct">100%<small>7 listas</small></p>
+      </div>
+      <div class="bar">
+        <div><p class="name">Hotel boutique — 14 habitaciones</p><span class="note">Proyecto aprobado, inicio a confirmar</span></div>
+        <div class="track" aria-hidden="true"><span class="fill copper" style="width:10%"></span></div>
+        <p class="pct">~10%<small>Próxima etapa</small></p>
+      </div>
+    </div>
+
+    <div class="planos rv">
+      <figure class="plano">
+        <div class="sheet"><img src="../assets/img/PHABT2-OBRA-P102-ARQUITECTURA-NIVEL-0.00-Model-1536x889.png" alt="Plano de arquitectura: nivel 0.00 del edificio PHABT2"></div>
+        <figcaption class="tblock"><span><b>P102</b> Arquitectura</span><span>Nivel 0.00</span></figcaption>
+      </figure>
+      <figure class="plano">
+        <div class="sheet"><img src="../assets/img/PHABT2-OBRA-P101-ARQUITECTURA-NIVEL-1-Model-1536x889.png" alt="Plano de arquitectura: nivel 1 del edificio PHABT2"></div>
+        <figcaption class="tblock"><span><b>P101</b> Arquitectura</span><span>Nivel 1</span></figcaption>
+      </figure>
+      <figure class="plano">
+        <div class="sheet"><img src="../assets/img/PHABT2-OBRA-P100-ARQUITECTURA-NIVEL-2-Model-1536x889.png" alt="Plano de arquitectura: nivel 2 del edificio PHABT2"></div>
+        <figcaption class="tblock"><span><b>P100</b> Arquitectura</span><span>Nivel 2</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMERCIAL ================= -->
+<section class="sec comercial dark" id="comercial">
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·05</span><span class="kick">Espacios comerciales</span><span class="rule" aria-hidden="true"></span><span class="tag">~150 m² por nivel</span>
+    </header>
+    <div class="comercial-grid">
+      <div>
+        <h2 class="display rv">Tres pisos comerciales en el punto más caminado de Villa La Angostura.</h2>
+        <p class="cuerpo rv">Aproximadamente 150 m² por nivel, en etapa final de obra, a metros de El Mercado · Paseo Encantado. Diseñados para marcas, servicios y oficinas que quieran operar dentro de un ecosistema con residentes y turistas todo el año.</p>
+        <ul class="clist rv">
+          <li><span class="m">A/</span>~150 m² por piso, plantas libres adaptables</li>
+          <li><span class="m">B/</span>Ubicación céntrica con flujo peatonal permanente</li>
+          <li><span class="m">C/</span>Demanda cautiva del propio ecosistema residencial y hotelero</li>
+        </ul>
+        <a class="btn btn-solid rv" href="#contacto">Consultar por espacios comerciales <span class="ar" aria-hidden="true">→</span></a>
+      </div>
+      <div class="comercial-media rv">
+        <img src="../assets/img/Co-Work-scaled.jpg" alt="Espacio de trabajo compartido con escritorios de madera y grandes ventanales">
+        <p class="cap">Business center · Ecosistema PH·VLA</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOSOTROS ================= -->
+<section class="sec nosotros" id="nosotros">
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·06</span><span class="kick">Nosotros</span><span class="rule" aria-hidden="true"></span><span class="tag">3 socios</span>
+    </header>
+    <h2 class="display rv">Elegimos la Patagonia para vivir. Después, <em style="font-style:normal;color:var(--cobre)">para desarrollar.</em></h2>
+    <p class="lead rv">Tres socios con trayectoria en desarrollos inmobiliarios, tecnología y turismo. Vivimos donde construimos: cada decisión de diseño la tomamos como habitantes, no solo como desarrolladores.</p>
+    <div class="team rv">
+      <article class="person">
+        <div class="ph">
+          <img src="../assets/team/andres-abate.jpg" alt="Retrato de Andrés Abate">
+          <span class="idx" aria-hidden="true">S·01</span>
+        </div>
+        <div class="info">
+          <h3>Andrés Abate</h3>
+          <p class="role">CFO / Co-founder</p>
+          <p>Apasionado por la Patagonia, Andrés es el CFO de Patagonian y el corazón del desarrollo de Patagonian Habitat en VLA. Más de 25 años de experiencia en gestión de negocios, con un conocimiento único en turismo, desarrollos inmobiliarios y digitalización.</p>
+        </div>
+      </article>
+      <article class="person">
+        <div class="ph">
+          <img src="../assets/team/federico-hardziej.jpg" alt="Retrato de Federico Hardziej">
+          <span class="idx" aria-hidden="true">S·02</span>
+        </div>
+        <div class="info">
+          <h3>Federico Hardziej</h3>
+          <p class="role">CEO / Co-founder</p>
+          <p>Emprendedor inmobiliario de corazón, CEO y cofundador de Patagonian. Federico también es graduado en informática y un firme creyente en el paradigma del trabajo por naturaleza; espera convertirse en residente permanente de VLA.</p>
+        </div>
+      </article>
+      <article class="person">
+        <div class="ph">
+          <img src="../assets/team/rodrigo-falco.jpg" alt="Retrato de Rodrigo Falco">
+          <span class="idx" aria-hidden="true">S·03</span>
+        </div>
+        <div class="info">
+          <h3>Rodrigo Falco</h3>
+          <p class="role">CTO / Co-founder</p>
+          <p>CTO de Patagonian y residente de la Patagonia por elección. Tras vivir en EE.UU., Reino Unido y otras ciudades de Argentina, eligió la región. Le encanta invertir en real estate tanto como en tecnología y naturaleza.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACTO ================= -->
+<section class="contacto" id="contacto">
+  <div class="bgimg" aria-hidden="true"><img src="../assets/img/06-scaled.jpg" alt=""></div>
+  <div class="wrap">
+    <header class="shead">
+      <span class="idx">F·07</span><span class="kick">Contacto</span><span class="rule" aria-hidden="true"></span><span class="tag">Respuesta directa</span>
+    </header>
+    <h2 class="display rv">Unidades y espacios comerciales <span style="color:var(--cobre-claro)">disponibles.</span></h2>
+    <p class="cuerpo rv">El avance de obra es público. Los precios y la disponibilidad, te los contamos en una conversación: cada unidad y cada piso comercial tiene su propuesta.</p>
+    <div class="contact-ctas rv">
+      <a class="btn btn-wa" href="https://wa.me/5492944231776">Escribinos por WhatsApp <span class="ar" aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost" href="mailto:info@patagonianhabitat.com">info@patagonianhabitat.com</a>
+    </div>
+    <div class="contact-data rv">
+      <div class="cdat">
+        <span class="k">Dirección</span>
+        <p>Cerro Centinela N.º 83, Barrio El Once (CP 8407)<br>Villa La Angostura, Neuquén, Argentina<br>A 100 m de El Mercado · Paseo Encantado</p>
+      </div>
+      <div class="cdat">
+        <span class="k">Teléfono / WhatsApp</span>
+        <p><a href="https://wa.me/5492944231776">+54 9 294 423-1776</a></p>
+      </div>
+      <div class="cdat">
+        <span class="k">Redes</span>
+        <p><a href="https://instagram.com/patagonianhabitat">@patagonianhabitat</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <img src="../assets/logo/logo-oscuro.png" alt="Patagonian Habitat">
+  <p>© 2026 Patagonian Habitat — Desarrolladora de micro-ecosistemas · Patagonia Argentina · <a href="https://instagram.com/patagonianhabitat">@patagonianhabitat</a></p>
+</footer>
+
+<script>
+(function(){
+  // mobile menu
+  var burger=document.querySelector('.burger'),menu=document.getElementById('mmenu');
+  burger.addEventListener('click',function(){
+    var open=menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open);
+    burger.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
+    document.body.style.overflow=open?'hidden':'';
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      menu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    });
+  });
+  // scroll reveal (content stays visible without JS / in static capture)
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+    },{threshold:.12});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  }
+  // scroll progress hairline
+  var pr=document.querySelector('.progress');
+  function upd(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    pr.style.width=(max>0?(h.scrollTop||document.body.scrollTop)/max*100:0)+'%';
+  }
+  addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>

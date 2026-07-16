@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patagonian Habitat — 9 propuestas de diseño</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap');
+  :root{
+    --bosque:#1e2b23; --bosque-2:#2a3c30; --madera:#b98a5a; --madera-claro:#d4a97a;
+    --piedra:#f4f1ec; --piedra-2:#e9e4db; --tinta:#20241f; --gris:#6b7269; --blanco:#fff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Montserrat',Helvetica,Arial,sans-serif;color:var(--tinta);background:var(--piedra);line-height:1.6}
+  .serif{font-family:'Cormorant Garamond',Georgia,serif}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+  header.top{background:var(--bosque);color:#eceae3;padding:56px 0 48px}
+  header.top .kicker{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--madera-claro);font-weight:600;margin-bottom:14px}
+  header.top h1{font-size:clamp(30px,4.4vw,52px);font-weight:600;color:#fff;line-height:1.12;max-width:900px}
+  header.top h1 em{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--madera-claro)}
+  header.top p{margin-top:20px;max-width:720px;color:#c6c9bf;font-weight:300;font-size:16.5px}
+  .legend{margin-top:26px;display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:#c6c9bf}
+  .legend b{color:#fff}
+  .chip{display:inline-block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:3px 10px;border-radius:20px}
+  .chip-opus{background:rgba(212,169,122,.18);color:var(--madera-claro);border:1px solid rgba(212,169,122,.4)}
+  .chip-fable{background:rgba(126,168,140,.18);color:#a7d0b4;border:1px solid rgba(126,168,140,.45)}
+  .chip-codex{background:rgba(150,170,210,.18);color:#a9bfe0;border:1px solid rgba(150,170,210,.45)}
+
+  main{padding:52px 0 80px}
+  .intro-note{background:#fff;border:1px solid var(--piedra-2);border-radius:10px;padding:22px 26px;margin-bottom:40px;font-size:14.5px;color:var(--gris)}
+  .intro-note b{color:var(--tinta)}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--piedra-2);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 34px rgba(30,43,35,.07)}
+  .card .head{padding:20px 22px 16px;border-bottom:1px solid var(--piedra-2)}
+  .card .head .row1{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .badge-letter{width:34px;height:34px;border-radius:8px;background:var(--bosque);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600}
+  .card h2{font-size:19px;font-weight:600;letter-spacing:.01em}
+  .card .style{margin-top:8px;font-size:13.5px;color:var(--gris)}
+  .card .tags{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--gris)}
+  .card .tags span{background:var(--piedra);border:1px solid var(--piedra-2);border-radius:6px;padding:3px 9px}
+
+  .preview{position:relative;background:var(--piedra-2)}
+  .scroller{height:440px;overflow-y:auto;scroll-behavior:smooth;background:#ddd}
+  .scroller img{width:100%;display:block}
+  .scroller::-webkit-scrollbar{width:9px}
+  .scroller::-webkit-scrollbar-thumb{background:rgba(30,43,35,.35);border-radius:6px}
+  .hint{position:absolute;top:10px;right:12px;background:rgba(30,43,35,.78);color:#fff;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:20px;pointer-events:none}
+  .phone{position:absolute;bottom:14px;right:14px;width:104px;border:5px solid #1a1a1a;border-radius:16px;overflow:hidden;box-shadow:0 10px 26px rgba(0,0,0,.32);background:#1a1a1a}
+  .phone .pscroll{height:200px;overflow-y:auto;background:#ddd}
+  .phone img{width:100%;display:block}
+
+  .actions{padding:16px 22px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:auto}
+  .btn{display:inline-block;padding:12px 22px;border-radius:6px;font-size:13.5px;font-weight:600;letter-spacing:.03em;cursor:pointer}
+  .btn-solid{background:var(--madera);color:#fff}
+  .btn-solid:hover{background:var(--madera-claro)}
+  .btn-ghost{border:1px solid var(--gris);color:var(--tinta)}
+  .btn-ghost:hover{border-color:var(--bosque);background:var(--piedra)}
+
+  .baseline{margin-top:56px;background:#fff;border:1px dashed var(--gris);border-radius:14px;overflow:hidden}
+  .baseline .head{padding:20px 22px;border-bottom:1px solid var(--piedra-2)}
+  .baseline h2{font-size:18px}
+  .baseline .style{font-size:13.5px;color:var(--gris);margin-top:6px}
+  .baseline .scroller{height:340px}
+
+  footer{background:var(--bosque);color:#8fa093;padding:30px 0;font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="kicker">Patagonian Habitat · Exploración de diseño</div>
+    <h1>Nueve maneras de contar <em>el mismo proyecto</em>.</h1>
+    <p>Todas parten de la misma especificación de contenido y de la marca. Cambia sólo la piel: tipografía, color, layout y movimiento. Tres modelos de IA distintos diseñaron tres cada uno. Recorré cada preview y abrí el sitio real para verlo a pantalla completa.</p>
+    <div class="legend">
+      <span><b>Preview:</b> scrolleá dentro de cada ventana</span>
+      <span><span class="chip chip-opus">Opus</span> dirección prescripta</span>
+      <span><span class="chip chip-fable">Fable</span> diseño libre</span>
+      <span><span class="chip chip-codex">Codex</span> gpt-5.6-sol, diseño libre</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro-note">
+    <b>Cómo elegir:</b> mirá el impacto del hero, cómo se sienten las transiciones entre secciones, la tipografía y si te representa como marca. Podés quedarte con una, o pedir mezclar lo mejor de dos. Cada card abre el sitio navegable real (con su scroll y animaciones).
+  </div>
+
+  <div class="grid">
+
+    <!-- A -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">A</div><h2>Editorial Nature</h2><span class="chip chip-opus">Opus</span></div>
+        <div class="style">Revista de arquitectura de lujo: serif de display, fondo piedra, aire, foto full-bleed y un cobre muy medido.</div>
+        <div class="tags"><span>Playfair + Inter</span><span>claro / editorial</span><span>reveals sutiles</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/a-desktop.jpg" alt="Variante A — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/a-mobile.jpg" alt="Variante A — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-a-editorial/index.html" target="_blank" rel="noopener">Abrir sitio A ↗</a>
+      </div>
+    </div>
+
+    <!-- B -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">B</div><h2>Immersive Cinematic</h2><span class="chip chip-opus">Opus</span></div>
+        <div class="style">Dark mode envolvente: verdes nocturnos, cobre luminoso, glass y movimiento con GSAP. Máximo impacto.</div>
+        <div class="tags"><span>Oswald + Sora</span><span>oscuro / cine</span><span>parallax GSAP</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/b-desktop.jpg" alt="Variante B — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/b-mobile.jpg" alt="Variante B — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-b-immersive/index.html" target="_blank" rel="noopener">Abrir sitio B ↗</a>
+      </div>
+    </div>
+
+    <!-- C -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">C</div><h2>Organic Warm Bento</h2><span class="chip chip-opus">Opus</span></div>
+        <div class="style">Cálida y modular: tarjetas bento de color, formas orgánicas, bordes redondeados. Boutique y humana.</div>
+        <div class="tags"><span>Fraunces + Manrope</span><span>cálido / bento</span><span>Tailwind</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/c-desktop.jpg" alt="Variante C — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/c-mobile.jpg" alt="Variante C — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-c-organic/index.html" target="_blank" rel="noopener">Abrir sitio C ↗</a>
+      </div>
+    </div>
+
+    <!-- D -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">D</div><h2>Tipográfica art-directed</h2><span class="chip chip-fable">Fable</span></div>
+        <div class="style">Suiza/editorial: titulares enormes en mayúscula con acentos serif en itálica, numeración de secciones. Confiada.</div>
+        <div class="tags"><span>grotesca + serif</span><span>crema / bosque</span><span>editorial bold</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/d-desktop.jpg" alt="Variante D — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/d-mobile.jpg" alt="Variante D — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-d-fable/index.html" target="_blank" rel="noopener">Abrir sitio D ↗</a>
+      </div>
+    </div>
+
+    <!-- E -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">E</div><h2>Atmosférica / sensorial</h2><span class="chip chip-fable">Fable</span></div>
+        <div class="style">Delicada y luminosa: serif en itálica, una banda de atardecer cálido, texturas suaves. La más sensorial.</div>
+        <div class="tags"><span>serif refinada</span><span>claro / atardecer</span><span>textura</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/e-desktop.jpg" alt="Variante E — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/e-mobile.jpg" alt="Variante E — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-e-fable/index.html" target="_blank" rel="noopener">Abrir sitio E ↗</a>
+      </div>
+    </div>
+
+    <!-- F -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">F</div><h2>Audaz contemporánea</h2><span class="chip chip-fable">Fable</span></div>
+        <div class="style">Bandas alternadas claro/oscuro, titulares grotescos, galería rica de proyecto. Moderna y con carácter.</div>
+        <div class="tags"><span>grotesca bold</span><span>claro+oscuro</span><span>galería</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/f-desktop.jpg" alt="Variante F — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/f-mobile.jpg" alt="Variante F — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-f-fable/index.html" target="_blank" rel="noopener">Abrir sitio F ↗</a>
+      </div>
+    </div>
+
+    <!-- G -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">G</div><h2>Arquitectónica / blueprint</h2><span class="chip chip-codex">Codex</span></div>
+        <div class="style">Precisión técnica: grillas, cotas y los planos reales como protagonistas, en diálogo de ingeniería con la naturaleza.</div>
+        <div class="tags"><span>grotesca técnica</span><span>bosque / tinta</span><span>plano de obra</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/g-desktop.jpg" alt="Variante G — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/g-mobile.jpg" alt="Variante G — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-g-codex/index.html" target="_blank" rel="noopener">Abrir sitio G ↗</a>
+      </div>
+    </div>
+
+    <!-- H -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">H</div><h2>Editorial de color audaz</h2><span class="chip chip-codex">Codex</span></div>
+        <div class="style">Revista contemporánea con color-blocking seguro (lima + bosque + naranja), tipografía gráfica enorme. Mucho impacto.</div>
+        <div class="tags"><span>grotesca bold</span><span>color-block</span><span>editorial gráfico</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/h-desktop.jpg" alt="Variante H — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/h-mobile.jpg" alt="Variante H — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-h-codex/index.html" target="_blank" rel="noopener">Abrir sitio H ↗</a>
+      </div>
+    </div>
+
+    <!-- I -->
+    <div class="card">
+      <div class="head">
+        <div class="row1"><div class="badge-letter">I</div><h2>Inmersiva experiencial</h2><span class="chip chip-codex">Codex</span></div>
+        <div class="style">Recorrido luminoso y envolvente: foto a sangre, galería superpuesta, serif en itálica. Sensación de storytelling.</div>
+        <div class="tags"><span>serif + grotesca</span><span>claro / inmersivo</span><span>full-bleed</span></div>
+      </div>
+      <div class="preview">
+        <div class="hint">↕ scroll</div>
+        <div class="scroller"><img src="thumbs/i-desktop.jpg" alt="Variante I — desktop" loading="lazy"></div>
+        <div class="phone"><div class="pscroll"><img src="thumbs/i-mobile.jpg" alt="Variante I — mobile" loading="lazy"></div></div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-solid" href="variant-i-codex/index.html" target="_blank" rel="noopener">Abrir sitio I ↗</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Baseline -->
+  <div class="baseline">
+    <div class="head">
+      <h2>Referencia — Original de Fede</h2>
+      <div class="style">El punto de partida (index_5.html). Las seis propuestas buscan superarlo en impacto visual manteniendo el mismo contenido.</div>
+    </div>
+    <div class="preview"><div class="scroller"><img src="thumbs/00-fede-desktop.jpg" alt="Original de Fede" loading="lazy"></div></div>
+    <div class="actions"><a class="btn btn-ghost" href="fede-original.html" target="_blank" rel="noopener">Abrir original ↗</a></div>
+  </div>
+</main>
+
+<footer>Patagonian Habitat · 9 propuestas de diseño (Opus · Fable · Codex) sobre una spec común · Villa La Angostura, Patagonia</footer>
+
+</body>
+</html>
